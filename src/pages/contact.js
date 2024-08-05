@@ -1,8 +1,7 @@
 // pages/contact.js
-import Navbar from '../components/Navbar';
 import { useState } from 'react';
 import axios from 'axios';
-import styles from '../styles/Contact.module.css';
+//import styles from '../styles/Contact.module.css';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -29,10 +28,9 @@ const Contact = () => {
 
   return (
     <div>
-      <Navbar />
-      <main className={styles.main}>
+      <main>
         <h1>Contact Us</h1>
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <form onSubmit={handleSubmit}>
           <label>
             Name:
             <input
