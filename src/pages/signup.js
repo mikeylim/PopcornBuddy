@@ -1,3 +1,4 @@
+// components/Signup.js
 import { useState } from 'react';
 import axios from 'axios';
 
@@ -8,6 +9,7 @@ const Signup = () => {
     email: '',
     password: '',
   });
+  const [error, setError] = useState('');
 
   const { firstName, lastName, email, password } = formData;
 
@@ -17,19 +19,21 @@ const Signup = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     try {
       const res = await axios.post('/api/auth/signup', formData);
       console.log(res.data);
       // Handle successful signup
     } catch (err) {
-      console.error(err.response?.data || err.message);
-      // Handle error
+      console.error('Signup error:', err.response?.data);
+      setError(err.response?.data?.error || 'An unexpected error occurred');
     }
   };
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 border border-gray-300 rounded-lg bg-white shadow-md text-purple-700">
       <h1 className="text-2xl font-bold text-center mb-6">Sign Up</h1>
+      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
           <label htmlFor="firstName" className="block text-sm font-medium">First Name:</label>

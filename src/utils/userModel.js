@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-  },
+  }
 });
 
 // Hash the password before saving the user model
@@ -29,6 +29,8 @@ UserSchema.pre('save', async function(next) {
   this.password = await bcrypt.hash(this.password, salt);
   next();
 });
+
+mongoose.models = {};
 
 // Create the model
 const User = mongoose.models.User || mongoose.model('User', UserSchema);
