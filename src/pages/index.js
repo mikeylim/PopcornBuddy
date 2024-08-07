@@ -54,7 +54,6 @@ const Home = () => {
         ))}
       </div>
       <Pagination 
-        pageCount={20} // You might want to calculate this based on total_pages from API response
         onPageChange={handlePageChange}
         currentPage={currentPage}
       />

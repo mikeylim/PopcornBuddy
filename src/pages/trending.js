@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import MovieCard from "../components/MovieCard";
 
 const TrendingPage = () => {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
-  const [favorites, setFavorites] = useState([]);
-  const [watchlist, setWatchlist] = useState([]);
+
+  const apiKey = "0609ebbe13f887b723d066bb5937d1db";
 
   useEffect(() => {
     const fetchTrendingMovies = async () => {
       try {
         const response = await axios.get(
-          `https://api.themoviedb.org/3/trending/movie/week?api_key=${process.env.NEXT_PUBLIC_TMBD_API_KEY}`
+          `https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`
         );
         setMovies(response.data.results);
       } catch (error) {
@@ -24,26 +23,33 @@ const TrendingPage = () => {
     fetchTrendingMovies();
   }, []);
 
-  const handleAddToFavorites = (movie) => {
-    setFavorites([...favorites, movie]);
-  };
-
-  const handleAddToWatchlist = (movie) => {
-    setWatchlist([...watchlist, movie]);
-  };
-
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold text-center mb-8">Trending Movies</h1>
       {error && <p className="text-red-500 text-center">{error}</p>}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {movies.map((movie) => (
-          <MovieCard 
-            key={movie.id} 
-            movie={movie} 
-            handleAddToFavorites={handleAddToFavorites} 
-            handleAddToWatchlist={handleAddToWatchlist} 
-          />
+          <div key={movie.id} className="bg-white p-4 rounded shadow-lg">
+            <img
+              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+              alt={movie.title}
+              className="w-full h-auto rounded-t"
+            />
+            <div className="p-4">
+              <h2 className="text-xl font-bold mb-2">{movie.title}</h2>
+              <p className="text-gray-700 mb-2">
+                Year: {new Date(movie.release_date).getFullYear()}
+              </p>
+              <a
+                href={`https://www.themoviedb.org/movie/${movie.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
+              >
+                View on TMDB
+              </a>
+            </div>
+          </div>
         ))}
       </div>
     </div>
