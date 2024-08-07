@@ -2,6 +2,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Signup = () => {
 	const [formData, setFormData] = useState({
@@ -101,12 +102,12 @@ const Signup = () => {
 				</button>
 			</form>
 
-			<a href="/login">
+			<Link href="/login">
 				<p className="w-full mt-3 text-indigo-950 text-center">
 					Already have a PopcornBuddy account?{" "}
 					<span className="underline text-sky-600">Log In</span>
 				</p>
-			</a>
+			</Link>
 		</div>
 	);
 };
