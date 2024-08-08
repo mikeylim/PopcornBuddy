@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
 	};
 
 	useEffect(() => {
-		const interval = setInterval(checkAuth, 20000); // Check every minute
+		const interval = setInterval(checkAuth, 600000); // Check every 10 minute
 		return () => clearInterval(interval);
 	}, [isLoggedIn]);
 
