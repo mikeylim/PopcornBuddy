@@ -1,5 +1,6 @@
 // pages/login.js
 import { useState } from "react";
+import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useAuth } from "../context/AuthContext";
@@ -75,9 +76,10 @@ const Login = () => {
 					Login
 				</button>
 			</form>
+
 			<Link href="/signup">
 				<p className="w-full mt-3 text-indigo-950 text-center">
-					Don't have a PopcornBuddy account?{" "}
+					Do not have a PopcornBuddy account?{" "}
 					<span className="underline text-sky-600">Sign Up</span>
 				</p>
 			</Link>

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
+import Image from 'next/image';
+
 
 const TrendingPage = () => {
 	const [movies, setMovies] = useState([]);
@@ -31,7 +33,7 @@ const TrendingPage = () => {
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 				{movies.map((movie) => (
 					<div key={movie.id} className="bg-white p-4 rounded shadow-lg">
-						<img
+						<Image
 							src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
 							alt={movie.title}
 							className="w-full h-auto rounded-t"
