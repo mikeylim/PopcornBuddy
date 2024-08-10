@@ -3,5 +3,5 @@
 	"name": "popcornBuddy",
 	"public": true,
 	"builds": [{ "src": ".js", "use": "@vercel/node" }],
-	"routes": [{ "src": "/(.*)", "dest": "/" }]
+	"rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
