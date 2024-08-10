@@ -6,4 +6,3 @@ const handler = (req, res) => {
 };
 
 export default authMiddleware(handler);
-
