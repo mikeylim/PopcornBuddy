@@ -1,3 +1,4 @@
+// pages/trending.js
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
@@ -33,6 +34,8 @@ const TrendingPage = () => {
 				{movies.map((movie) => (
 					<div key={movie.id} className="bg-white p-4 rounded shadow-lg">
 						<Image
+                            width={500}
+                            height={750}
 							src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
 							alt={movie.title}
 							className="w-full h-auto rounded-t"

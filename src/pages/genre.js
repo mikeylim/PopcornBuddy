@@ -87,16 +87,24 @@ const GenrePage = () => {
 			</div>
 			{error && <p className="text-red-500 text-center">{error}</p>}
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-				{movies.map((movie) => (
-					<div key={movie.id} className="bg-white p-4 rounded shadow-lg">
-						<Image
-							loader={myLoader}
-							src={movie.poster_path}
-							alt={movie.title}
-							width={500} // Specify the image width
-							height={750} // Specify the image height
-							className="w-full h-auto rounded-t"
-						/>
+				{movies.map((movie, index) => (
+					<div
+						key={`${movie.id}-${genre}-${index}`}
+						className="bg-white p-4 rounded shadow-lg">
+						{movie.poster_path ? (
+							<Image
+								loader={myLoader}
+								src={`${movie.poster_path}?${new Date().getTime()}`} // Add cache-busting query param
+								alt={movie.title}
+								width={500}
+								height={750}
+								className="w-full h-auto rounded-t"
+							/>
+						) : (
+							<div className="bg-gray-300 w-full h-64 flex items-center justify-center">
+								<span className="text-gray-500">No Image Available</span>
+							</div>
+						)}
 						<div className="p-4">
 							<h2 className="text-xl font-bold mb-2">{movie.title}</h2>
 							<p className="text-gray-700 mb-2">
