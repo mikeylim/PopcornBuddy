@@ -8,13 +8,11 @@ const TrendingPage = () => {
 	const [movies, setMovies] = useState([]);
 	const [error, setError] = useState(null);
 
-	const apiKey = "0609ebbe13f887b723d066bb5937d1db";
-
 	useEffect(() => {
 		const fetchTrendingMovies = async () => {
 			try {
 				const response = await axios.get(
-					`https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`
+					`https://api.themoviedb.org/3/trending/movie/week?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
 				);
 				setMovies(response.data.results);
 			} catch (error) {

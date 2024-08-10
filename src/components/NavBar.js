@@ -1197,7 +1197,7 @@ const NavBar = () => {
         const fetchGenres = async () => {
             try {
                 const response = await axios.get(
-                    `https://api.themoviedb.org/3/genre/movie/list?api_key=0609ebbe13f887b723d066bb5937d1db&language=en-US`
+                    `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=en-US`
                 );
                 setGenres(response.data.genres);
             } catch (error) {
@@ -1256,7 +1256,7 @@ const NavBar = () => {
         if (searchTerm.length > 2) {
             try {
                 const response = await axios.get(
-                    `https://api.themoviedb.org/3/search/movie?api_key=0609ebbe13f887b723d066bb5937d1db&query=${searchTerm}`
+                    `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchTerm}`
                 );
                 setSearchResults(response.data.results.slice(0, 6));
             } catch (error) {

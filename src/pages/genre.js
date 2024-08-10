@@ -12,13 +12,11 @@ const GenrePage = () => {
 	const [error, setError] = useState(null);
 	const [genres, setGenres] = useState([]);
 
-	const apiKey = "0609ebbe13f887b723d066bb5937d1db";
-
 	useEffect(() => {
 		const fetchGenres = async () => {
 			try {
 				const response = await axios.get(
-					`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`
+					`https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=en-US`
 				);
 				setGenres(response.data.genres);
 			} catch (error) {
@@ -46,7 +44,7 @@ const GenrePage = () => {
 			for (let i = 1; i <= 5; i++) {
 				promises.push(
 					axios.get(
-						`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${selectedGenre}&page=${i}`
+						`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&with_genres=${selectedGenre}&page=${i}`
 					)
 				);
 			}
