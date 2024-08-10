@@ -70,7 +70,7 @@ const GenrePage = () => {
 	};
 
 	return (
-		<div className="container mx-auto p-4">
+		<div className="container mx-auto mt-16">
 			<h1 className="text-3xl font-bold text-center mb-8">Movies by Genre</h1>
 			<div className="text-center mb-8">
 				<select
