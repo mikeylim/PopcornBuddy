@@ -32,7 +32,7 @@ const ContactPage = () => {
 					</p>
 					<Link href="/login">
 						<button className="btn-submit w-full py-2 px-4 font-semibold rounded-md shadow-md focus:outline-none focus:ring-[#1f2937] focus:border-[#1f2937]">
-							Log In
+							Login
 						</button>
 					</Link>
                     <Link href="/signup">

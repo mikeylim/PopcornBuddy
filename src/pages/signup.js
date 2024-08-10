@@ -105,7 +105,7 @@ const Signup = () => {
 			<Link href="/login">
 				<p className="w-full mt-3 text-center text-gray-500">
 					Already have a PopcornBuddy account?&nbsp;
-					<span className="underline-decoration font-medium cursor-pointer">Log In</span>
+					<span className="underline-decoration font-medium cursor-pointer">Login</span>
 				</p>
 			</Link>
 		</div>
