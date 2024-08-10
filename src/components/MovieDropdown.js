@@ -1,4 +1,3 @@
-// components/MovieDropdown.js
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
@@ -29,10 +28,14 @@ const MovieDropdown = ({ movies, onClose }) => {
 			className="absolute bg-white border border-gray-300 rounded-lg shadow-md w-full max-h-96 overflow-y-auto z-10 mt-2">
 			{movies.map((movie) => (
 				<Link
-					href={`https://www.themoviedb.org/movie/${movie.id}`}
+					href={`/movie/${movie.id}`}
 					key={movie.id}
+					passHref
 					legacyBehavior>
-					<div className="flex items-center p-2 cursor-pointer hover:bg-gray-100">
+					<button
+						className="flex items-center p-2 border-b border-gray-200 hover:bg-gray-100 w-full text-left"
+						onClick={onClose}
+					>
 						<Image
 							src={
 								movie.poster_path
@@ -47,12 +50,10 @@ const MovieDropdown = ({ movies, onClose }) => {
 						<div className="ml-4">
 							<p className="text-lg font-semibold">{movie.title}</p>
 							<p className="text-gray-500">
-								{movie.release_date
-									? new Date(movie.release_date).getFullYear()
-									: "N/A"}
+								{movie.release_date ? new Date(movie.release_date).getFullYear() : "N/A"}
 							</p>
 						</div>
-					</div>
+					</button>
 				</Link>
 			))}
 		</div>
