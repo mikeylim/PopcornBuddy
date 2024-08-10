@@ -1,34 +1,37 @@
-import nodemailer from 'nodemailer';
+import sendgrid from '@sendgrid/mail';
 
-// Define the async function and assign it to a variable
-const contactHandler = async (req, res) => {
-  const { name, email, message } = req.body;
+sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
-  // Create a transporter object using the default SMTP transport
-  const transporter = nodemailer.createTransport({
-    service: 'gmail', // Use your email provider
-    auth: {
-      user: process.env.EMAIL_USER, // Your email address
-      pass: process.env.EMAIL_PASS, // Your email password or app password
-    },
-  });
+const sendEmail = async (req, res) => {
+  if (req.method === 'POST') {
+    const { name, email, phone, reason, message } = req.body;
 
-  // Email options
-  const mailOptions = {
-    from: email,
-    to: 'popcornbuddywebsite@gmail.com',
-    subject: `New message from ${name} (${email})`,
-    text: message,
-  };
+    // Prepare the email content
+    const mailOptions = {
+        to: 'popcornbuddywebsite@gmail.com',
+        from: 'popcornbuddywebsite@gmail.com',
+        subject: 'New Message from Contact Form',
+        html: `
+          <h1>${reason}</h1>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Phone:</strong> ${phone}</p>
+          <p><strong>Message:</strong></p>
+          <p>${message}</p>
+        `
+    };
 
-  try {
-    // Send mail
-    await transporter.sendMail(mailOptions);
-    res.status(200).json({ message: 'Message sent successfully!' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error sending message.' });
+    try {
+      // Send the email
+      await sendgrid.send(mailOptions);
+      res.status(200).json({ message: 'Message sent successfully' });
+    } catch (error) {
+      console.error('Error sending email:', error);
+      res.status(500).json({ message: 'Error sending message' });
+    }
+  } else {
+    res.status(405).json({ message: 'Method not allowed' });
   }
 };
 
-// Export the handler function as default
-export default contactHandler;
+export default sendEmail;
