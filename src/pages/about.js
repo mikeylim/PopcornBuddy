@@ -6,7 +6,7 @@ import Image from "next/image";
 const AboutPage = () => {
 	return (
 		<div className="container mx-auto mt-16">
-			<h1 className="text-4xl font-bold text-center mb-8">About PopcornBuddy</h1>
+			<h1 className="btn-submit text-4xl font-bold text-center p-10 mb-8">About PopcornBuddy</h1>
 
 			<section className="mb-12">
 				<p className="text-lg text-gray-700 mb-4">
@@ -19,7 +19,7 @@ const AboutPage = () => {
 					watchlists. Whether you’re a casual viewer or a cinephile, PopcornBuddy is
 					designed to enhance your movie experience.
 				</p>
-				<p className="text-lg text-gray-700">
+				<p className="text-lg text-gray-700 my-8">
 					If you have any questions or need support, feel free to reach out to us at:
 					<Link href="mailto:popcornbuddy@example.com" className="underline-decoration">
 						&nbsp;popcornbuddywebsite@gmail.com
@@ -29,11 +29,11 @@ const AboutPage = () => {
 			</section>
 
 			<section className="mb-12">
-				<h2 className="text-2xl font-semibold mb-4">Meet the Team</h2>
+				<h2 className="main-color text-2xl font-bold mb-6">Meet the Team</h2>
 				<div className="space-y-4">
-					<div className="bg-white p-4 rounded-lg shadow-md p-8">
-						<h3 className="text-xl font-bold text-gray-800">Mike Dohyun Lim</h3>
-						<p className="text-gray-600">Full-stack Web developer</p>
+					<div className="main-color bg-white p-4 rounded-lg shadow-md p-8">
+						<h3 className="text-xl font-semibold">Mike Dohyun Lim</h3>
+						<p className="text-gray-600 mt-0.5 mb-1">Full-stack Web developer</p>
 						<Link
 							href="https://github.com/mikeylim"
 							target="_blank"
@@ -70,8 +70,8 @@ const AboutPage = () => {
 					</div>
 
 					<div className="bg-white p-4 rounded-lg shadow-md p-8">
-						<h3 className="text-xl font-bold text-gray-800">Claudia Suarez</h3>
-						<p className="text-gray-600">Full-stack Web developer</p>
+						<h3 className="main-color text-xl font-semibold">Claudia Suarez</h3>
+						<p className="text-gray-600 mt-0.5 mb-1">Full-stack Web developer</p>
 						<div>
 							<Link
 								href="https://github.com/cSuarez13"
@@ -110,8 +110,8 @@ const AboutPage = () => {
 					</div>
 
 					<div className="bg-white p-4 rounded-lg shadow-md p-8">
-						<h3 className="text-xl font-bold text-gray-800">Gaganjot Singh</h3>
-						<p className="text-gray-600">Full-stack Web developer</p>
+						<h3 className="main-color text-xl font-semibold">Gaganjot Singh</h3>
+						<p className="text-gray-600 mt-0.5 mb-1">Full-stack Web developer</p>
 						<Link
 							href="/"
 							target="_blank"

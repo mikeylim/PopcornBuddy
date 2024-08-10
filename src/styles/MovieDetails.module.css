@@ -1,0 +1,46 @@
+/* Base setup */
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+.rating {
+	border: none;
+	float: left;
+}
+
+.starRatingInput {
+	display: none;
+}
+
+.starRatingLabel:before {
+	margin: 5px;
+	font-size: 3em;
+	font-family: FontAwesome;
+	display: inline-block;
+	content: "\f005";
+}
+
+.half:before {
+	content: "\f089";
+	position: absolute;
+}
+
+.starRatingLabel {
+	color: #ddd;
+	float: right;
+}
+
+/* Highlight Stars on Hover */
+.starRatingInput:checked ~ .starRatingLabel, /* show gold star when clicked */
+  .rating:not(:checked) > .starRatingLabel:hover, /* hover current star */
+  .rating:not(:checked) > .starRatingLabel:hover ~ .starRatingLabel {
+	color: #ffd700;
+} /* hover previous stars in list */
+
+.starRatingInput:checked + .starRatingLabel:hover, /* hover current star when changing rating */
+  .starRatingInput:checked ~ .starRatingLabel:hover,
+  .starRatingLabel:hover ~ .starRatingInput:checked ~ .starRatingLabel {
+	color: #ffed85;
+}
+
+
+.white-image {
+    filter: brightness(0) invert(1);
+}

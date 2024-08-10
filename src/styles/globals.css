@@ -37,6 +37,10 @@ label {
     background-color: #136cb2;
 }
 
+.btn-add {
+    background-color: #136cb2;
+}
+
 .underline-decoration {
 	color: #136cb2;
 }
@@ -51,6 +55,10 @@ label {
 
 .form-color:focus {
 	color: #1f2937;
+}
+
+.main-color {
+    color: #1f2937;
 }
 
 .red-important {
