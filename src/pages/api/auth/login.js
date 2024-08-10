@@ -22,43 +22,40 @@ export default async (req, res) => {
 		// Find the user by email
 		const user = await User.findOne({ email: email.toLowerCase() });
 		if (!user) {
-			console.log("User not found:", email);
-			return res
-				.status(400)
-				.json({ success: false, error: "Invalid username or password. Please try again." });
+			return res.status(400).json({ success: false, error: "Invalid username or password." });
 		}
-
-		console.log("User found:", user);
 
 		// Check if the password is correct
-		const isMatch = await bcrypt.compareSync(password, user.password);
-		console.log("user.password (hashed):", user.password);
-		console.log("Provided password:", password);
-		console.log("Password match result:", isMatch);
-
+		const isMatch = await bcrypt.compare(password, user.password);
 		if (!isMatch) {
-			console.log("Invalid password for user:", email);
-			return res
-				.status(400)
-				.json({ success: false, error: "Invalid username or password. Please try again." });
+			return res.status(400).json({ success: false, error: "Invalid username or password." });
 		}
 
-		console.log("Password match successful for user:", email);
+		// Generate access token (10 minutes)
+		const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "30m" });
 
-		// Generate JWT token with 10 minutes expiration time
-		const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "10m" });
+		// Generate refresh token (7 days)
+		const refreshToken = jwt.sign({ userId: user._id }, process.env.JWT_REFRESH_SECRET, {
+			expiresIn: "7d",
+		});
 
-		// Set the token in a HttpOnly cookie
-		res.setHeader(
-			"Set-Cookie",
+		// Set the tokens in cookies
+		res.setHeader("Set-Cookie", [
 			cookie.serialize("token", token, {
 				httpOnly: true,
 				secure: process.env.NODE_ENV !== "development",
-				maxAge: 600,
+				maxAge: 1200, // 30 minutes
 				sameSite: "strict",
 				path: "/",
-			})
-		);
+			}),
+			cookie.serialize("refreshToken", refreshToken, {
+				httpOnly: true,
+				secure: process.env.NODE_ENV !== "development",
+				maxAge: 7 * 24 * 60 * 60, // 7 days
+				sameSite: "strict",
+				path: "/",
+			}),
+		]);
 
 		res.status(200).json({
 			success: true,
@@ -68,6 +65,7 @@ export default async (req, res) => {
 				firstName: user.firstName,
 				lastName: user.lastName,
 			},
+            token, // Return the token to be stored
 		});
 	} catch (error) {
 		console.error("Login error:", error);

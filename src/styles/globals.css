@@ -1,3 +1,5 @@
+/* styles/globals.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,12 +19,33 @@
 }
 body {
 	color: rgb(var(--foreground-rgb));
-	background: rgb(192, 192, 192);
+	background: #c3c3c3;
+    font-family: "Inter", sans-serif;
 }
 
 h1,
 label {
 	color: #1f2937;
+}
+
+button {
+    background-color: #1f2937 !important;
+}
+
+.underline-decoration {
+    color: #136cb2;
+}
+
+.underline-decoration:hover {
+    color: #1f2937;
+}
+
+.form-color {
+    color: #1f2937 !important;
+}
+
+.form-color:focus {
+    color: #1f2937;
 }
 
 @layer utilities {

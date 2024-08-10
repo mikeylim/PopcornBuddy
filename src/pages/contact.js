@@ -1,21 +1,53 @@
 // pages/contact.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { getSession } from "next-auth/react";
+import { useAuth } from "../context/AuthContext";
+import Link from "next/link";
 
-const ContactPage = ({ userSession }) => {
+const ContactPage = () => {
+	const { isLoggedIn, user } = useAuth();
 	const [formData, setFormData] = useState({
 		name: "",
-		email: "",
+		email: "", // Initialize email from Auth Context
 		phone: "",
 		reason: "",
 		message: "",
 	});
 	const [status, setStatus] = useState("");
 
-	// If the user is not authenticated, show a message
-	if (!userSession) {
-		return <p>You need to be logged in to contact us.</p>;
+	useEffect(() => {
+		if (user && user.email) {
+			setFormData((prev) => ({ ...prev, email: user.email })); // Prefill email
+		}
+	}, [user]);
+
+	if (!isLoggedIn) {
+		return (
+			<div className="flex flex-col mt-16 items-center justify-center">
+				<div className="bg-white p-8 rounded-lg shadow-md max-w-md text-center">
+					<h2 className="text-3xl font-bold mb-4 text-gray-800">Contact Us</h2>
+					<p className="text-gray-600 mb-6">
+						You need to be logged in to contact us. Please log in to access the contact
+						form.
+					</p>
+					<Link href="/login">
+						<button className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+							Log In
+						</button>
+					</Link>
+                    <Link href="/signup">
+					<p className="mt-4 text-gray-500">
+						Don’t have an account?{" "}
+						
+							<span className="underline-decoration font-medium cursor-pointer">
+								Sign up here
+							</span>
+						
+					</p>
+                    </Link>
+				</div>
+			</div>
+		);
 	}
 
 	const handleInputChange = (event) => {
@@ -29,17 +61,13 @@ const ContactPage = ({ userSession }) => {
 		event.preventDefault();
 
 		try {
-			// Combine form data with the user's email from the session
-			const response = await axios.post("/api/contact", {
-				...formData,
-				email: userSession.email,
-			});
+			const response = await axios.post("/api/contact", formData);
 
 			if (response.status === 200) {
 				setStatus("Message sent successfully!");
 				setFormData({
 					name: "",
-					email: "",
+					email: formData.email || "",
 					phone: "",
 					reason: "",
 					message: "",
@@ -48,12 +76,13 @@ const ContactPage = ({ userSession }) => {
 				setStatus("Error sending message.");
 			}
 		} catch (error) {
+			console.error("Error sending message:", error); // Log error for debugging
 			setStatus("Error sending message: " + error.message);
 		}
 	};
 
 	return (
-		<div className="max-w-md mx-auto mt-10 p-6 border border-gray-300 rounded-lg bg-white shadow-md text-purple-700">
+		<div className="form-color max-w-md mx-auto mt-10 p-6 border border-gray-300 rounded-lg bg-white shadow-md">
 			<h1 className="text-2xl font-bold text-center mb-6">Contact Us</h1>
 			<form onSubmit={handleSubmit} className="space-y-4">
 				<div>
@@ -81,6 +110,7 @@ const ContactPage = ({ userSession }) => {
 						value={formData.email}
 						onChange={handleInputChange}
 						required
+						readOnly
 						className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
 					/>
 				</div>
@@ -133,16 +163,5 @@ const ContactPage = ({ userSession }) => {
 		</div>
 	);
 };
-
-// Fetch session data on the server side
-export async function getServerSideProps(context) {
-	const session = await getSession(context);
-
-	return {
-		props: {
-			userSession: session?.user || null, // Pass user session data to the page component
-		},
-	};
-}
 
 export default ContactPage;

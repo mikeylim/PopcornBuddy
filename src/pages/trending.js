@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
-import Image from 'next/image';
-
+import Image from "next/image";
 
 const TrendingPage = () => {
 	const [movies, setMovies] = useState([]);
@@ -27,7 +26,7 @@ const TrendingPage = () => {
 	}, []);
 
 	return (
-		<div className="container mx-auto p-4">
+		<div className="container mx-auto mt-16">
 			<h1 className="text-3xl font-bold text-center mb-8">Trending Movies</h1>
 			{error && <p className="text-red-500 text-center">{error}</p>}
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
