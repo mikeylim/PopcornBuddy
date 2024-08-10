@@ -20,7 +20,7 @@
 body {
 	color: rgb(var(--foreground-rgb));
 	background: #c3c3c3;
-    font-family: "Inter", sans-serif;
+	font-family: "Inter", sans-serif;
 }
 
 h1,
@@ -28,24 +28,34 @@ label {
 	color: #1f2937;
 }
 
-button {
-    background-color: #1f2937 !important;
+.btn-submit {
+	background-color: #1f2937;
+    color: white;
+}
+
+.btn-submit:hover {
+    background-color: #136cb2;
 }
 
 .underline-decoration {
-    color: #136cb2;
+	color: #136cb2;
 }
 
 .underline-decoration:hover {
-    color: #1f2937;
+	color: #1f2937;
 }
 
 .form-color {
-    color: #1f2937 !important;
+	color: #1f2937 !important;
 }
 
 .form-color:focus {
-    color: #1f2937;
+	color: #1f2937;
+}
+
+.red-important {
+	color: white !important;
+	background-color: #ef4444 !important;
 }
 
 @layer utilities {

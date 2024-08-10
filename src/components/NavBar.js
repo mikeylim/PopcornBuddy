@@ -23,6 +23,26 @@ const NavBar = () => {
 		setShowLogoutConfirm(false);
 	};
 
+	// Handle Escape key to cancel the modal
+	useEffect(() => {
+		const handleKeyDown = (event) => {
+			if (event.key === "Escape") {
+				setShowLogoutConfirm(false);
+			}
+		};
+
+		if (showLogoutConfirm) {
+			document.addEventListener("keydown", handleKeyDown);
+		} else {
+			document.removeEventListener("keydown", handleKeyDown);
+		}
+
+		// Cleanup the event listener on component unmount or when modal closes
+		return () => {
+			document.removeEventListener("keydown", handleKeyDown);
+		};
+	}, [showLogoutConfirm]);
+
 	useEffect(() => {
 		if (!isLoggedIn) {
 			setShowLogoutConfirm(false);
@@ -86,7 +106,7 @@ const NavBar = () => {
 										<div className="mt-4 flex justify-center space-x-2">
 											<button
 												onClick={() => setShowLogoutConfirm(false)}
-												className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+												className="submit px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
 												Cancel
 											</button>
 											<button

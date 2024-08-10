@@ -31,7 +31,7 @@ const ContactPage = () => {
 						form.
 					</p>
 					<Link href="/login">
-						<button className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+						<button className="btn-submit w-full py-2 px-4 font-semibold rounded-md shadow-md focus:outline-none focus:ring-[#1f2937] focus:border-[#1f2937]">
 							Log In
 						</button>
 					</Link>
@@ -82,23 +82,9 @@ const ContactPage = () => {
 	};
 
 	return (
-		<div className="form-color max-w-md mx-auto mt-10 p-6 border border-gray-300 rounded-lg bg-white shadow-md">
+		<div className="form-color max-w-md mx-auto mt-16 p-6 border border-gray-300 rounded-lg bg-white shadow-md">
 			<h1 className="text-2xl font-bold text-center mb-6">Contact Us</h1>
 			<form onSubmit={handleSubmit} className="space-y-4">
-				<div>
-					<label htmlFor="name" className="block text-sm font-medium">
-						Name:
-					</label>
-					<input
-						type="text"
-						id="name"
-						name="name"
-						value={formData.name}
-						onChange={handleInputChange}
-						required
-						className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-					/>
-				</div>
 				<div>
 					<label htmlFor="email" className="block text-sm font-medium">
 						Email:
@@ -110,8 +96,23 @@ const ContactPage = () => {
 						value={formData.email}
 						onChange={handleInputChange}
 						required
+                        disabled
 						readOnly
-						className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+						className="mt-1 block w-full px-3 py-2 border border-gray-300 text-[#136cb2] rounded-md shadow-sm cursor-not-allowed focus:outline-none disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none focus:ring-[#1f2937] focus:border-[#1f2937]"
+					/>
+				</div>
+				<div>
+					<label htmlFor="name" className="block text-sm font-medium">
+						Name:
+					</label>
+					<input
+						type="text"
+						id="name"
+						name="name"
+						value={formData.name}
+						onChange={handleInputChange}
+						required
+						className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#1f2937] focus:border-[#1f2937]"
 					/>
 				</div>
 				<div>
@@ -124,7 +125,7 @@ const ContactPage = () => {
 						name="phone"
 						value={formData.phone}
 						onChange={handleInputChange}
-						className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+						className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#1f2937] focus:border-[#1f2937]"
 					/>
 				</div>
 				<div>
@@ -137,7 +138,7 @@ const ContactPage = () => {
 						name="reason"
 						value={formData.reason}
 						onChange={handleInputChange}
-						className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+						className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#1f2937] focus:border-[#1f2937]"
 					/>
 				</div>
 				<div>
@@ -150,12 +151,12 @@ const ContactPage = () => {
 						value={formData.message}
 						onChange={handleInputChange}
 						required
-						className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 h-28 resize-none"
+						className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#1f2937] focus:border-[#1f2937] h-28 resize-none"
 					/>
 				</div>
 				<button
 					type="submit"
-					className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+					className="btn-submit w-full py-2 px-4 text-white font-semibold rounded-md shadow-md focus:outline-none focus:ring-2 focus:border-[#1f2937]">
 					Send
 				</button>
 			</form>
