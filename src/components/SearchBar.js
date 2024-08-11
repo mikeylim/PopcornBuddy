@@ -14,7 +14,7 @@ const SearchBar = ({ searchTerm, setSearchTerm, handleSearch }) => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="p-2 border border-gray-400 rounded text-black"
       />
-      <button type="submit" className="p-2 ml-2 bg-blue-500 text-white rounded">
+      <button type="submit" className="p-2 ml-2 bg-blue-500 text-black rounded">
         Search
       </button>
     </form>
