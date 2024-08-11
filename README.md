@@ -10,7 +10,6 @@ PopcornBuddy is a movie information web app that allows users to discover trendi
 - [Installation](#installation)
 - [Running the Project](#running-the-project)
 - [Environment Variables](#environment-variables)
-- [Project Structure](#project-structure)
 - [API Integration](#api-integration)
 - [Components](#components)
 - [Styling](#styling)
@@ -39,94 +38,67 @@ Before you begin, ensure you have the following installed:
 
 Clone the repository and install the dependencies:
 
-\`\`\`bash
+```bash
 git clone https://github.com/your-username/popcornbuddy.git
 cd popcornbuddy
 npm install
-\`\`\`
+```
 
 ### Running the Project
 
 To start the development server:
 
-\`\`\`bash
+```bash
 npm run dev
-\`\`\`
+```
 
-Visit \`http://localhost:3000\` in your browser to view the app.
+Visit 'http://localhost:3000' in your browser to view the app.
 
 ## Environment Variables
 
-Create a \`.env.local\` file in the root directory and add your TMDB API key:
+Create a '.env.local' file in the root directory and add your TMDB API key:
 
-\`\`\`bash
+```bash
 NEXT_PUBLIC_TMDB_API_KEY=your_tmdb_api_key
-\`\`\`
+```
 
-## Project Structure
-
-\`\`\`plaintext
-popcornbuddy/
-│
-├── public/                    # Static files (images, icons, etc.)
-├── components/                # Reusable UI components
-│   ├── NavBar.js              # Navigation bar component
-│   ├── MovieCard.js           # Movie card component used across pages
-│   └── ...
-│
-├── pages/                     # Next.js pages
-│   ├── index.js               # Homepage (Now Playing, Popular, and Upcoming Movies)
-│   ├── trending.js            # Trending movies page
-│   ├── toprated.js            # Top-rated movies page
-│   ├── genre.js               # Movies by genre page
-│   └── movie/[id].js          # Movie details page
-│
-├── styles/                    # Custom CSS styles
-│   ├── globals.css            # Global styles
-│   ├── MovieCard.module.css   # Movie card styles
-│   └── ...
-│
-├── .env.local                 # Environment variables
-├── README.md                  # Project documentation
-└── ...
-\`\`\`
 
 ## API Integration
 
 This project uses the [TMDB API](https://www.themoviedb.org/documentation/api) to fetch movie data. 
 
-- **Popular Movies**: \`/movie/popular\`
-- **Top Rated Movies**: \`/movie/top_rated\`
-- **Now Playing Movies**: \`/movie/now_playing\`
-- **Upcoming Movies**: \`/movie/upcoming\`
-- **Movie Details**: \`/movie/{movie_id}\`
-- **Genres**: \`/genre/movie/list\`
+- **Popular Movies**: 'movie/popular'
+- **Top Rated Movies**: '/movie/top_rated'
+- **Now Playing Movies**: '/movie/now_playing'
+- **Upcoming Movies**: '/movie/upcoming'
+- **Movie Details**: '/movie/{movie_id}'
+- **Genres**: '/genre/movie/list'
 
-Ensure your API key is correctly configured in the \`.env.local\` file.
+Ensure your API key is correctly configured in the '.env.local' file.
 
 ## Components
 
 ### NavBar
 
-The \`NavBar\` component provides navigation across different pages, including Trending, Genre, and Top Rated movies. It also includes search functionality.
+The 'NavBar' component provides navigation across different pages, including Trending, Genre, and Top Rated movies. It also includes search functionality.
 
 ### MovieCard
 
-The \`MovieCard\` component is used across multiple pages to display individual movie information such as title, release year, genres, and poster image. It also includes buttons for adding movies to favorites and watchlists.
+The 'MovieCard' component is used across multiple pages to display individual movie information such as title, release year, genres, and poster image. It also includes buttons for adding movies to favorites and watchlists.
 
 ## Styling
 
-This project uses **Tailwind CSS** for responsive and utility-first styling. Additional custom styles are defined in the \`styles\` directory using CSS modules.
+This project uses **Tailwind CSS** for responsive and utility-first styling. Additional custom styles are defined in the 'styles' directory using CSS modules.
 
 ## Contributing
 
 Contributions are welcome! Please follow these steps:
 
 1. Fork the repository.
-2. Create a new branch (\`git checkout -b feature/your-feature-name\`).
+2. Create a new branch ('git checkout -b feature/your-feature-name').
 3. Make your changes.
-4. Commit your changes (\`git commit -m 'Add some feature'\`).
-5. Push to the branch (\`git push origin feature/your-feature-name\`).
+4. Commit your changes ('git commit -m 'Add some feature'').
+5. Push to the branch ('git push origin feature/your-feature-name').
 6. Open a pull request.
 
 ## Credits
