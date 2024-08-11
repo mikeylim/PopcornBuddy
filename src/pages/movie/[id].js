@@ -54,7 +54,7 @@ const MovieDetails = () => {
 					<h1 className="main-color text-4xl font-bold mb-6">{movie.title}</h1>
 					<p className="text-lg text-gray-700 mb-4 italic">{movie.tagline}</p>
                     
-					<p className="main-color text-md  mb-4">
+					<p className="main-color text-md">
 						{new Date(movie.release_date)
 							.toISOString()
 							.split("T")[0]
@@ -64,12 +64,12 @@ const MovieDetails = () => {
 						{Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m
 					</p>
 
-					<p className="main-color text-md  mt-14 mb-16">
+					<p className="main-color text-md  mt-12 mb-12">
 						<p className="text-xl leading-10 font-bold my-2">Overview</p>
 						{movie.overview}
 					</p>
 
-					<div className="mt-16">
+					<div className="mt-4">
 						<h3 className="main-color text-lg font-semibold">Rate this movie</h3>
 						<div className="flex items-center mt-2">
 							<fieldset className={styles.rating}>
@@ -83,7 +83,7 @@ const MovieDetails = () => {
 								<label
 									className={`${styles.starRatingLabel} ${styles.full}`}
 									htmlFor="star5"
-									title="Awesome - 5 stars"></label>
+									title="5 stars"></label>
 
 								<input
 									type="radio"
@@ -95,7 +95,7 @@ const MovieDetails = () => {
 								<label
 									className={`${styles.starRatingLabel} ${styles.half}`}
 									htmlFor="star4half"
-									title="Pretty good - 4.5 stars"></label>
+									title="4.5 stars"></label>
 
 								<input
 									type="radio"
@@ -107,7 +107,7 @@ const MovieDetails = () => {
 								<label
 									className={`${styles.starRatingLabel} ${styles.full}`}
 									htmlFor="star4"
-									title="Pretty good - 4 stars"></label>
+									title="4 stars"></label>
 
 								<input
 									type="radio"
@@ -119,7 +119,7 @@ const MovieDetails = () => {
 								<label
 									className={`${styles.starRatingLabel} ${styles.half}`}
 									htmlFor="star3half"
-									title="Meh - 3.5 stars"></label>
+									title="3.5 stars"></label>
 
 								<input
 									type="radio"
@@ -131,7 +131,7 @@ const MovieDetails = () => {
 								<label
 									className={`${styles.starRatingLabel} ${styles.full}`}
 									htmlFor="star3"
-									title="Meh - 3 stars"></label>
+									title="3 stars"></label>
 
 								<input
 									type="radio"
@@ -143,7 +143,7 @@ const MovieDetails = () => {
 								<label
 									className={`${styles.starRatingLabel} ${styles.half}`}
 									htmlFor="star2half"
-									title="Kinda bad - 2.5 stars"></label>
+									title="2.5 stars"></label>
 
 								<input
 									type="radio"
@@ -155,19 +155,19 @@ const MovieDetails = () => {
 								<label
 									className={`${styles.starRatingLabel} ${styles.full}`}
 									htmlFor="star2"
-									title="Kinda bad - 2 stars"></label>
+									title="2 stars"></label>
 
 								<input
-									type="radio"
 									id="star1half"
 									name="rating"
+									type="radio"
 									value="1.5"
 									className={styles.starRatingInput}
 								/>
 								<label
 									className={`${styles.starRatingLabel} ${styles.half}`}
 									htmlFor="star1half"
-									title="Meh - 1.5 stars"></label>
+									title="1.5 stars"></label>
 
 								<input
 									type="radio"
@@ -179,7 +179,7 @@ const MovieDetails = () => {
 								<label
 									className={`${styles.starRatingLabel} ${styles.full}`}
 									htmlFor="star1"
-									title="Sucks big time - 1 star"></label>
+									title="1 star"></label>
 
 								<input
 									type="radio"
@@ -191,7 +191,7 @@ const MovieDetails = () => {
 								<label
 									className={`${styles.starRatingLabel} ${styles.half}`}
 									htmlFor="starhalf"
-									title="Sucks big time - 0.5 stars"></label>
+									title="0.5 stars"></label>
 							</fieldset>
 						</div>
 					</div>
