@@ -171,7 +171,11 @@ label {
 
 	.btn-submit {
 		width: 100%;
-		text-align: center;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 0.5rem; /* Ensure spacing between image and text */
+		padding: 0.75rem; /* Adjust padding for better spacing */
 	}
 
 	/* Override any float and margin settings for smaller screens */
@@ -194,6 +198,7 @@ label {
 		text-align: center;
 	}
 }
+
 
 /* Utility Layer */
 @layer utilities {

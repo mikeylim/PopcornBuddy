@@ -40,7 +40,7 @@ const MovieDetails = () => {
 	return (
 		<div className="container mx-auto p-4 mt-16">
 			<div className="flex flex-col md:flex-row">
-                {/* Poster */}
+				{/* Poster */}
 				<div className="md:w-1/3">
 					<Image
 						src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -50,11 +50,11 @@ const MovieDetails = () => {
 						className="rounded shadow-lg"
 					/>
 				</div>
-				<div className="md:w-2/3 md:ml-8">
-					<h1 className="main-color text-4xl font-bold mb-6">{movie.title}</h1>
-					<p className="text-lg text-gray-700 mb-4 italic">{movie.tagline}</p>
-                    
-					<p className="main-color text-md">
+				<div className="main-color md:w-2/3 md:ml-8">
+					<h1 className="text-4xl font-bold">{movie.title}</h1>
+					<p className="text-lg 700 mt-2 italic">{movie.tagline}</p>
+
+					<p className="mt-4 text-md">
 						{new Date(movie.release_date)
 							.toISOString()
 							.split("T")[0]
@@ -64,12 +64,12 @@ const MovieDetails = () => {
 						{Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m
 					</p>
 
-					<p className="main-color text-md  mt-12 mb-12">
+					<p className="main-color text-md  mt-8">
 						<p className="text-xl leading-10 font-bold my-2">Overview</p>
 						{movie.overview}
 					</p>
 
-					<div className="mt-4">
+					<div className="mt-8">
 						<h3 className="main-color text-lg font-semibold">Rate this movie</h3>
 						<div className="flex items-center mt-2">
 							<fieldset className={styles.rating}>
@@ -195,6 +195,7 @@ const MovieDetails = () => {
 							</fieldset>
 						</div>
 					</div>
+
 					<div className="flex space-x-4 mt-4">
 						<button className="btn-submit flex items-center bg-gray-200 px-4 py-2 rounded">
 							<Image
@@ -217,7 +218,6 @@ const MovieDetails = () => {
 							Add to WatchList
 						</button>
 					</div>
-
 				</div>
 			</div>
 		</div>

@@ -1,9 +1,13 @@
-/* styles/MovieDetails.module.css */
 /* Base setup */
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
 .rating {
 	border: none;
 	float: left;
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: flex-start;
+	position: relative;
 }
 
 .starRatingInput {
@@ -12,7 +16,7 @@
 
 .starRatingLabel:before {
 	margin: 5px;
-	font-size: 3em;
+	font-size: 2.5em; /* Default star size */
 	font-family: FontAwesome;
 	display: inline-block;
 	content: "\f005";
@@ -25,119 +29,29 @@
 
 .starRatingLabel {
 	color: #ddd;
-	float: right;
+	cursor: pointer;
+	width: 50%; /* Ensure each label takes up 50% of the star's width */
+	position: relative;
+	z-index: 1; /* Ensure labels are clickable */
 }
 
 /* Highlight Stars on Hover */
-.starRatingInput:checked ~ .starRatingLabel, /* show gold star when clicked */
-  .rating:not(:checked) > .starRatingLabel:hover, /* hover current star */
-  .rating:not(:checked) > .starRatingLabel:hover ~ .starRatingLabel {
-	color: #ffd700;
+.rating:not(:checked) > .starRatingLabel:hover, /* hover current star */
+.rating:not(:checked) > .starRatingLabel:hover ~ .starRatingLabel {
+	color: #ffed85;
 } /* hover previous stars in list */
 
-.starRatingInput:checked + .starRatingLabel:hover, /* hover current star when changing rating */
-  .starRatingInput:checked ~ .starRatingLabel:hover,
-  .starRatingLabel:hover ~ .starRatingInput:checked ~ .starRatingLabel {
-	color: #ffed85;
-}
-
-.white-image {
-	filter: brightness(0) invert(1);
-}
-
-/* styling for mobile-responsiveness */
-/* Existing styles remain unchanged */
-
-.rating {
-	border: none;
-	float: left;
-}
-
-.starRatingInput {
-	display: none;
-}
-
-.starRatingLabel:before {
-	margin: 5px;
-	font-size: 1.25em;
-	font-family: FontAwesome;
-	display: inline-block;
-	content: "\f005";
-}
-
-.half:before {
-	content: "\f089";
-	position: absolute;
-}
-
-.starRatingLabel {
-	color: #ddd;
-	float: right;
-}
-
-.starRatingInput:checked ~ .starRatingLabel,
-.rating:not(:checked) > .starRatingLabel:hover,
-.rating:not(:checked) > .starRatingLabel:hover ~ .starRatingLabel {
+.starRatingInput:checked ~ .starRatingLabel, /* show gold star when clicked */
+.starRatingInput:checked ~ .starRatingLabel ~ .starRatingLabel {
 	color: #ffd700;
 }
 
-.starRatingInput:checked + .starRatingLabel:hover,
-.starRatingInput:checked ~ .starRatingLabel:hover,
-.starRatingLabel:hover ~ .starRatingInput:checked ~ .starRatingLabel,
-.starRatingInput:checked ~ .starRatingLabel:hover ~ .starRatingLabel {
-	color: #ffed85;
+/* Hovering over checked stars */
+.starRatingInput:checked:hover ~ .starRatingLabel {
+	color: #ffd700 !important;
 }
 
 /* Mobile responsiveness */
-/* Base setup */
-@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
-
-.rating {
-	border: none;
-	float: left;
-}
-
-.starRatingInput {
-	display: none;
-}
-
-.starRatingLabel:before {
-	margin: 5px;
-	font-size: 3em;
-	font-family: FontAwesome;
-	display: inline-block;
-	content: "\f005";
-}
-
-.half:before {
-	content: "\f089";
-	position: absolute;
-}
-
-.starRatingLabel {
-	color: #ddd;
-	float: right;
-}
-
-/* Highlight Stars on Hover */
-.starRatingInput:checked ~ .starRatingLabel, /* show gold star when clicked */
-.rating:not(:checked) > .starRatingLabel:hover, /* hover current star */
-.rating:not(:checked) > .starRatingLabel:hover ~ .starRatingLabel {
-	color: #ffd700;
-} /* hover previous stars in list */
-
-.starRatingInput:checked + .starRatingLabel:hover, /* hover current star when changing rating */
-.starRatingInput:checked ~ .starRatingLabel:hover,
-.starRatingLabel:hover ~ .starRatingInput:checked ~ .starRatingLabel {
-	color: #ffed85;
-}
-
-/* Styling for white image */
-.white-image {
-	filter: brightness(0) invert(1);
-}
-
-/* Styling for mobile-responsiveness */
 @media (max-width: 768px) {
 	.container {
 		display: flex;
@@ -169,18 +83,21 @@
 		width: 100%;
 	}
 
-	.btn-submit {
-		width: 100%;
-		justify-content: center;
-		margin-bottom: 10px;
-	}
-
 	.rating {
 		float: none;
+		justify-content: center;
 	}
 
 	.starRatingLabel {
-		float: none;
-		font-size: 2em;
+		font-size: 1.5em; /* Smaller size for mobile */
+		width: 50%; /* Ensure each label takes up 50% of the star's width */
+		position: relative;
+		z-index: 1;
+	}
+
+	/* Disable hover effect on mobile */
+	.rating:not(:checked) > .starRatingLabel:hover, /* hover current star */
+	.rating:not(:checked) > .starRatingLabel:hover ~ .starRatingLabel {
+		color: #ffd700; /* Maintain the checked color on hover */
 	}
 }
