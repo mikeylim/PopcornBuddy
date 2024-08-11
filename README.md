@@ -6,6 +6,7 @@ PopcornBuddy is a movie information web app that allows users to discover trendi
 ## Table of Contents
 
 - [Features](#features)
+- [Deployment](#deployment)
 - [Getting Started](#getting-started)
 - [Installation](#installation)
 - [Running the Project](#running-the-project)
