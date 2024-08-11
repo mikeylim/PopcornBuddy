@@ -1,16 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Link from "next/link";
 import Image from "next/image";
-
-const myLoader = ({ src }) => {
-	return `https://image.tmdb.org/t/p/w500${src}`;
-};
+import styles from "../styles/TrendingGenre.module.css";
 
 const GenrePage = () => {
 	const [movies, setMovies] = useState([]);
 	const [genre, setGenre] = useState("");
 	const [error, setError] = useState(null);
-	const [genres, setGenres] = useState([]);
+	const [genres, setGenres] = useState({});
 
 	useEffect(() => {
 		const fetchGenres = async () => {
@@ -18,7 +16,11 @@ const GenrePage = () => {
 				const response = await axios.get(
 					`https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=en-US`
 				);
-				setGenres(response.data.genres);
+				const genresMap = response.data.genres.reduce((acc, genre) => {
+					acc[genre.id] = genre.name;
+					return acc;
+				}, {});
+				setGenres(genresMap);
 			} catch (error) {
 				console.error("Error fetching genres:", error);
 			}
@@ -67,6 +69,10 @@ const GenrePage = () => {
 		}
 	};
 
+	const getGenreNames = (genreIds) => {
+		return genreIds.map((id) => genres[id]).filter(Boolean).slice(0, 2).join("/");
+	};
+
 	return (
 		<div className="container mx-auto mt-16">
 			<h1 className="text-3xl font-bold text-center mb-8">Movies by Genre</h1>
@@ -76,47 +82,37 @@ const GenrePage = () => {
 					value={genre}
 					className="p-2 border border-gray-400 rounded text-black">
 					<option value="">Select a Genre</option>
-					{genres.map((genre) => (
-						<option key={genre.id} value={genre.id}>
-							{genre.name}
+					{Object.keys(genres).map((id) => (
+						<option key={id} value={id}>
+							{genres[id]}
 						</option>
 					))}
 				</select>
 			</div>
 			{error && <p className="text-red-500 text-center">{error}</p>}
-			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-				{movies.map((movie, index) => (
-					<div
-						key={`${movie.id}-${genre}-${index}`}
-						className="bg-white p-4 rounded shadow-lg">
-						{movie.poster_path ? (
-							<Image
-								loader={myLoader}
-								src={`${movie.poster_path}?${new Date().getTime()}`} // Add cache-busting query param
-								alt={movie.title}
-								width={500}
-								height={750}
-								className="w-full h-auto rounded-t"
-							/>
-						) : (
-							<div className="bg-gray-300 w-full h-64 flex items-center justify-center">
-								<span className="text-gray-500">No Image Available</span>
+			<div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ${styles.gridContainer}`}>
+				{movies.map((movie) => (
+					<Link key={movie.id} href={`/movie/${movie.id}`} passHref>
+						<div className={`bg-white p-4 rounded shadow-lg ${styles.card}`}>
+							<div className={`relative ${styles.imageContainer}`}>
+								<Image
+									src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+									alt={movie.title}
+									layout="fill"
+									objectFit="cover"
+									className="rounded-t"
+								/>
 							</div>
-						)}
-						<div className="p-4">
-							<h2 className="text-xl font-bold mb-2">{movie.title}</h2>
-							<p className="text-gray-700 mb-2">
-								Year: {new Date(movie.release_date).getFullYear()}
-							</p>
-							<a
-								href={`https://www.themoviedb.org/movie/${movie.id}`}
-								target="_blank"
-								rel="noopener noreferrer"
-								className="text-blue-500 hover:underline">
-								View on TMDB
-							</a>
+							<div className={`p-4 ${styles.content}`}>
+								<h2 className={`text-xl font-bold ${styles.title}`}>{movie.title}</h2>
+								<p className="text-gray-700 mt-2">
+									{new Date(movie.release_date).getFullYear()}
+									{" · "}
+									{getGenreNames(movie.genre_ids)}
+								</p>
+							</div>
 						</div>
-					</div>
+					</Link>
 				))}
 			</div>
 		</div>
