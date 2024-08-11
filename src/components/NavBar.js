@@ -122,7 +122,7 @@ const NavBar = () => {
                     </Link>
                     <Link href="/genre" passHref>
                         <span className={styles.navLink}>
-                            Genre
+                            Genres
                         </span>
                     </Link>
                 </div>
