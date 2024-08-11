@@ -59,6 +59,10 @@
 		align-items: center;
 		padding: 10px;
 	}
+    
+    .movieInfoSection {
+        margin-top: 3rem ;
+    }
 
 	.flex {
 		flex-direction: column;

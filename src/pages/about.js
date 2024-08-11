@@ -2,6 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import styles from "../../src/styles/About.module.css" 
 
 const AboutPage = () => {
 	return (
@@ -31,7 +32,7 @@ const AboutPage = () => {
 			<section className="mb-12">
 				<h2 className="main-color text-2xl font-bold mb-6">Meet the Team</h2>
 				<div className="space-y-4">
-					<div className="main-color bg-white p-4 rounded-lg shadow-md p-8">
+                <div className={`${styles.teamCard} bg-white p-4 rounded-lg shadow-md p-8`}>
 						<h3 className="text-xl font-semibold">Mike Dohyun Lim</h3>
 						<p className="text-gray-600 mt-0.5 mb-1">Full-stack Web developer</p>
 						<Link
@@ -39,7 +40,7 @@ const AboutPage = () => {
 							target="_blank"
 							rel="noopener noreferrer">
 							<Image
-								className="inline mr-2"
+								className={`${styles.socialCard} inline mr-2`}
 								src="/github-icon.svg"
 								width={30}
 								height={30}
@@ -51,7 +52,7 @@ const AboutPage = () => {
 							target="_blank"
 							rel="noopener noreferrer">
 							<Image
-								className="inline mr-2"
+								className={`${styles.socialCard} inline mr-2`}
 								src="/linkedin-icon.svg"
 								width={30}
 								height={30}
@@ -60,7 +61,7 @@ const AboutPage = () => {
 						</Link>
 						<Link href="mailto:mikedohyunlim@gmail.com" target="_blank" rel="noopener noreferrer">
 							<Image
-								className="inline mr-2"
+								className={`${styles.socialCard} inline mr-2`}
 								src="/email-icon.svg"
 								width={30}
 								height={30}
@@ -69,7 +70,7 @@ const AboutPage = () => {
 						</Link>
 					</div>
 
-					<div className="bg-white p-4 rounded-lg shadow-md p-8">
+					<div className={`${styles.teamCard} bg-white p-4 rounded-lg shadow-md p-8`}>
 						<h3 className="main-color text-xl font-semibold">Claudia Suarez</h3>
 						<p className="text-gray-600 mt-0.5 mb-1">Full-stack Web developer</p>
 						<div>
@@ -78,7 +79,7 @@ const AboutPage = () => {
 								target="_blank"
 								rel="noopener noreferrer">
 								<Image
-									className="inline mr-2"
+									className={`${styles.socialCard} inline mr-2`}
 									src="/github-icon.svg"
 									width={30}
 									height={30}
@@ -90,7 +91,7 @@ const AboutPage = () => {
 								target="_blank"
 								rel="noopener noreferrer">
 								<Image
-									className="inline mr-2"
+									className={`${styles.socialCard} inline mr-2`}
 									src="/linkedin-icon.svg"
 									width={30}
 									height={30}
@@ -99,7 +100,7 @@ const AboutPage = () => {
 							</Link>
 							<Link href="/" target="_blank" rel="noopener noreferrer">
 								<Image
-									className="inline mr-2"
+									className={`${styles.socialCard} inline mr-2`}
 									src="/email-icon.svg"
 									width={30}
 									height={30}
@@ -109,7 +110,7 @@ const AboutPage = () => {
 						</div>
 					</div>
 
-					<div className="bg-white p-4 rounded-lg shadow-md p-8">
+					<div className={`${styles.teamCard} bg-white p-4 rounded-lg shadow-md p-8`}>
 						<h3 className="main-color text-xl font-semibold">Gaganjot Singh</h3>
 						<p className="text-gray-600 mt-0.5 mb-1">Full-stack Web developer</p>
 						<Link
@@ -117,7 +118,7 @@ const AboutPage = () => {
 							target="_blank"
 							rel="noopener noreferrer">
 							<Image
-								className="inline mr-2"
+								className={`${styles.socialCard} inline mr-2`}
 								src="/github-icon.svg"
 								width={30}
 								height={30}
@@ -129,7 +130,7 @@ const AboutPage = () => {
 							target="_blank"
 							rel="noopener noreferrer">
 							<Image
-								className="inline mr-2"
+								className={`${styles.socialCard} inline mr-2`}
 								src="/linkedin-icon.svg"
 								width={30}
 								height={30}
@@ -138,7 +139,7 @@ const AboutPage = () => {
 						</Link>
 						<Link href="/" target="_blank" rel="noopener noreferrer">
 							<Image
-								className="inline mr-2"
+								className={`${styles.socialCard} inline mr-2`}
 								src="/email-icon.svg"
 								width={30}
 								height={30}

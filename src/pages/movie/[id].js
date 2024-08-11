@@ -50,8 +50,8 @@ const MovieDetails = () => {
 						className="rounded shadow-lg"
 					/>
 				</div>
-				<div className="main-color md:w-2/3 md:ml-8">
-					<h1 className="text-4xl font-bold">{movie.title}</h1>
+                <div className={`${styles.movieInfoSection} main-color md:w-2/3 md:ml-8`}>
+                <h1 className=" text-4xl font-bold">{movie.title}</h1>
 					<p className="text-lg 700 mt-2 italic">{movie.tagline}</p>
 
 					<p className="mt-4 text-md">
@@ -65,7 +65,7 @@ const MovieDetails = () => {
 					</p>
 
 					<p className="main-color text-md  mt-8">
-						<p className="text-xl leading-10 font-bold my-2">Overview</p>
+						<p className="text-xl leading-10 font-bold mt-2">Overview</p>
 						{movie.overview}
 					</p>
 
