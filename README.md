@@ -25,6 +25,9 @@ PopcornBuddy is a movie information web app that allows users to discover trendi
 - **Responsive Design**: Optimized for both desktop and mobile screens.
 - **User Authentication**: Sign up, log in, and manage personal movie lists.
 
+## Deployment
+- The website is deployed on Vercel. You can visit the live site at: https://popcornbuddy.vercel.app/.
+
 ## Getting Started
 
 ### Prerequisites
@@ -61,7 +64,6 @@ Create a '.env.local' file in the root directory and add your TMDB API key:
 ```bash
 NEXT_PUBLIC_TMDB_API_KEY=your_tmdb_api_key
 ```
-
 
 ## API Integration
 
