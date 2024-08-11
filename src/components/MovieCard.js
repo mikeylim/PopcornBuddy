@@ -3,10 +3,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { FaStar, FaList } from "react-icons/fa";
 import styles from "../styles/MovieCard.module.css"; // Assuming the CSS file is named this way
+import noPoster from "../../public/no-poster.jpg"; // Import the fallback image
+
 
 const MovieCard = ({ movie, genres }) => {
 	const [isFavorite, setIsFavorite] = useState(false);
 	const [isInWatchlist, setIsInWatchlist] = useState(false);
+    const posterUrl = movie.poster_path
+        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+        : noPoster; // Fallback to no-poster.jpg
 
 	const handleAddToFavorites = () => {
 		setIsFavorite(!isFavorite);
@@ -27,7 +32,7 @@ const MovieCard = ({ movie, genres }) => {
 			<div className={`bg-white p-4 rounded shadow-lg ${styles.card}`}>
 				<div className={`relative ${styles.imageContainer}`}>
 					<Image
-						src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+						src={posterUrl}
 						alt={movie.title}
 						layout="fill"
 						objectFit="cover"
