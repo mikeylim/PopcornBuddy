@@ -1,52 +1,71 @@
-// components/MovieCard.js
 import { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
-import { FaHeart, FaList } from "react-icons/fa";
+import { FaStar, FaList } from "react-icons/fa";
+import styles from "../styles/MovieCard.module.css"; // Assuming the CSS file is named this way
 
-const MovieCard = ({ movie }) => {
+const MovieCard = ({ movie, genres }) => {
 	const [isFavorite, setIsFavorite] = useState(false);
 	const [isInWatchlist, setIsInWatchlist] = useState(false);
 
 	const handleAddToFavorites = () => {
 		setIsFavorite(!isFavorite);
-		// Here you can add logic to save the movie to favorites
+		// Logic to save the movie to favorites can be added here
 	};
 
 	const handleAddToWatchlist = () => {
 		setIsInWatchlist(!isInWatchlist);
-		// Here you can add logic to save the movie to watchlist
+		// Logic to save the movie to watchlist can be added here
+	};
+
+	const getGenreNames = (genreIds) => {
+		return genreIds.map((id) => genres[id]).filter(Boolean).slice(0, 2).join("/");
 	};
 
 	return (
-		<div className="border border-gray-300 rounded-lg shadow-md overflow-hidden">
-			<Image
-				src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-				alt={movie.title}
-				width={500}
-				height={750}
-				className="object-cover w-full"
-			/>
-			<div className="p-4">
-				<h2 className="text-lg font-bold mb-2">{movie.title}</h2>
-				<p className="text-gray-600">{movie.release_date}</p>
-				<div className="flex justify-between items-center mt-4">
-					<button
-						onClick={handleAddToFavorites}
-						className={`p-2 rounded-full ${
-							isFavorite ? "text-red-500" : "text-gray-500"
-						}`}>
-						<FaHeart size={24} />
-					</button>
-					<button
-						onClick={handleAddToWatchlist}
-						className={`p-2 rounded-full ${
-							isInWatchlist ? "text-green-500" : "text-gray-500"
-						}`}>
-						<FaList size={24} />
-					</button>
+		<Link key={movie.id} href={`/movie/${movie.id}`} passHref>
+			<div className={`bg-white p-4 rounded shadow-lg ${styles.card}`}>
+				<div className={`relative ${styles.imageContainer}`}>
+					<Image
+						src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+						alt={movie.title}
+						layout="fill"
+						objectFit="cover"
+						className="rounded-t"
+					/>
+				</div>
+				<div className={`p-4 ${styles.content}`}>
+					<h2 className={`text-xl font-bold ${styles.title}`}>{movie.title}</h2>
+					<p className="text-gray-700 mt-2">
+						{new Date(movie.release_date).getFullYear()}
+						{" · "}
+						{getGenreNames(movie.genre_ids)}
+					</p>
+					<div className="flex justify-start items-center mt-3">
+						<button
+							onClick={(e) => {
+								e.preventDefault();
+								handleAddToFavorites();
+							}}
+							className={`rounded-full ${
+								isFavorite ? "text-red-500" : "text-gray-500"
+							}`}>
+							<FaStar size={28} />
+						</button>
+						<button
+							onClick={(e) => {
+								e.preventDefault();
+								handleAddToWatchlist();
+							}}
+							className={`mx-4 rounded-full ${
+								isInWatchlist ? "text-green-600" : "text-gray-500"
+							}`}>
+							<FaList size={28} />
+						</button>
+					</div>
 				</div>
 			</div>
-		</div>
+		</Link>
 	);
 };
 

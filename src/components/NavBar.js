@@ -87,13 +87,6 @@ const NavBar = () => {
         }
     };
 
-    const getGenreNames = (genreIds) => {
-        const genreNames = genreIds
-            .map((id) => genres.find((genre) => genre.id === id)?.name)
-            .filter(Boolean);
-        return genreNames.slice(0, 3).join(", ");
-    };
-
     const closeDropdown = () => {
         setSearchResults([]);
     };
@@ -120,6 +113,11 @@ const NavBar = () => {
                     <Link href="/trending" passHref>
                         <span className={styles.navLink}>
                             Trending
+                        </span>
+                    </Link>
+                    <Link href="/toprated" passHref>
+                        <span className={styles.navLink}>
+                            Top Rated
                         </span>
                     </Link>
                     <Link href="/genre" passHref>

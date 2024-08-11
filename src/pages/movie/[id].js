@@ -3,11 +3,24 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { FaStar, FaList } from "react-icons/fa";
 import styles from "../../styles/MovieDetails.module.css"; // Import the CSS module
 
 const MovieDetails = () => {
+	const [isFavorite, setIsFavorite] = useState(false);
+	const [isInWatchlist, setIsInWatchlist] = useState(false);
+
 	const [movie, setMovie] = useState(null);
 	const [error, setError] = useState(null);
+	const handleAddToFavorites = () => {
+		setIsFavorite(!isFavorite);
+		// Logic to save the movie to favorites can be added here
+	};
+
+	const handleAddToWatchlist = () => {
+		setIsInWatchlist(!isInWatchlist);
+		// Logic to save the movie to watchlist can be added here
+	};
 	const router = useRouter();
 	const { id } = router.query;
 
@@ -50,9 +63,31 @@ const MovieDetails = () => {
 						className="rounded shadow-lg"
 					/>
 				</div>
-                <div className={`${styles.movieInfoSection} main-color md:w-2/3 md:ml-8`}>
-                <h1 className=" text-4xl font-bold">{movie.title}</h1>
-					<p className="text-lg 700 mt-2 italic">{movie.tagline}</p>
+				<div className={`${styles.movieInfoSection} main-color md:w-2/3 md:ml-8`}>
+					<div className="flex justify-start">
+						<h1 className="inline text-4xl font-bold">{movie.title}</h1>
+						<button
+							onClick={(e) => {
+								e.preventDefault();
+								handleAddToFavorites();
+							}}
+							className={`inline ml-6 mr-5 rounded-full ${
+								isFavorite ? "text-red-500" : "text-gray-500"
+							}`}>
+							<FaStar size={36} />
+						</button>
+						<button
+							onClick={(e) => {
+								e.preventDefault();
+								handleAddToWatchlist();
+							}}
+							className={`inline rounded-full ${
+								isInWatchlist ? "text-green-600" : "text-gray-500"
+							}`}>
+							<FaList size={36} />
+						</button>
+					</div>
+					<p className="text-lg 700 mt-4 italic">{movie.tagline}</p>
 
 					<p className="mt-4 text-md">
 						{new Date(movie.release_date)
@@ -64,14 +99,14 @@ const MovieDetails = () => {
 						{Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m
 					</p>
 
-					<p className="main-color text-md  mt-8">
-						<p className="text-xl leading-10 font-bold mt-2">Overview</p>
-						{movie.overview}
+					<p className="main-color text-md my-12">
+						<p className="text-3xl font-bold mt-4">Overview</p>
+						<p className="mt-3 leading-loose">{movie.overview}</p>
 					</p>
 
-					<div className="mt-8">
-						<h3 className="main-color text-lg font-semibold">Rate this movie</h3>
-						<div className="flex items-center mt-2">
+					<div>
+						<h3 className="main-color text-xl font-semibold">Rate this movie</h3>
+						<div className="flex items-center">
 							<fieldset className={styles.rating}>
 								<input
 									type="radio"
@@ -194,29 +229,6 @@ const MovieDetails = () => {
 									title="0.5 stars"></label>
 							</fieldset>
 						</div>
-					</div>
-
-					<div className="flex space-x-4 mt-4">
-						<button className="btn-submit flex items-center bg-gray-200 px-4 py-2 rounded">
-							<Image
-								src="/favorite-icon.svg"
-								alt="Add to Favorites"
-								width={20}
-								height={20}
-								className="white-image mr-2"
-							/>
-							Add to Favorites
-						</button>
-						<button className="btn-submit flex items-center bg-gray-200 px-4 py-2 rounded">
-							<Image
-								src="/watchlist-icon.png"
-								alt="Add to Watchlist"
-								width={20}
-								height={20}
-								className="mr-2"
-							/>
-							Add to WatchList
-						</button>
 					</div>
 				</div>
 			</div>

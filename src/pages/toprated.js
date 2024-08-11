@@ -1,12 +1,11 @@
-// pages/index.js
+// pages/topRated.js
 import { useEffect, useState } from "react";
 import axios from "axios";
 import MovieCard from "../components/MovieCard"; // Import the MovieCard component
 import styles from "../styles/MovieCard.module.css";
 
-const HomePage = () => {
-    const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
-    const [popularMovies, setPopularMovies] = useState([]);
+const TopRatedPage = () => {
+    const [movies, setMovies] = useState([]);
     const [genres, setGenres] = useState({});
     const [error, setError] = useState(null);
 
@@ -26,27 +25,28 @@ const HomePage = () => {
             }
         };
 
-        const fetchPopularMovies = async () => {
+        const fetchTopRatedMovies = async () => {
             try {
                 const response = await axios.get(
-                    `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
+                    `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
                 );
-                setPopularMovies(response.data.results);
+                setMovies(response.data.results);
             } catch (error) {
-                setError("Failed to fetch popular movies");
-                console.error("Error fetching popular movies:", error);
+                setError("Failed to fetch top-rated movies");
+                console.error("Error fetching top-rated movies:", error);
             }
         };
 
         fetchGenres();
-        fetchPopularMovies();
+        fetchTopRatedMovies();
     }, []);
 
     return (
         <div className="container mx-auto mt-16">
-            <h1 className="text-3xl font-bold text-center mt-16 mb-8">Popular Movies</h1>
+            <h1 className="text-3xl font-bold text-center mb-8">Top Rated Movies</h1>
+            {error && <p className="text-red-500 text-center">{error}</p>}
             <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ${styles.gridContainer}`}>
-                {popularMovies.map((movie) => (
+                {movies.map((movie) => (
                     <MovieCard key={movie.id} movie={movie} genres={genres} />
                 ))}
             </div>
@@ -54,4 +54,4 @@ const HomePage = () => {
     );
 };
 
-export default HomePage;
+export default TopRatedPage;
