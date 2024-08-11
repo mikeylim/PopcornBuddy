@@ -1,3 +1,4 @@
+/* styles/MovieDetails.module.css */
 /* Base setup */
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 .rating {
@@ -40,7 +41,146 @@
 	color: #ffed85;
 }
 
-
 .white-image {
-    filter: brightness(0) invert(1);
+	filter: brightness(0) invert(1);
+}
+
+/* styling for mobile-responsiveness */
+/* Existing styles remain unchanged */
+
+.rating {
+	border: none;
+	float: left;
+}
+
+.starRatingInput {
+	display: none;
+}
+
+.starRatingLabel:before {
+	margin: 5px;
+	font-size: 1.25em;
+	font-family: FontAwesome;
+	display: inline-block;
+	content: "\f005";
+}
+
+.half:before {
+	content: "\f089";
+	position: absolute;
+}
+
+.starRatingLabel {
+	color: #ddd;
+	float: right;
+}
+
+.starRatingInput:checked ~ .starRatingLabel,
+.rating:not(:checked) > .starRatingLabel:hover,
+.rating:not(:checked) > .starRatingLabel:hover ~ .starRatingLabel {
+	color: #ffd700;
+}
+
+.starRatingInput:checked + .starRatingLabel:hover,
+.starRatingInput:checked ~ .starRatingLabel:hover,
+.starRatingLabel:hover ~ .starRatingInput:checked ~ .starRatingLabel,
+.starRatingInput:checked ~ .starRatingLabel:hover ~ .starRatingLabel {
+	color: #ffed85;
+}
+
+/* Mobile responsiveness */
+/* Base setup */
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+.rating {
+	border: none;
+	float: left;
+}
+
+.starRatingInput {
+	display: none;
+}
+
+.starRatingLabel:before {
+	margin: 5px;
+	font-size: 3em;
+	font-family: FontAwesome;
+	display: inline-block;
+	content: "\f005";
+}
+
+.half:before {
+	content: "\f089";
+	position: absolute;
+}
+
+.starRatingLabel {
+	color: #ddd;
+	float: right;
+}
+
+/* Highlight Stars on Hover */
+.starRatingInput:checked ~ .starRatingLabel, /* show gold star when clicked */
+.rating:not(:checked) > .starRatingLabel:hover, /* hover current star */
+.rating:not(:checked) > .starRatingLabel:hover ~ .starRatingLabel {
+	color: #ffd700;
+} /* hover previous stars in list */
+
+.starRatingInput:checked + .starRatingLabel:hover, /* hover current star when changing rating */
+.starRatingInput:checked ~ .starRatingLabel:hover,
+.starRatingLabel:hover ~ .starRatingInput:checked ~ .starRatingLabel {
+	color: #ffed85;
+}
+
+/* Styling for white image */
+.white-image {
+	filter: brightness(0) invert(1);
+}
+
+/* Styling for mobile-responsiveness */
+@media (max-width: 768px) {
+	.container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 10px;
+	}
+
+	.flex {
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+	}
+
+	.md\\:w-1\\\/3,
+	.md\\:w-2\\\/3,
+	.md\\:ml-8 {
+		width: 100%;
+		margin-left: 0;
+	}
+
+	.md\\:ml-8 {
+		margin-top: 16px;
+	}
+
+	.space-x-4 {
+		justify-content: center;
+		margin-top: 16px;
+		width: 100%;
+	}
+
+	.btn-submit {
+		width: 100%;
+		justify-content: center;
+		margin-bottom: 10px;
+	}
+
+	.rating {
+		float: none;
+	}
+
+	.starRatingLabel {
+		float: none;
+		font-size: 2em;
+	}
 }

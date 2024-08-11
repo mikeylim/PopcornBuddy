@@ -1,3 +1,4 @@
+// pages/movie/[id].js
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -29,15 +30,15 @@ const MovieDetails = () => {
 	}, [id]);
 
 	if (error) {
-		return <p className="text-red-500 text-center">{error}</p>;
+		return <p className="mt-16 text-red-500 text-center">{error}</p>;
 	}
 
 	if (!movie) {
-		return <p className="text-center">Loading...</p>;
+		return <p className="main-color mt-16 text-center">Loading...</p>;
 	}
 
 	return (
-		<div className="container mx-auto p-4 mt-5">
+		<div className="container mx-auto p-4 mt-16">
 			<div className="flex flex-col md:flex-row">
                 {/* Poster */}
 				<div className="md:w-1/3">
@@ -50,7 +51,7 @@ const MovieDetails = () => {
 					/>
 				</div>
 				<div className="md:w-2/3 md:ml-8">
-					<h1 className="main-color text-4xl font-bold mb-5">{movie.title}</h1>
+					<h1 className="main-color text-4xl font-bold mb-6">{movie.title}</h1>
 					<p className="text-lg text-gray-700 mb-4 italic">{movie.tagline}</p>
                     
 					<p className="main-color text-md  mb-4">
@@ -63,7 +64,7 @@ const MovieDetails = () => {
 						{Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m
 					</p>
 
-					<p className="main-color text-md  mt-16 mb-20">
+					<p className="main-color text-md  mt-14 mb-16">
 						<p className="text-xl leading-10 font-bold my-2">Overview</p>
 						{movie.overview}
 					</p>
@@ -195,7 +196,7 @@ const MovieDetails = () => {
 						</div>
 					</div>
 					<div className="flex space-x-4 mt-4">
-						<button className="btn-submit flex items-center bg-gray-200 px-4 py-2 rounded hover:bg-[#136cb2]">
+						<button className="btn-submit flex items-center bg-gray-200 px-4 py-2 rounded">
 							<Image
 								src="/favorite-icon.svg"
 								alt="Add to Favorites"
@@ -205,7 +206,7 @@ const MovieDetails = () => {
 							/>
 							Add to Favorites
 						</button>
-						<button className="btn-submit flex items-center bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">
+						<button className="btn-submit flex items-center bg-gray-200 px-4 py-2 rounded">
 							<Image
 								src="/watchlist-icon.png"
 								alt="Add to Watchlist"
