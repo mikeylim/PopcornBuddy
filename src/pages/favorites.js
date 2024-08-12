@@ -1,50 +1,63 @@
-// pages/favorites.js
 import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
 import axios from "axios";
-import Router from "next/router";
+import Link from "next/link";
+import { useAuth } from "../context/AuthContext"; // Assuming you're using AuthContext for authentication
 
-const Favorites = () => {
-	const { isLoggedIn } = useAuth();
+const FavoritesPage = () => {
+	const { user, isLoggedIn } = useAuth();
 	const [favorites, setFavorites] = useState([]);
 
 	useEffect(() => {
-		if (!isLoggedIn) {
-			Router.push("/login");
-		} else {
-			// Fetch favorites from the server
-			const fetchFavorites = async () => {
+		const fetchFavorites = async () => {
+			if (isLoggedIn && user) {
 				try {
-					const response = await axios.get("/api/favorites");
-					setFavorites(response.data);
+					const response = await axios.get(`/api/user/getFavorites`, {
+						params: {
+							userId: user.id,
+						},
+					});
+					setFavorites(response.data.favorites);
 				} catch (error) {
-					console.error("Error fetching favorites:", error);
+					console.error(
+						"Error fetching favorites:",
+						error.response?.data || error.message
+					);
 				}
-			};
+			}
+		};
 
-			fetchFavorites();
-		}
-	}, [isLoggedIn]);
+		fetchFavorites();
+	}, [user, isLoggedIn]);
 
-	if (!isLoggedIn) return null;
+	if (!isLoggedIn) {
+		return <p className="text-center mt-16">Please log in to see your favorite movies.</p>;
+	}
 
 	return (
-		<div className="container mx-auto p-4 mt-5">
-			<h1 className="text-3xl font-bold text-center mb-8">Your Favorites</h1>
-			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-				{favorites.length > 0 ? (
-					favorites.map((movie) => (
-						<div key={movie.id} className="bg-gray-200 p-4 rounded shadow">
-							<h2 className="text-xl font-bold">{movie.title}</h2>
-							<p>{movie.description}</p>
+		<div className="container mx-auto mt-16">
+			<h1 className="text-4xl font-bold text-center mb-10">Your Favorites</h1>
+			<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 justify-items-center">
+				{favorites.map((movie) => (
+					<Link
+						className="block text-center"
+						href={`/movie/${movie.movieId}`}
+						key={movie.movieId}>
+						<div className="flex flex-col items-center">
+							<img
+								src={`https://image.tmdb.org/t/p/w200${movie.posterPath}`}
+								alt={movie.title}
+								className="rounded shadow-lg mb-2 hover:scale-105 transform transition-transform"
+							/>
+							<h2 className="main-color text-md font-semibold">{movie.title}</h2>
+							<p className="text-gray-600">
+								{new Date(movie.releaseDate).getFullYear()}
+							</p>
 						</div>
-					))
-				) : (
-					<p className="text-center col-span-4">Your favorites list is empty.</p>
-				)}
+					</Link>
+				))}
 			</div>
 		</div>
 	);
 };
 
-export default Favorites;
+export default FavoritesPage;

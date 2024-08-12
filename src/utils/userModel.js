@@ -21,6 +21,28 @@ const UserSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	favorites: [
+		{
+			movieId: {
+                type: Number,
+                required: true,
+            },
+			title: String,
+			posterPath: String,
+			releaseDate: String,
+		},
+	],
+    watchlist: [
+		{
+			movieId: {
+                type: Number,
+                required: true,
+            },
+			title: String,
+			posterPath: String,
+			releaseDate: String,
+		},
+	],
 });
 
 // Hash the password before saving the user model

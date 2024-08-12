@@ -28,7 +28,7 @@
 }
 
 .starRatingLabel {
-	color: #ddd;
+	color: #6b7280;
 	cursor: pointer;
 	width: 50%; /* Ensure each label takes up 50% of the star's width */
 	position: relative;
