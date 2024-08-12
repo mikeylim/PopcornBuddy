@@ -38,7 +38,7 @@
 }
 
 .content {
-	padding: 10px;
+	padding: 20px;
 	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
@@ -46,11 +46,15 @@
 }
 
 .title {
+    font-size: 1.22rem; /* 18px */
+    line-height: 1.75rem; /* 28px */
 	font-weight: bold;
-	margin-bottom: 5px;
+    color: #1f2937;
+	min-height: 48px; /* Adjust based on expected title length */
 }
 
-.movie-info {
-	font-size: 0.875rem;
-	color: #6b7280;
+.movieInfo {
+	font-size: 1rem;
+	color: #595f6c;
+	margin-top: auto; /* Keep the movie-info at the bottom of the content */
 }

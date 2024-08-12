@@ -31,7 +31,7 @@ const TermsPage = () => {
 				<section className="mb-6">
 					<h2 className="text-2xl font-semibold mb-2">3. User Content</h2>
 					<p>
-						In these terms and conditions, "Your Content" shall mean any audio, video
+						In these terms and conditions, &quotYour Content&quot shall mean any audio, video
 						text, images, or other material you choose to display on this Website. By
 						displaying Your Content, you grant PopcornBuddy a non-exclusive, worldwide
 						irrevocable, sub-licensable license to use, reproduce, adapt, publish,

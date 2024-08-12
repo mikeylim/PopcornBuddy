@@ -67,7 +67,7 @@ const GenrePage = () => {
 				<select
 					onChange={handleGenreChange}
 					value={genre}
-					className="p-2 border rounded text-black border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#1f2937] focus:border-[#1f2937]">
+					className="p-2 rounded text-black rounded-md shadow-sm focus:outline-none focus:ring-[#1f2937] focus:border-[#1f2937]">
 					<option value="">Select a Genre</option>
 					{Object.keys(genres).map((id) => (
 						<option key={id} value={id}>

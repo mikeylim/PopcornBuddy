@@ -69,17 +69,17 @@ const MovieCard = ({ movie, genres }) => {
 		};
 
 		try {
-            const response = await axios.post("/api/user/toggleFavorites", dataToSend);
-            if (response.data.success) {
-                setIsFavorite(!isFavorite);
-                toast.success(`Movie ${isFavorite ? "removed from" : "added to"} favorites!`, {
-                    position: "bottom-right"
-                });
-            }
-        } catch (error) {
-            toast.error("Failed to update favorites");
-            console.error("Failed to update favorites:", error.response?.data || error.message);
-        }
+			const response = await axios.post("/api/user/toggleFavorites", dataToSend);
+			if (response.data.success) {
+				setIsFavorite(!isFavorite);
+				toast.success(`Movie ${isFavorite ? "removed from" : "added to"} favorites!`, {
+					position: "bottom-right",
+				});
+			}
+		} catch (error) {
+			toast.error("Failed to update favorites");
+			console.error("Failed to update favorites:", error.response?.data || error.message);
+		}
 	};
 
 	const handleAddToWatchlist = async (e) => {
@@ -101,17 +101,17 @@ const MovieCard = ({ movie, genres }) => {
 		};
 
 		try {
-            const response = await axios.post("/api/user/toggleWatchlist", dataToSend);
-            if (response.data.success) {
-                setIsInWatchlist(!isInWatchlist);
-                toast.success(`Movie ${isInWatchlist ? "removed from" : "added to"} Watchlist!`, {
-                    position: "bottom-right"
-                });
-            }
-        } catch (error) {
-            toast.error("Failed to update watchlist");
-            console.error("Failed to update watchlist:", error.response?.data || error.message);
-        }
+			const response = await axios.post("/api/user/toggleWatchlist", dataToSend);
+			if (response.data.success) {
+				setIsInWatchlist(!isInWatchlist);
+				toast.success(`Movie ${isInWatchlist ? "removed from" : "added to"} Watchlist!`, {
+					position: "bottom-right",
+				});
+			}
+		} catch (error) {
+			toast.error("Failed to update watchlist");
+			console.error("Failed to update watchlist:", error.response?.data || error.message);
+		}
 	};
 
 	const getGenreNames = (genreIds) => {
@@ -125,7 +125,7 @@ const MovieCard = ({ movie, genres }) => {
 	return (
 		<>
 			{showLoginPrompt && <LoginPrompt onClose={() => setShowLoginPrompt(false)} />}
-			<div className={`bg-white p-4 rounded shadow-lg ${styles.card}`}>
+			<div className={`bg-white rounded shadow-lg ${styles.card}`}>
 				<Link href={`/movie/${movie.id}`} passHref>
 					<div className={`relative ${styles.imageContainer}`}>
 						<Image
@@ -139,25 +139,30 @@ const MovieCard = ({ movie, genres }) => {
 						/>
 					</div>
 					<div className={`p-4 ${styles.content}`}>
-						<h2 className={`text-xl font-bold ${styles.title}`}>{movie.title}</h2>
-						<p className="text-gray-700 mt-2">
-							{new Date(movie.release_date).getFullYear()}
-							{" · "}
-							{getGenreNames(movie.genre_ids)}
-						</p>
+						<div className={styles.titleContainer}>
+							<h2 className={`font-bold ${styles.title}`}>{movie.title}</h2>
+						</div>
+						<div className={styles.movieInfoContainer}>
+							<p className={styles.movieInfo}>
+								{new Date(movie.release_date).getFullYear()} {" · "}
+								{getGenreNames(movie.genre_ids)}
+							</p>
+						</div>
 					</div>
 				</Link>
-				<div className="flex pl-3 pb-2 justify-between items-center">
+				<div className="flex p-4 justify-between items-center">
 					<button
 						onClick={handleAddToFavorites}
 						aria-label={`Add ${movie.title} to favorites`}
-						className={`rounded-full ${isFavorite ? "text-red-500" : "text-gray-500"}`}>
+						className={`mx-1 rounded-full ${
+							isFavorite ? "text-red-500" : "text-gray-500"
+						}`}>
 						<FaStar size={28} />
 					</button>
 					<button
 						onClick={handleAddToWatchlist}
 						aria-label={`Add ${movie.title} to watchlist`}
-						className={`mx-4 rounded-full ${
+						className={`mx-1 rounded-full ${
 							isInWatchlist ? "text-green-600" : "text-gray-500"
 						}`}>
 						<FaList size={28} />
