@@ -1,8 +1,10 @@
+// pages/movie/[id].js
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { FaStar, FaList } from "react-icons/fa";
+import { toast } from "react-toastify";
 import styles from "../../styles/MovieDetails.module.css";
 import LoginPrompt from "../../components/LoginPrompt";
 import noPoster from "../../../public/no-poster.jpg";
@@ -39,33 +41,19 @@ const MovieDetails = () => {
 	}, [id]);
 
 	useEffect(() => {
-		const checkFavoriteAndWatchlistStatus = async () => {
+		const checkUserStatus = async () => {
 			if (isLoggedIn && user && movie) {
 				try {
-					const favoriteResponse = await axios.get(`/api/user/checkFavorite`, {
+					const response = await axios.get(`/api/user/checkUserStatus`, {
 						params: {
 							userId: user.id,
 							movieId: movie.id,
 						},
 					});
-					setIsFavorite(favoriteResponse.data.isFavorite);
-
-					const watchlistResponse = await axios.get(`/api/user/checkWatchlist`, {
-						params: {
-							userId: user.id,
-							movieId: movie.id,
-						},
-					});
-					setIsInWatchlist(watchlistResponse.data.isInWatchlist);
-
-					const ratingResponse = await axios.get(`/api/user/checkRating`, {
-						params: {
-							userId: user.id,
-							movieId: movie.id,
-						},
-					});
-					if (ratingResponse.data.rating) {
-						setRating(ratingResponse.data.rating);
+					setIsFavorite(response.data.isFavorite);
+					setIsInWatchlist(response.data.isInWatchlist);
+					if (response.data.rating) {
+						setRating(response.data.rating);
 					}
 				} catch (error) {
 					console.error(
@@ -81,7 +69,7 @@ const MovieDetails = () => {
 			}
 		};
 
-		checkFavoriteAndWatchlistStatus();
+		checkUserStatus();
 	}, [user, movie, isLoggedIn]);
 
 	const handleAddToFavorites = async () => {
@@ -103,13 +91,17 @@ const MovieDetails = () => {
 		};
 
 		try {
-			const response = await axios.post("/api/user/toggleFavorites", dataToSend);
-			if (response.data.success) {
-				setIsFavorite(!isFavorite);
-			}
-		} catch (error) {
-			console.error("Failed to update favorites:", error.response?.data || error.message);
-		}
+            const response = await axios.post("/api/user/toggleFavorites", dataToSend);
+            if (response.data.success) {
+                setIsFavorite(!isFavorite);
+                toast.success(`Movie ${isFavorite ? "removed from" : "added to"} Favorites!`, {
+                    position: "bottom-right"
+                });
+            }
+        } catch (error) {
+            toast.error("Failed to update favorites");
+            console.error("Failed to update favorites:", error.response?.data || error.message);
+        }
 	};
 
 	const handleAddToWatchlist = async () => {
@@ -129,14 +121,18 @@ const MovieDetails = () => {
 			action,
 		};
 
-		try {
-			const response = await axios.post("/api/user/toggleWatchlist", dataToSend);
-			if (response.data.success) {
-				setIsInWatchlist(!isInWatchlist);
-			}
-		} catch (error) {
-			console.error("Failed to update watchlist:", error.response?.data || error.message);
-		}
+        try {
+            const response = await axios.post("/api/user/toggleWatchlist", dataToSend);
+            if (response.data.success) {
+                setIsInWatchlist(!isInWatchlist);
+                toast.success(`Movie ${isInWatchlist ? "removed from" : "added to"} Watchlist!`, {
+                    position: "bottom-right"
+                });
+            }
+        } catch (error) {
+            toast.error("Failed to update watchlist");
+            console.error("Failed to update watchlist:", error.response?.data || error.message);
+        }
 	};
 
 	const handleRating = async (e) => {
@@ -148,18 +144,22 @@ const MovieDetails = () => {
 		}
 
 		try {
-			const response = await axios.post("/api/user/toggleRating", {
-				userId: user.id,
-				movieId: movie.id,
-				rating: selectedRating,
-			});
+            const response = await axios.post("/api/user/toggleRating", {
+                userId: user.id,
+                movieId: movie.id,
+                rating: selectedRating,
+            });
 
-			if (response.data.success) {
-				setRating(selectedRating);
-			}
-		} catch (error) {
-			console.error("Failed to update rating:", error.response?.data || error.message);
-		}
+            if (response.data.success) {
+                setRating(selectedRating);
+                toast.success("Rating updated!", {
+                    position: "bottom-right"
+                });
+            }
+        } catch (error) {
+            toast.error("Failed to update rating");
+            console.error("Failed to update rating:", error.response?.data || error.message);
+        }
 	};
 
 	if (error) {

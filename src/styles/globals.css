@@ -37,10 +37,14 @@ label,
 	transition: background-color 0.3s ease;
 }
 
-.btn-submit:hover,
-.underline-decoration:hover {
+.btn-submit:hover {
 	background-color: #136cb2;
 	color: #fff;
+}
+
+.underline-decoration {
+    color: #136cb2;
+    font-style: italic;
 }
 
 .red-important {

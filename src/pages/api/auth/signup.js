@@ -1,3 +1,4 @@
+// pages/api/auth/signup.js
 import connectDB from "@/utils/dbConnect";
 import User from "@/utils/userModel";
 import bcrypt from "bcryptjs";

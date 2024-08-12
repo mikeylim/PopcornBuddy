@@ -1,10 +1,24 @@
 // components/LoginPrompt.js
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import { FaTimes, FaList } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
 
 const LoginPrompt = ({ onClose }) => {
 	const router = useRouter();
+
+	useEffect(() => {
+		const handleKeyDown = (event) => {
+			if (event.key === "Escape") {
+				onClose(); // Call the onClose function when Esc is pressed
+			}
+		};
+
+		document.addEventListener("keydown", handleKeyDown);
+
+		return () => {
+			document.removeEventListener("keydown", handleKeyDown);
+		};
+	}, [onClose]);
 
 	return (
 		<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -26,7 +40,7 @@ const LoginPrompt = ({ onClose }) => {
 				</div>
 				<div className="flex justify-center">
 					<button
-						className="mt-2 w-full py-2 px-4 font-semibold rounded-md shadow-md bg-[#d4d4d5] focus:outline-none focus:ring-[#1f2937] focus:border-[#1f2937]"
+						className="mt-2 w-full py-2 px-4 font-semibold rounded-md shadow-md bg-[#d4d4d5] focus:outline-none focus:ring-[#1f2937] focus:border-[#1f2937] hover:bg-gray-500 hover:text-white"
 						onClick={() => router.push("/login")}>
 						Login
 					</button>

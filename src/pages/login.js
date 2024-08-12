@@ -1,3 +1,4 @@
+// pages/login.js
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -74,7 +75,7 @@ const Login = () => {
 				<Link href="/signup">
 					<p className="w-full mt-3 text-center text-gray-500">
 						Don’t have an account?{" "}
-						<span className="underline-decoration font-medium cursor-pointer">
+						<span className="underline-decoration font-medium cursor-pointer hover:text-[#1f2937]">
 							Sign up here
 						</span>
 					</p>

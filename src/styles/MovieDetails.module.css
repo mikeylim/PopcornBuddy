@@ -43,12 +43,12 @@
 
 .starRatingInput:checked ~ .starRatingLabel, /* show gold star when clicked */
 .starRatingInput:checked ~ .starRatingLabel ~ .starRatingLabel {
-	color: #ffd700;
+	color: #FFD700;
 }
 
 /* Hovering over checked stars */
 .starRatingInput:checked:hover ~ .starRatingLabel {
-	color: #ffd700 !important;
+	color: #FFD700 !important;
 }
 
 /* Mobile responsiveness */
@@ -59,10 +59,10 @@
 		align-items: center;
 		padding: 10px;
 	}
-    
-    .movieInfoSection {
-        margin-top: 3rem ;
-    }
+
+	.movieInfoSection {
+		margin-top: 3rem;
+	}
 
 	.flex {
 		flex-direction: column;

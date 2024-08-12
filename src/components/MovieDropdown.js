@@ -1,3 +1,4 @@
+// components/MovieDropdown.js
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef } from "react";

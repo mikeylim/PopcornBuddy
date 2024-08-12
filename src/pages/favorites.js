@@ -1,7 +1,8 @@
+// pages/favorites.js
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
-import { useAuth } from "../context/AuthContext"; // Assuming you're using AuthContext for authentication
+import { useAuth } from "../context/AuthContext";
 
 const FavoritesPage = () => {
 	const { user, isLoggedIn } = useAuth();

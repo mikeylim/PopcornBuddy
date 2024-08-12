@@ -1,3 +1,4 @@
+// pages/api/user/getFavorites.js
 import User from "../../../utils/userModel";
 import dbConnect from "../../../utils/dbConnect";
 

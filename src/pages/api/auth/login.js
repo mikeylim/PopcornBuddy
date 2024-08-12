@@ -65,7 +65,7 @@ export default async (req, res) => {
 				firstName: user.firstName,
 				lastName: user.lastName,
 			},
-            token, // Return the token to be stored
+			token, // Return the token to be stored
 		});
 	} catch (error) {
 		console.error("Login error:", error);

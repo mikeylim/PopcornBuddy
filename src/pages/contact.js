@@ -38,7 +38,7 @@ const ContactPage = () => {
 					<Link href="/signup">
 						<p className="mt-4 text-gray-500">
 							Don’t have an account?{" "}
-							<span className="underline-decoration font-medium cursor-pointer">
+							<span className="underline-decoration font-medium cursor-pointer hover:text-[#1f2937]">
 								Sign up here
 							</span>
 						</p>

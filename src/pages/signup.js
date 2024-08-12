@@ -1,4 +1,4 @@
-// pages/Signup.js
+// pages/signup.js
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -105,7 +105,7 @@ const Signup = () => {
 			<Link href="/login">
 				<p className="w-full mt-3 text-center text-gray-500">
 					Already have a PopcornBuddy account?&nbsp;
-					<span className="underline-decoration font-medium cursor-pointer">Login</span>
+					<span className="underline-decoration font-medium cursor-pointer hover:text-[#1f2937]">Login</span>
 				</p>
 			</Link>
 		</div>
