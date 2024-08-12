@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
 	}, []);
 
 	const login = (token, user) => {
-		Cookies.set("token", token, { expires: 10 / 1440 }); // 10 minutes
+		Cookies.set("token", token, { expires: 30 / 1440 }); // 30 minutes
 		setIsLoggedIn(true);
 		setUser(user); // Set the user details
 		setSessionExpired(false);

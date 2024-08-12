@@ -5,11 +5,13 @@ import Image from "next/image";
 import { FaStar, FaList } from "react-icons/fa";
 import styles from "../../styles/MovieDetails.module.css";
 import LoginPrompt from "../../components/LoginPrompt";
+import noPoster from "../../../public/no-poster.jpg";
 import { useAuth } from "../../context/AuthContext"; // Import useAuth from your AuthContext
 
 const MovieDetails = () => {
 	const [isFavorite, setIsFavorite] = useState(false);
 	const [isInWatchlist, setIsInWatchlist] = useState(false);
+	const [rating, setRating] = useState(0);
 	const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 
 	const { isLoggedIn, user } = useAuth(); // Use the custom AuthContext to check if the user is logged in
@@ -37,71 +39,71 @@ const MovieDetails = () => {
 	}, [id]);
 
 	useEffect(() => {
-		const checkFavoriteStatus = async () => {
+		const checkFavoriteAndWatchlistStatus = async () => {
 			if (isLoggedIn && user && movie) {
 				try {
-					const response = await axios.get(`/api/user/checkFavorite`, {
+					const favoriteResponse = await axios.get(`/api/user/checkFavorite`, {
 						params: {
 							userId: user.id,
 							movieId: movie.id,
 						},
 					});
-					setIsFavorite(response.data.isFavorite);
+					setIsFavorite(favoriteResponse.data.isFavorite);
+
+					const watchlistResponse = await axios.get(`/api/user/checkWatchlist`, {
+						params: {
+							userId: user.id,
+							movieId: movie.id,
+						},
+					});
+					setIsInWatchlist(watchlistResponse.data.isInWatchlist);
+
+					const ratingResponse = await axios.get(`/api/user/checkRating`, {
+						params: {
+							userId: user.id,
+							movieId: movie.id,
+						},
+					});
+					if (ratingResponse.data.rating) {
+						setRating(ratingResponse.data.rating);
+					}
 				} catch (error) {
 					console.error(
-						"Error checking favorite status:",
+						"Error checking statuses:",
 						error.response?.data || error.message
 					);
 				}
 			} else {
 				// Reset states when the user is not logged in
 				setIsFavorite(false);
-			}
-		};
-
-		const checkWatchlistStatus = async () => {
-			if (isLoggedIn && user && movie) {
-				try {
-					const response = await axios.get(`/api/user/checkWatchlist`, {
-						params: {
-							userId: user.id,
-							movieId: movie.id,
-						},
-					});
-					setIsInWatchlist(response.data.isInWatchlist);
-				} catch (error) {
-					console.error(
-						"Error checking watchlist status:",
-						error.response?.data || error.message
-					);
-				}
-			} else {
-				// Reset states when the user is not logged in
 				setIsInWatchlist(false);
+				setRating(0);
 			}
 		};
 
-		checkFavoriteStatus();
-		checkWatchlistStatus();
+		checkFavoriteAndWatchlistStatus();
 	}, [user, movie, isLoggedIn]);
 
 	const handleAddToFavorites = async () => {
 		if (!isLoggedIn) {
-			setShowLoginPrompt(true);
+			setShowLoginPrompt(true); // Show login prompt if not logged in
 			return;
 		}
-
 		const action = isFavorite ? "removeFavorite" : "addFavorite";
+
+		const userId = user?.id; // Ensure userId is correctly retrieved from context
+
+		const dataToSend = {
+			userId,
+			movieId: movie.id,
+			title: movie.title,
+			posterPath: movie.poster_path || "",
+			releaseDate: movie.release_date || "",
+			action,
+		};
+
 		try {
-			const response = await axios.post("/api/user/toggleFavorites", {
-				userId: user.id,
-				movieId: movie.id,
-				title: movie.title,
-				posterPath: movie.poster_path,
-				releaseDate: movie.release_date,
-				genres: movie.genres.map((genre) => genre.name).join("/"),
-				action,
-			});
+			const response = await axios.post("/api/user/toggleFavorites", dataToSend);
 			if (response.data.success) {
 				setIsFavorite(!isFavorite);
 			}
@@ -112,26 +114,51 @@ const MovieDetails = () => {
 
 	const handleAddToWatchlist = async () => {
 		if (!isLoggedIn) {
-			setShowLoginPrompt(true);
+			setShowLoginPrompt(true); // Show login prompt if not logged in
 			return;
 		}
 
-		const action = isInWatchlist ? "removeWatchList" : "addWatchList";
+		const action = isInWatchlist ? "removeWatchlist" : "addWatchlist";
+
+		const dataToSend = {
+			userId: user?.id,
+			movieId: movie.id,
+			title: movie.title,
+			posterPath: movie.poster_path || "",
+			releaseDate: movie.release_date || "",
+			action,
+		};
+
 		try {
-			const response = await axios.post("/api/user/toggleFavorites", {
-				userId: user.id,
-				movieId: movie.id,
-				title: movie.title,
-				posterPath: movie.poster_path,
-				releaseDate: movie.release_date,
-				genres: movie.genres.map((genre) => genre.name).join("/"),
-				action,
-			});
+			const response = await axios.post("/api/user/toggleWatchlist", dataToSend);
 			if (response.data.success) {
 				setIsInWatchlist(!isInWatchlist);
 			}
 		} catch (error) {
 			console.error("Failed to update watchlist:", error.response?.data || error.message);
+		}
+	};
+
+	const handleRating = async (e) => {
+		const selectedRating = Number(e.target.value);
+
+		if (!isLoggedIn) {
+			setShowLoginPrompt(true);
+			return;
+		}
+
+		try {
+			const response = await axios.post("/api/user/toggleRating", {
+				userId: user.id,
+				movieId: movie.id,
+				rating: selectedRating,
+			});
+
+			if (response.data.success) {
+				setRating(selectedRating);
+			}
+		} catch (error) {
+			console.error("Failed to update rating:", error.response?.data || error.message);
 		}
 	};
 
@@ -150,7 +177,11 @@ const MovieDetails = () => {
 				{/* Poster */}
 				<div className="md:w-1/3">
 					<Image
-						src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+						src={
+							movie.poster_path
+								? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+								: noPoster
+						}
 						alt={movie.title}
 						width={500}
 						height={750}
@@ -195,133 +226,152 @@ const MovieDetails = () => {
 						<p className="text-3xl font-bold mt-4">Overview</p>
 						<p className="mt-3 leading-loose">{movie.overview}</p>
 					</div>
-                    <h3 className="main-color text-xl font-semibold">Rate this movie</h3>
-                    <div className="flex items-center">
-                        <fieldset className={styles.rating}>
-                            <input
-                                type="radio"
-                                id="star5"
-                                name="rating"
-                                value="5"
-                                className={styles.starRatingInput}
-                            />
-                            <label
-                                className={`${styles.starRatingLabel} ${styles.full}`}
-                                htmlFor="star5"
-                                title="5 stars"></label>
+					<h3 className="main-color text-xl font-semibold">Rate this movie</h3>
+					<div className="flex items-center">
+						<fieldset className={styles.rating}>
+							<input
+								type="radio"
+								id="star5"
+								name="rating"
+								value="5"
+								className={styles.starRatingInput}
+								checked={rating === 5}
+								onChange={handleRating}
+							/>
+							<label
+								className={`${styles.starRatingLabel} ${styles.full}`}
+								htmlFor="star5"
+								title="5 stars"></label>
 
-                            <input
-                                type="radio"
-                                id="star4half"
-                                name="rating"
-                                value="4.5"
-                                className={styles.starRatingInput}
-                            />
-                            <label
-                                className={`${styles.starRatingLabel} ${styles.half}`}
-                                htmlFor="star4half"
-                                title="4.5 stars"></label>
+							<input
+								type="radio"
+								id="star4half"
+								name="rating"
+								value="4.5"
+								className={styles.starRatingInput}
+								checked={rating === 4.5}
+								onChange={handleRating}
+							/>
+							<label
+								className={`${styles.starRatingLabel} ${styles.half}`}
+								htmlFor="star4half"
+								title="4.5 stars"></label>
 
-                            <input
-                                type="radio"
-                                id="star4"
-                                name="rating"
-                                value="4"
-                                className={styles.starRatingInput}
-                            />
-                            <label
-                                className={`${styles.starRatingLabel} ${styles.full}`}
-                                htmlFor="star4"
-                                title="4 stars"></label>
+							<input
+								type="radio"
+								id="star4"
+								name="rating"
+								value="4"
+								className={styles.starRatingInput}
+								checked={rating === 4}
+								onChange={handleRating}
+							/>
+							<label
+								className={`${styles.starRatingLabel} ${styles.full}`}
+								htmlFor="star4"
+								title="4 stars"></label>
 
-                            <input
-                                type="radio"
-                                id="star3half"
-                                name="rating"
-                                value="3.5"
-                                className={styles.starRatingInput}
-                            />
-                            <label
-                                className={`${styles.starRatingLabel} ${styles.half}`}
-                                htmlFor="star3half"
-                                title="3.5 stars"></label>
+							<input
+								type="radio"
+								id="star3half"
+								name="rating"
+								value="3.5"
+								className={styles.starRatingInput}
+								checked={rating === 3.5}
+								onChange={handleRating}
+							/>
+							<label
+								className={`${styles.starRatingLabel} ${styles.half}`}
+								htmlFor="star3half"
+								title="3.5 stars"></label>
 
-                            <input
-                                type="radio"
-                                id="star3"
-                                name="rating"
-                                value="3"
-                                className={styles.starRatingInput}
-                            />
-                            <label
-                                className={`${styles.starRatingLabel} ${styles.full}`}
-                                htmlFor="star3"
-                                title="3 stars"></label>
+							<input
+								type="radio"
+								id="star3"
+								name="rating"
+								value="3"
+								className={styles.starRatingInput}
+								checked={rating === 3}
+								onChange={handleRating}
+							/>
+							<label
+								className={`${styles.starRatingLabel} ${styles.full}`}
+								htmlFor="star3"
+								title="3 stars"></label>
 
-                            <input
-                                type="radio"
-                                id="star2half"
-                                name="rating"
-                                value="2.5"
-                                className={styles.starRatingInput}
-                            />
-                            <label
-                                className={`${styles.starRatingLabel} ${styles.half}`}
-                                htmlFor="star2half"
-                                title="2.5 stars"></label>
+							<input
+								type="radio"
+								id="star2half"
+								name="rating"
+								value="2.5"
+								className={styles.starRatingInput}
+								checked={rating === 2.5}
+								onChange={handleRating}
+							/>
+							<label
+								className={`${styles.starRatingLabel} ${styles.half}`}
+								htmlFor="star2half"
+								title="2.5 stars"></label>
 
-                            <input
-                                type="radio"
-                                id="star2"
-                                name="rating"
-                                value="2"
-                                className={styles.starRatingInput}
-                            />
-                            <label
-                                className={`${styles.starRatingLabel} ${styles.full}`}
-                                htmlFor="star2"
-                                title="2 stars"></label>
+							<input
+								type="radio"
+								id="star2"
+								name="rating"
+								value="2"
+								className={styles.starRatingInput}
+								checked={rating === 2}
+								onChange={handleRating}
+							/>
+							<label
+								className={`${styles.starRatingLabel} ${styles.full}`}
+								htmlFor="star2"
+								title="2 stars"></label>
 
-                            <input
-                                id="star1half"
-                                name="rating"
-                                type="radio"
-                                value="1.5"
-                                className={styles.starRatingInput}
-                            />
-                            <label
-                                className={`${styles.starRatingLabel} ${styles.half}`}
-                                htmlFor="star1half"
-                                title="1.5 stars"></label>
+							<input
+								id="star1half"
+								name="rating"
+								type="radio"
+								value="1.5"
+								className={styles.starRatingInput}
+								checked={rating === 1.5}
+								onChange={handleRating}
+							/>
+							<label
+								className={`${styles.starRatingLabel} ${styles.half}`}
+								htmlFor="star1half"
+								title="1.5 stars"></label>
 
-                            <input
-                                type="radio"
-                                id="star1"
-                                name="rating"
-                                value="1"
-                                className={styles.starRatingInput}
-                            />
-                            <label
-                                className={`${styles.starRatingLabel} ${styles.full}`}
-                                htmlFor="star1"
-                                title="1 star"></label>
+							<input
+								type="radio"
+								id="star1"
+								name="rating"
+								value="1"
+								className={styles.starRatingInput}
+								checked={rating === 1}
+								onChange={handleRating}
+							/>
+							<label
+								className={`${styles.starRatingLabel} ${styles.full}`}
+								htmlFor="star1"
+								title="1 star"></label>
 
-                            <input
-                                type="radio"
-                                id="starhalf"
-                                name="rating"
-                                value="0.5"
-                                className={styles.starRatingInput}
-                            />
-                            <label
-                                className={`${styles.starRatingLabel} ${styles.half}`}
-                                htmlFor="starhalf"
-                                title="0.5 stars"></label>
-                        </fieldset>
-                    </div>
-				</div>
-                <div>
+							<input
+								type="radio"
+								id="starhalf"
+								name="rating"
+								value="0.5"
+								className={styles.starRatingInput}
+								checked={rating === 0.5}
+								onChange={handleRating}
+							/>
+							<label
+								className={`${styles.starRatingLabel} ${styles.half}`}
+								htmlFor="starhalf"
+								title="0.5 stars"></label>
+						</fieldset>
 					</div>
+				</div>
+				<div></div>
 			</div>
 		</div>
 	);

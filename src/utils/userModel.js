@@ -24,23 +24,29 @@ const UserSchema = new mongoose.Schema({
 	favorites: [
 		{
 			movieId: {
-                type: Number,
-                required: true,
-            },
+				type: Number,
+				required: true,
+			},
 			title: String,
 			posterPath: String,
 			releaseDate: String,
 		},
 	],
-    watchlist: [
+	watchlist: [
 		{
 			movieId: {
-                type: Number,
-                required: true,
-            },
+				type: Number,
+				required: true,
+			},
 			title: String,
 			posterPath: String,
 			releaseDate: String,
+		},
+	],
+	ratings: [
+		{
+			movieId: Number,
+			rating: Number,
 		},
 	],
 });

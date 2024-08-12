@@ -22,7 +22,7 @@ const AboutPage = () => {
 				</p>
 				<p className="text-lg text-gray-700 my-8">
 					If you have any questions or need support, feel free to reach out to us at:
-					<Link href="mailto:popcornbuddy@example.com" className="underline-decoration">
+					<Link href="mailto:popcornbuddy@example.com" target="_blank" className="text-[#136cb2] italic">
 						&nbsp;popcornbuddywebsite@gmail.com
 					</Link>
 					.
