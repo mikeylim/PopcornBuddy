@@ -16,7 +16,6 @@ PopcornBuddy is a movie information web app that allows users to discover trendi
 - [Styling](#styling)
 - [Contributing](#contributing)
 - [Credits](#credits)
-- [License](#license)
 
 ## Features
 
@@ -113,7 +112,3 @@ This project was developed by the following collaborators:
 - **[Gaganjot Singh](https://github.com/GJSI)**: Frontend/Backend Developer
 
 Special thanks to the [TMDB API](https://www.themoviedb.org/documentation/api) for providing the movie data used in this project.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
