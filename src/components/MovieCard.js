@@ -125,7 +125,7 @@ const MovieCard = ({ movie, genres }) => {
 	return (
 		<>
 			{showLoginPrompt && <LoginPrompt onClose={() => setShowLoginPrompt(false)} />}
-			<div className={`bg-white rounded shadow-lg ${styles.card}`}>
+			<div className={`bg-white p-4 rounded shadow-lg ${styles.card}`}>
 				<Link href={`/movie/${movie.id}`} passHref>
 					<div className={`relative ${styles.imageContainer}`}>
 						<Image
@@ -138,19 +138,19 @@ const MovieCard = ({ movie, genres }) => {
 							priority
 						/>
 					</div>
-					<div className={`p-4 ${styles.content}`}>
+					<div className={`pt-4 pl-2 ${styles.content}`}>
 						<div className={styles.titleContainer}>
 							<h2 className={`font-bold ${styles.title}`}>{movie.title}</h2>
 						</div>
 						<div className={styles.movieInfoContainer}>
-							<p className={styles.movieInfo}>
+							<p className={`pt-2 ${styles.movieInfo}`}>
 								{new Date(movie.release_date).getFullYear()} {" · "}
 								{getGenreNames(movie.genre_ids)}
 							</p>
 						</div>
 					</div>
 				</Link>
-				<div className="flex p-4 justify-between items-center">
+				<div className="flex pt-4 pl-1 justify-between items-center">
 					<button
 						onClick={handleAddToFavorites}
 						aria-label={`Add ${movie.title} to favorites`}

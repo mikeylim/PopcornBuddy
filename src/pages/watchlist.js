@@ -9,6 +9,9 @@ const WatchlistPage = () => {
 	const { user, isLoggedIn } = useAuth();
 	const [watchlist, setWatchlist] = useState([]);
 	const [sortOption, setSortOption] = useState("recent"); // Default sorting option
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10); // Set the number of items per page
+
 
 	useEffect(() => {
 		const fetchWatchlist = async () => {
@@ -32,11 +35,19 @@ const WatchlistPage = () => {
 		fetchWatchlist();
 	}, [user, isLoggedIn]);
 
+    // Get current page movies
+	const indexOfLastMovie = currentPage * itemsPerPage;
+	const indexOfFirstMovie = indexOfLastMovie - itemsPerPage;
+	const currentMovies = watchlist.slice(indexOfFirstMovie, indexOfLastMovie);
+
+	// Change page
+	const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
 	const handleSortChange = (e) => {
 		setSortOption(e.target.value);
 	};
 
-	const sortedWathlist = [...watchlist].sort((a, b) => {
+	const sortedWatchlist = [...watchlist].sort((a, b) => {
 		switch (sortOption) {
 			case "recent":
 				return new Date(b.releaseDate) - new Date(a.releaseDate);
@@ -75,7 +86,7 @@ const WatchlistPage = () => {
 			</div>
 
 			<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 justify-items-center">
-				{sortedWathlist.map((movie) => (
+				{sortedWatchlist.map((movie) => (
 					<Link
 						className="block text-center"
 						href={`/movie/${movie.movieId}`}
@@ -94,6 +105,18 @@ const WatchlistPage = () => {
 							</p>
 						</div>
 					</Link>
+				))}
+			</div>
+
+            {/* Pagination Controls */}
+			<div className="flex justify-center mt-8">
+				{[...Array(Math.ceil(watchlist.length / itemsPerPage)).keys()].map((number) => (
+					<button
+						key={number + 1}
+						onClick={() => paginate(number + 1)}
+						className={`px-3 py-1 border rounded mx-1 ${currentPage === number + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>
+						{number + 1}
+					</button>
 				))}
 			</div>
 		</div>
