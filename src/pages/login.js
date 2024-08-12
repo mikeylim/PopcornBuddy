@@ -34,8 +34,8 @@ const Login = () => {
 	};
 
 	return (
-		<div className="max-w-md mx-auto mt-16 p-6 border border-gray-300 rounded-lg bg-white shadow-md">
-			<h1 className="text-2xl font-bold text-center mb-6">Login</h1>
+		<div className="max-w-md mx-auto mt-16 p-8 border border-gray-300 rounded-lg bg-white shadow-md">
+			<h1 className="text-3xl font-bold text-center mb-6">Login</h1>
 			{error && <p className="text-red-500 text-center mb-4">{error}</p>}
 			<form onSubmit={handleLogin} className="space-y-4">
 				<div>

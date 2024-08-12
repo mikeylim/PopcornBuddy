@@ -25,8 +25,8 @@ const ContactPage = () => {
 		return (
 			<div className="flex flex-col mt-16 items-center justify-center">
 				<div className="bg-white p-8 rounded-lg shadow-md max-w-md text-center">
-					<h2 className="text-3xl font-bold mb-4 text-gray-800">Contact Us</h2>
-					<p className="text-gray-600 mb-6">
+					<h2 className="text-3xl font-bold mb-6 text-gray-800">Contact Us</h2>
+					<p className="main-color mb-4">
 						You need to be logged in to contact us. Please log in to access the contact
 						form.
 					</p>
@@ -35,16 +35,14 @@ const ContactPage = () => {
 							Login
 						</button>
 					</Link>
-                    <Link href="/signup">
-					<p className="mt-4 text-gray-500">
-						Don’t have an account?{" "}
-						
+					<Link href="/signup">
+						<p className="mt-4 text-gray-500">
+							Don’t have an account?{" "}
 							<span className="underline-decoration font-medium cursor-pointer">
 								Sign up here
 							</span>
-						
-					</p>
-                    </Link>
+						</p>
+					</Link>
 				</div>
 			</div>
 		);
@@ -96,7 +94,7 @@ const ContactPage = () => {
 						value={formData.email}
 						onChange={handleInputChange}
 						required
-                        disabled
+						disabled
 						readOnly
 						className="mt-1 block w-full px-3 py-2 border border-gray-300 text-[#136cb2] rounded-md shadow-sm cursor-not-allowed focus:outline-none disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none focus:ring-[#1f2937] focus:border-[#1f2937]"
 					/>
