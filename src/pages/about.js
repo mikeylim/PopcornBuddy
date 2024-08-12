@@ -33,7 +33,7 @@ const AboutPage = () => {
 				<h2 className="main-color text-2xl font-bold mb-6">Meet the Team</h2>
 				<div className="space-y-4">
                 <div className={`${styles.teamCard} bg-white p-4 rounded-lg shadow-md p-8`}>
-						<h3 className="text-xl font-semibold">Mike Dohyun Lim</h3>
+						<h3 className="main-color text-xl font-semibold">Mike Dohyun Lim</h3>
 						<p className="text-gray-600 mt-0.5 mb-1">Full-stack Web developer</p>
 						<Link
 							href="https://github.com/mikeylim"
