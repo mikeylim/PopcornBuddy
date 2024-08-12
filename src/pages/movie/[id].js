@@ -196,10 +196,10 @@ const MovieDetails = () => {
 								e.preventDefault();
 								handleAddToFavorites();
 							}}
-							className={`inline ml-8 mr-4 rounded-full ${
+							className={`inline ml-10 mr-6 rounded-full ${
 								isFavorite ? "text-red-500" : "text-gray-500"
 							}`}>
-							<FaStar size={36} />
+							<FaStar size={40} />
 						</button>
 						<button
 							onClick={(e) => {
@@ -209,7 +209,7 @@ const MovieDetails = () => {
 							className={`inline rounded-full ${
 								isInWatchlist ? "text-green-600" : "text-gray-500"
 							}`}>
-							<FaList size={36} />
+							<FaList size={40} />
 						</button>
 					</div>
 					<p className="text-lg 700 mt-4 italic">{movie.tagline}</p>
