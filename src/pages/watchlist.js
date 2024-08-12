@@ -62,3 +62,4 @@ const WatchlistPage = () => {
 };
 
 export default WatchlistPage;
+
