@@ -29,7 +29,7 @@ const LoginPrompt = ({ onClose }) => {
 					<FaTimes size={20} />
 				</button>
 				<h2 className="text-center text-xl font-semibold mb-4">
-					Please sign up or login to use the service.
+					Please sign up or login to use the PopcornBuddy service.
 				</h2>
 				<div className="flex justify-center">
 					<button

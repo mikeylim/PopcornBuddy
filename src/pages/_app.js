@@ -3,27 +3,29 @@ import { useEffect } from "react";
 import Router from "next/router";
 import "../styles/globals.css";
 import { AuthProvider, useAuth } from "../context/AuthContext";
-import NavBar from "../components/NavBar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Layout from "../components/Layout";
 
 function MyApp({ Component, pageProps }) {
 	return (
 		<AuthProvider>
 			<SessionTimeoutHandler />
-			<NavBar />
-			<Component {...pageProps} />
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            />
+			<Layout>
+				<Component {...pageProps} />
+			</Layout>
+
+			<ToastContainer
+				position="top-right"
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+			/>
 		</AuthProvider>
 	);
 }
