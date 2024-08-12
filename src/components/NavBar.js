@@ -112,7 +112,7 @@ const NavBar = () => {
                 <div className={styles.navLinks}>
                     <Link href="/trending" passHref>
                         <span className={styles.navLink}>
-                            Trending..
+                            Trending
                         </span>
                     </Link>
                     <Link href="/toprated" passHref>
