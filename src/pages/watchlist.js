@@ -17,7 +17,6 @@ const WatchlistPage = () => {
 							userId: user.id,
 						},
 					});
-                    console.log(response.data); // Add this line to check the response
 					setWatchlist(response.data.watchlist);
 				} catch (error) {
 					console.error(
@@ -63,4 +62,3 @@ const WatchlistPage = () => {
 };
 
 export default WatchlistPage;
-
