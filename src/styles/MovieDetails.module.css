@@ -60,6 +60,10 @@
 		padding: 10px;
 	}
 
+    .movieCard {
+        width: 250px !important;
+    }
+
 	.movieInfoSection {
 		margin-top: 3rem;
 	}

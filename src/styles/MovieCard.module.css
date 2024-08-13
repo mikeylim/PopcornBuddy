@@ -58,6 +58,12 @@
 	margin-top: auto;
 }
 
+@media (max-width: 1279px) {
+	.gridContainer {
+		grid-template-columns: repeat(4, 1fr); /* 4 columns on smaller desktop screens */
+	}
+}
+
 @media (max-width: 1024px) {
 	.gridContainer {
 		grid-template-columns: repeat(3, 1fr); /* 3 columns on smaller screens */
@@ -67,6 +73,7 @@
 @media (max-width: 768px) {
 	.gridContainer {
 		grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet screens */
+        grid-template-rows: repeat(3, auto); /* Ensure 3 rows */
 	}
 }
 

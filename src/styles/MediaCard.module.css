@@ -1,4 +1,10 @@
 /* styles/MediaCard.module.css */
+.gridContainer {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr); /* Ensure 5 columns */
+	gap: 1rem; /* Adjust the gap between movie cards */
+}
+
 .card {
 	display: flex;
 	flex-direction: column;
@@ -69,4 +75,23 @@
 
 .border-golden {
 	border-color: gold; /* Golden border */
+}
+
+@media (max-width: 1024px) {
+	.gridContainer {
+		grid-template-columns: repeat(3, 1fr); /* 3 columns on smaller screens */
+	}
+}
+
+@media (max-width: 768px) {
+	.gridContainer {
+		grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+		grid-template-rows: repeat(2, auto);  /* 3 rows */
+	}
+}
+
+@media (max-width: 480px) {
+	.gridContainer {
+		grid-template-columns: 1fr; /* 1 column on mobile screens */
+	}
 }

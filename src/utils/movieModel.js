@@ -2,23 +2,23 @@ import mongoose from "mongoose";
 
 // Define the schema
 const MovieSchema = new mongoose.Schema({
-    movieId: {
-        type: Number,
-        required: true,
-        unique: true,
-    },
-    title: {
-        type: String,
-    },
-    posterPath: {
-        type: String,
-    },
-    releaseDate: {
-        type: String,
-    },
-    genres: {
-        type: [String],
-    },
+	movieId: {
+		type: Number,
+		required: true,
+		unique: true,
+	},
+	title: {
+		type: String,
+	},
+	posterPath: {
+		type: String,
+	},
+	releaseDate: {
+		type: String,
+	},
+	genres: {
+		type: [String],
+	},
 });
 
 // Create the model

@@ -51,18 +51,18 @@ const UserSchema = new mongoose.Schema({
 	],
 	reviews: [
 		{
-		  movieId: {
-			type: Number,
-		  },
-		  content: {
-			type: String,
-		  },
-		  createdAt: {
-			type: Date,
-			default: Date.now,
-		  },
+			movieId: {
+				type: Number,
+			},
+			content: {
+				type: String,
+			},
+			createdAt: {
+				type: Date,
+				default: Date.now,
+			},
 		},
-	  ],
+	],
 });
 
 // Hash the password before saving the user model

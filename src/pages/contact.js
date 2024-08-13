@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import { toast } from "react-toastify";
 import Link from "next/link";
 
 const ContactPage = () => {
@@ -70,12 +71,16 @@ const ContactPage = () => {
 					reason: "",
 					message: "",
 				});
+                toast.success(`Message sent successfully!`, {
+					position: "bottom-right",
+				});
 			} else {
 				setStatus("Error sending message.");
 			}
 		} catch (error) {
-			console.error("Error sending message:", error); // Log error for debugging
+            toast.error("Failed to update favorites");
 			setStatus("Error sending message: " + error.message);
+			console.error("Error sending message:", error); // Log error for debugging
 		}
 	};
 
@@ -158,7 +163,6 @@ const ContactPage = () => {
 					Send
 				</button>
 			</form>
-			{status && <p className="mt-4 text-center text-sm">{status}</p>}
 		</div>
 	);
 };

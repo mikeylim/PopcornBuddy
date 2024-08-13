@@ -265,7 +265,7 @@ const MovieDetails = () => {
 						alt={movie.title}
 						width={500}
 						height={750}
-						className="rounded shadow-lg"
+						className="movieCard rounded shadow-lg"
 					/>
 				</div>
 				<div className={`${styles.movieInfoSection} main-color md:w-2/3 md:ml-8`}>
