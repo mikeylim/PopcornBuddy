@@ -106,7 +106,7 @@ const AboutPage = () => {
 									alt="LinkedIn Icon"
 								/>
 							</Link>
-							<Link href="/" target="_blank" rel="noopener noreferrer">
+							<Link href="mailto:csuarez-socorro@myseneca.ca" target="_blank" rel="noopener noreferrer">
 								<Image
 									className={`${styles.socialCard} inline mr-2`}
 									src="/email-icon.svg"
