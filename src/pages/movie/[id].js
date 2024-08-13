@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { FaStar, FaList } from "react-icons/fa";
+import { FaStar, FaList, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import styles from "../../styles/MovieDetails.module.css";
 import LoginPrompt from "../../components/LoginPrompt";
@@ -215,6 +215,30 @@ const MovieDetails = () => {
 		} catch (error) {
 		  toast.error("Failed to submit review");
 		  console.error("Failed to submit review:", error.response?.data || error.message);
+		}
+	  };
+
+	  const handleDeleteReview = async (reviewId) => {
+		if (!isLoggedIn || !user) {
+		  setShowLoginPrompt(true);
+		  return;
+		}
+	  
+		try {
+		  const response = await axios.delete('/api/user/deleteReview', {
+			data: { userId: user.id, reviewId }
+		  });
+	  
+		  if (response.data.success) {
+			toast.success("Review deleted successfully!", {
+			  position: "bottom-right"
+			});
+			// Update the reviews state to remove the deleted review
+			setReviews(reviews.filter(review => review._id !== reviewId));
+		  }
+		} catch (error) {
+		  toast.error("Failed to delete review");
+		  console.error("Failed to delete review:", error.response?.data || error.message);
 		}
 	  };
 
@@ -450,17 +474,26 @@ const MovieDetails = () => {
 						<div className="mt-8">
 							<h3 className="main-color text-2xl font-semibold">Reviews</h3>
 							{reviews.length > 0 ? (
-							reviews.map((review, index) => (
-								<div key={index} className="mt-4 p-4 border rounded">
-								<p>{review.content}</p>
-								<p className="text-sm text-gray-500 mt-2">
-									{new Date(review.createdAt).toLocaleString()}
-								</p>
-								</div>
-							))
-							) : (
-							<p className="mt-2">No reviews yet.</p>
-							)}
+								reviews.map((review, index) => (
+									<div key={index} className="mt-4 p-4 border rounded flex justify-between items-start">
+									<div>
+										<p>{review.content}</p>
+										<p className="text-sm text-gray-500 mt-2">
+										{new Date(review.createdAt).toLocaleString()}
+										</p>
+									</div>
+									<button
+										onClick={() => handleDeleteReview(review._id)}
+										className="text-red-500 hover:text-red-700"
+										aria-label="Delete review"
+									>
+										<FaTrash />
+									</button>
+									</div>
+								))
+								) : (
+								<p className="mt-2">No reviews yet.</p>
+								)}
 						</div>
 					</div>
 				</div>
