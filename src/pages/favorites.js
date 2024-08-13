@@ -9,7 +9,7 @@ const FavoritesPage = () => {
   const { user, isLoggedIn } = useAuth();
   const [favorites, setFavorites] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5); // Changed to 5 items per page
+  const [itemsPerPage] = useState(5); 
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -22,10 +22,7 @@ const FavoritesPage = () => {
           });
           setFavorites(response.data.favorites);
         } catch (error) {
-          console.error(
-            "Error fetching favorites:",
-            error.response?.data || error.message
-          );
+          console.error("Error fetching favorites:", error.response?.data || error.message);
         }
       }
     };
@@ -33,12 +30,10 @@ const FavoritesPage = () => {
     fetchFavorites();
   }, [user, isLoggedIn]);
 
-  // Get current page movies
   const indexOfLastMovie = currentPage * itemsPerPage;
   const indexOfFirstMovie = indexOfLastMovie - itemsPerPage;
   const currentMovies = favorites.slice(indexOfFirstMovie, indexOfLastMovie);
 
-  // Change page
   const handlePageChange = (page) => setCurrentPage(page);
 
   if (!isLoggedIn) {
@@ -49,14 +44,12 @@ const FavoritesPage = () => {
     <div className="container mx-auto mt-16">
       <h1 className="text-4xl font-bold text-center mb-10">Your Favorites</h1>
 
-      {/* Movie Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 justify-items-center">
         {currentMovies.map((movie) => (
           <MediaCard key={movie.movieId} media={movie} />
         ))}
       </div>
 
-      {/* Pagination */}
       <Pagination
         pageCount={Math.ceil(favorites.length / itemsPerPage)}
         onPageChange={handlePageChange}

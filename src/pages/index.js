@@ -17,7 +17,7 @@ const HomePage = () => {
   const [popularTotalPages, setPopularTotalPages] = useState(0);
   const [upcomingTotalPages, setUpcomingTotalPages] = useState(0);
 
-  const moviesPerPage = 4;
+  const moviesPerPage = 5;
 
   useEffect(() => {
     const fetchGenres = async () => {
