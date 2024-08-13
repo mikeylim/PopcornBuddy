@@ -25,8 +25,8 @@ const ContactPage = () => {
 		return (
 			<div className="flex flex-col mt-16 items-center justify-center">
 				<div className="bg-white p-8 rounded-lg shadow-md max-w-md text-center">
-					<h2 className="text-3xl font-bold mb-6 text-gray-800">Contact Us</h2>
-					<p className="main-color mb-4">
+					<h2 className="text-3xl font-bold mb-8 text-gray-800">Contact Us</h2>
+					<p className="main-color mb-6">
 						You need to be logged in to contact us. Please log in to access the contact
 						form.
 					</p>
