@@ -5,6 +5,9 @@ dotenv.config();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	reactStrictMode: true,
+    images: {
+		unoptimized: true,
+	},
 	env: {
 		MONGODB_URI: process.env.MONGODB_URI,
 		JWT_SECRET: process.env.JWT_SECRET,
@@ -20,12 +23,6 @@ const nextConfig = {
 				pathname: "/t/p/**",
 			},
 		],
-	},
-};
-
-module.exports = {
-	images: {
-		unoptimized: true,
 	},
 };
 
