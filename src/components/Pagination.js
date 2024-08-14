@@ -21,7 +21,7 @@ const Pagination = ({ pageCount, onPageChange, currentPage }) => {
   const pageNumbers = getPageNumbers();
 
   return (
-    <div className="flex justify-center items-center mt-8">
+    <div className="flex justify-center items-center mt-8" style={{ color: '#636363' }}>
       <button
         onClick={() => onPageChange(Math.max(1, currentPage - 1))}
         disabled={currentPage === 1}
