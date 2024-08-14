@@ -7,20 +7,19 @@ import Pagination from "../components/Pagination";
 import styles from "../styles/MediaCard.module.css";
 
 const FavoritesPage = () => {
-	// Function to determine the number of movies per page based on screen size
 	const getMoviesPerPage = () => {
 		if (typeof window !== "undefined") {
 			if (window.matchMedia("(max-width: 768px)").matches) {
-				return 6; // 6 movies per page for small screens (2 columns, 3 rows)
+				return 6;
 			} else if (window.matchMedia("(max-width: 1024px)").matches) {
-				return 6; // 6 movies per page for medium screens (2 columns, 3 rows)
+				return 6;
 			} else if (window.matchMedia("(max-width: 1279px)").matches) {
-				return 5; // 4 movies per page for medium screens (4 columns, 1 row)
+				return 4;
 			} else {
-				return 5; // 6 movies per page for large screens (5 columns, 1 row)
+				return 5;
 			}
 		}
-		return 5; // Default to 5 if window is not defined
+		return 5;
 	};
 
 	const { user, isLoggedIn } = useAuth();
@@ -50,7 +49,11 @@ const FavoritesPage = () => {
 							userId: user.id,
 						},
 					});
-					setFavorites(response.data.favorites);
+					const fetchedFavorites = response.data.favorites.map((fav) => ({
+						...fav,
+						addedAt: new Date(), // Assuming you want to track when the movie was added
+					}));
+					setFavorites(fetchedFavorites);
 				} catch (error) {
 					console.error(
 						"Error fetching favorites:",
@@ -64,7 +67,7 @@ const FavoritesPage = () => {
 	}, [user, isLoggedIn]);
 
 	useEffect(() => {
-		const sortMovies = () => {
+		if (sortOption) {
 			let sortedMovies = [...favorites];
 			switch (sortOption) {
 				case "recent":
@@ -80,24 +83,17 @@ const FavoritesPage = () => {
 					sortedMovies.sort((a, b) => b.title.localeCompare(a.title));
 					break;
 				case "recentlyAdded":
-					sortedMovies.sort((a, b) => new Date(b.addedAt) - new Date(a.addedAt));
+					sortedMovies.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 					break;
 				case "oldestAdded":
-					sortedMovies.sort((a, b) => new Date(a.addedAt) - new Date(b.addedAt));
+					sortedMovies.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 					break;
 				default:
 					break;
 			}
 			setFavorites(sortedMovies);
-		};
-
-		sortMovies();
-	}, [sortOption, favorites]);
-
-	// Calculate the number of items to display on the current page based on moviesPerPage
-	const indexOfLastMovie = currentPage * moviesPerPage;
-	const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-	const currentMovies = favorites.slice(indexOfFirstMovie, indexOfLastMovie);
+		}
+	}, [sortOption]);
 
 	const handlePageChange = (page) => setCurrentPage(page);
 
@@ -107,7 +103,7 @@ const FavoritesPage = () => {
 
 	return (
 		<div className="container mx-auto mt-16">
-			<h1 className="text-3xl font-bold text-center mb-10">Your Favorites</h1>
+			<h1 className="text-4xl font-bold text-center mb-10">Your Favorites</h1>
 
 			<div className="mb-4 flex justify-start">
 				<select
@@ -125,9 +121,11 @@ const FavoritesPage = () => {
 
 			<div
 				className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ${styles.gridContainer}`}>
-				{currentMovies.map((movie) => (
-					<MediaCard key={movie.movieId} media={movie} />
-				))}
+				{favorites
+					.slice((currentPage - 1) * moviesPerPage, currentPage * moviesPerPage)
+					.map((movie) => (
+						<MediaCard key={movie.movieId} media={movie} />
+					))}
 			</div>
 
 			<Pagination

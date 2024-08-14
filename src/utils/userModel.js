@@ -30,6 +30,10 @@ const UserSchema = new mongoose.Schema({
 			title: String,
 			posterPath: String,
 			releaseDate: String,
+            createdAt: {
+				type: Date,
+				default: Date.now,
+			},
 		},
 	],
 	watchlist: [
@@ -41,6 +45,10 @@ const UserSchema = new mongoose.Schema({
 			title: String,
 			posterPath: String,
 			releaseDate: String,
+            createdAt: {
+				type: Date,
+				default: Date.now,
+			},
 		},
 	],
 	ratings: [
