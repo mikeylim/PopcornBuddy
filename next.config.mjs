@@ -6,7 +6,8 @@ dotenv.config();
 const nextConfig = {
 	reactStrictMode: true,
     images: {
-		unoptimized: true,
+		// unoptimized: true,
+        loader: 'akamai',
 	},
 	env: {
 		MONGODB_URI: process.env.MONGODB_URI,
