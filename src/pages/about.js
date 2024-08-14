@@ -149,7 +149,7 @@ const AboutPage = () => {
 							/>
 						</Link>
 						<Link
-							href="mailto:gaganjotsingh122002@gmail.com"
+							href="mailto:mikedohyunlim@gmail.com"
 							target="_blank"
 							rel="noopener noreferrer">
 							<Image
