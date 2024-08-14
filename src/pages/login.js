@@ -51,6 +51,7 @@ const Login = () => {
 						onChange={handleInputChange}
 						required
 						className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#1f2937] focus:border-[#1f2937]"
+						style={{ color: '#001F3F' }}
 					/>
 				</div>
 				<div>
@@ -65,6 +66,7 @@ const Login = () => {
 						onChange={handleInputChange}
 						required
 						className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#1f2937] focus:border-[#1f2937]"
+						style={{ color: '#001F3F' }}
 					/>
 				</div>
 				<button

@@ -184,11 +184,13 @@ const NavBar = () => {
 							{showLogoutConfirm && (
 								<div className={styles.logoutConfirm}>
 									<div className={styles.logoutConfirmContent}>
-										<p>Are you sure you want to log out?</p>
+										<p style={{ color: '#001F3F' }}>Are you sure you want to log out?</p>
 										<div className={styles.logoutConfirmButtons}>
 											<button
 												onClick={() => setShowLogoutConfirm(false)}
-												className={`${styles.logoutConfirmButton} ${styles.cancelButton}`}>
+												className={`${styles.logoutConfirmButton} ${styles.cancelButton}`}
+												style={{ color: '#636363' }}
+												>
 												Cancel
 											</button>
 											<button
