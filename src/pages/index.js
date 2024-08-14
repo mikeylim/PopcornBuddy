@@ -1,4 +1,5 @@
 // pages/index.js
+import Head from 'next/head';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import MovieCard from "../components/MovieCard";
@@ -108,6 +109,11 @@ const HomePage = () => {
 	};
 
 	return (
+		<>
+		<Head>
+        <title>PopcornBuddy - Discover Popular and Upcoming Movies</title>
+        <meta name="description" content="Explore the latest popular and upcoming movies with PopcornBuddy. Find your next favorite film and stay up to date with the latest releases." />
+      </Head>
 		<div className="container mx-auto mt-16">
 			<h1 className="text-3xl font-bold text-center mt-16 mb-8">Popular Movies</h1>
 			<div
@@ -135,6 +141,7 @@ const HomePage = () => {
 				currentPage={upcomingPage}
 			/>
 		</div>
+		</>
 	);
 };
 
