@@ -24,7 +24,7 @@ const WatchlistPage = () => {
 	};
 
 	const { user, isLoggedIn } = useAuth();
-	const [watchlist, setwatchlist] = useState([]);
+	const [watchlist, setWatchlist] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [moviesPerPage, setMoviesPerPage] = useState(getMoviesPerPage);
 
@@ -62,7 +62,6 @@ const WatchlistPage = () => {
 		fetchWatchlist();
 	}, [user, isLoggedIn]);
 
-	// Calculate the number of items to display on the current page based on moviesPerPage
 	const indexOfLastMovie = currentPage * moviesPerPage;
 	const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
 	const currentMovies = watchlist.slice(indexOfFirstMovie, indexOfLastMovie);
@@ -70,7 +69,7 @@ const WatchlistPage = () => {
 	const handlePageChange = (page) => setCurrentPage(page);
 
 	if (!isLoggedIn) {
-		return <p className="text-center mt-16">Please log in to see your Watchlisted movies.</p>;
+		return <p className="text-center mt-16">Please log in to see your watchlist.</p>;
 	}
 
 	return (
