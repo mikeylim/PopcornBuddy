@@ -50,13 +50,12 @@ const WatchlistPage = () => {
 							userId: user.id,
 						},
 					});
-					const fetchedWatchlist = response.data.watchlist.map((item) => ({
-						...item,
-						addedAt: new Date(), // Assuming you want to track when the movie was added
-					}));
-					setWatchlist(fetchedWatchlist);
+					setWatchlist(response.data.watchlist);
 				} catch (error) {
-					console.error("Error fetching watchlist:", error.response?.data || error.message);
+					console.error(
+						"Error fetching watchlist:",
+						error.response?.data || error.message
+					);
 				}
 			}
 		};
@@ -69,7 +68,7 @@ const WatchlistPage = () => {
 	const currentMovies = watchlist.slice(indexOfFirstMovie, indexOfLastMovie);
 
 	useEffect(() => {
-		if (sortOption && watchlist.length > 0) {
+		if (sortOption) {
 			let sortedMovies = [...watchlist];
 			switch (sortOption) {
 				case "recent":
@@ -107,7 +106,7 @@ const WatchlistPage = () => {
 		<div className="container mx-auto mt-16">
 			<h1 className="text-4xl font-bold text-center mb-10">Your Watchlist</h1>
 
-			<div className="mb-4 flex justify-end">
+			<div className="mb-4 flex justify-start" style={{ color: '#001F3F' }}>
 				<select
 					value={sortOption}
 					onChange={(e) => setSortOption(e.target.value)}
@@ -123,11 +122,9 @@ const WatchlistPage = () => {
 
 			<div
 				className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ${styles.gridContainer}`}>
-				{watchlist
-					.slice((currentPage - 1) * moviesPerPage, currentPage * moviesPerPage)
-					.map((movie) => (
-						<MediaCard key={movie.movieId} media={movie} />
-					))}
+				{currentMovies.map((movie) => (
+					<MediaCard key={movie.movieId} media={movie} />
+				))}
 			</div>
 
 			<Pagination

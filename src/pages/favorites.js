@@ -49,10 +49,7 @@ const FavoritesPage = () => {
 							userId: user.id,
 						},
 					});
-					const fetchedFavorites = response.data.favorites.map((fav) => ({
-						...fav,
-						addedAt: new Date(), // Assuming you want to track when the movie was added
-					}));
+					const fetchedFavorites = response.data.favorites;
 					setFavorites(fetchedFavorites);
 				} catch (error) {
 					console.error(
