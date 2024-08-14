@@ -43,7 +43,7 @@ const WatchlistPage = () => {
         const fetchWatchlist = async () => {
             if (isLoggedIn && user) {
                 try {
-                    const response = await axios.get(`/api/user/getWatchlist`, {
+                    const response = await axios.get(`/api/user/getWatchList`, {
                         params: {
                             userId: user.id,
                         },
