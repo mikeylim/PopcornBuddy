@@ -1,4 +1,5 @@
 // pages/watchlist.js
+import Head from 'next/head'
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
@@ -103,6 +104,11 @@ const WatchlistPage = () => {
 	}
 
 	return (
+		<>
+		<Head>
+        <title>PopcornBuddy - Watchlist</title>
+        <meta name="description" content="Keep your Watchlist updated with PopcornBuddy." />
+      </Head>
 		<div className="container mx-auto mt-16">
 			<h1 className="text-4xl font-bold text-center mb-10">Your Watchlist</h1>
 
@@ -133,6 +139,7 @@ const WatchlistPage = () => {
 				currentPage={currentPage}
 			/>
 		</div>
+	</>
 	);
 };
 

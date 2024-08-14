@@ -1,4 +1,5 @@
 // pages/genre.js
+import Head from 'next/head';
 import { useState, useEffect } from "react";
 import axios from "axios";
 import MovieCard from "../components/MovieCard";
@@ -68,6 +69,11 @@ const GenrePage = () => {
   };
 
   return (
+    <>
+  <Head>
+        <title>PopcornBuddy - Movies by Genre</title>
+        <meta name="description" content="Explore movies by genre with PopcornBuddy." />
+      </Head>
     <div className="container mx-auto mt-16">
       <h1 className="text-3xl font-bold text-center mb-8">Movies by Genre</h1>
       <div className="text-center mb-8">
@@ -100,6 +106,7 @@ const GenrePage = () => {
         />
       )}
     </div>
+    </>
   );
 };
 

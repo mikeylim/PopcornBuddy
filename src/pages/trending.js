@@ -1,4 +1,5 @@
 // pages/trending.js
+import Head from 'next/head';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import MovieCard from "../components/MovieCard";
@@ -51,6 +52,11 @@ const TrendingPage = () => {
   };
 
   return (
+	<>
+  <Head>
+        <title>PopcornBuddy - Trending Movies</title>
+        <meta name="description" content="Explore the latest trending movies with PopcornBuddy." />
+      </Head>
     <div className="container mx-auto mt-16">
       <h1 className="text-3xl font-bold text-center mb-8">Trending Movies</h1>
       {error && <p className="text-red-500 text-center">{error}</p>}
@@ -69,6 +75,7 @@ const TrendingPage = () => {
         />
       )}
     </div>
+	</>
   );
 };
 

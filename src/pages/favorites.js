@@ -1,4 +1,5 @@
 // pages/favorites.js
+import Head from 'next/head';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
@@ -99,6 +100,11 @@ const FavoritesPage = () => {
 	}
 
 	return (
+		<>
+  <Head>
+        <title>PopcornBuddy - Favorites</title>
+        <meta name="description" content="Keep your favorite movies list with PopcornBuddy." />
+      </Head>
 		<div className="container mx-auto mt-16">
 			<h1 className="text-4xl font-bold text-center mb-10">Your Favorites</h1>
 
@@ -131,6 +137,7 @@ const FavoritesPage = () => {
 				currentPage={currentPage}
 			/>
 		</div>
+		</>
 	);
 };
 

@@ -1,4 +1,5 @@
 // pages/contact.js
+import Head from 'next/head';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
@@ -24,6 +25,11 @@ const ContactPage = () => {
 
 	if (!isLoggedIn) {
 		return (
+			<>
+  <Head>
+        <title>PopcornBuddy - Contact Us</title>
+        <meta name="description" content="Contact PopcornBuddy's Team." />
+      </Head>
 			<div className="flex flex-col mt-16 items-center justify-center">
 				<div className="bg-white p-8 rounded-lg shadow-md max-w-md text-center">
 					<h2 className="text-3xl font-bold mb-8 text-gray-800">Contact Us</h2>
@@ -46,6 +52,7 @@ const ContactPage = () => {
 					</Link>
 				</div>
 			</div>
+			</>
 		);
 	}
 

@@ -1,4 +1,5 @@
 // pages/login.js
+import Head from 'next/head';
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -35,6 +36,11 @@ const Login = () => {
 	};
 
 	return (
+		<>
+  <Head>
+        <title>PopcornBuddy - Login</title>
+        <meta name="description" content="Login to PopcornBuddy." />
+      </Head>
 		<div className="max-w-md mx-auto mt-16 p-8 border border-gray-300 rounded-lg bg-white shadow-md">
 			<h1 className="text-3xl font-bold text-center mb-6">Login</h1>
 			{error && <p className="text-red-500 text-center mb-4">{error}</p>}
@@ -84,6 +90,7 @@ const Login = () => {
 				</Link>
 			</form>
 		</div>
+		</>
 	);
 };
 

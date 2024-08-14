@@ -1,7 +1,14 @@
+// pages/terms.js
+import Head from 'next/head';
 import React from "react";
 
 const TermsPage = () => {
 	return (
+		<>
+  <Head>
+        <title>PopcornBuddy - Terms and Conditions</title>
+        <meta name="description" content="PopcornBuddy Terms of Service." />
+      </Head>
 		<div className="container mx-auto p-6 mt-16" style={{ color: '#001F3F' }}>
 			<h1 className="text-4xl font-bold text-center mb-8">Terms and Conditions</h1>
 
@@ -82,6 +89,7 @@ const TermsPage = () => {
 				</section>
 			</div>
 		</div>
+		</>
 	);
 };
 

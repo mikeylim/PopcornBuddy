@@ -1,4 +1,5 @@
 // pages/about.js
+import Head from 'next/head';
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -6,6 +7,11 @@ import styles from "../../src/styles/About.module.css";
 
 const AboutPage = () => {
 	return (
+		<>
+  <Head>
+        <title>PopcornBuddy - About Us</title>
+        <meta name="description" content="Learn more about PopcornBuddy's creators." />
+      </Head>
 		<div className="container mx-auto mt-16">
 			<h1 className="btn-submit text-4xl font-bold text-center p-10 mb-8">
 				About PopcornBuddy
@@ -152,6 +158,7 @@ const AboutPage = () => {
 				</div>
 			</section>
 		</div>
+		</>
 	);
 };
 

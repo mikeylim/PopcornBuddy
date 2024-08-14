@@ -1,4 +1,5 @@
 // pages/movie/[id].js
+import Head from 'next/head';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -251,6 +252,11 @@ const MovieDetails = () => {
 	}
 
 	return (
+		<>
+  <Head>
+        <title>PopcornBuddy - Movie Details</title>
+        <meta name="description" content="Movie details, rating and reviews with PopcornBuddy." />
+      </Head>
 		<div className="container mx-auto p-4 mt-16">
 			{showLoginPrompt && <LoginPrompt onClose={() => setShowLoginPrompt(false)} />}
 			<div className="flex flex-col md:flex-row">
@@ -504,6 +510,7 @@ const MovieDetails = () => {
 				</div>
 			</div>
 		</div>
+		</>
 	);
 };
 
