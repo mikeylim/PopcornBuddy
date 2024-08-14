@@ -16,7 +16,7 @@ const MovieDetails = () => {
 	const [rating, setRating] = useState(0);
 	const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 	const [reviews, setReviews] = useState([]);
-  	const [reviewContent, setReviewContent] = useState('');
+	const [reviewContent, setReviewContent] = useState("");
 
 	const { isLoggedIn, user } = useAuth(); // Use the custom AuthContext to check if the user is logged in
 	const [movie, setMovie] = useState(null);
@@ -93,17 +93,17 @@ const MovieDetails = () => {
 		};
 
 		try {
-            const response = await axios.post("/api/user/toggleFavorites", dataToSend);
-            if (response.data.success) {
-                setIsFavorite(!isFavorite);
-                toast.success(`Movie ${isFavorite ? "removed from" : "added to"} Favorites!`, {
-                    position: "bottom-right"
-                });
-            }
-        } catch (error) {
-            toast.error("Failed to update favorites");
-            console.error("Failed to update favorites:", error.response?.data || error.message);
-        }
+			const response = await axios.post("/api/user/toggleFavorites", dataToSend);
+			if (response.data.success) {
+				setIsFavorite(!isFavorite);
+				toast.success(`Movie ${isFavorite ? "removed from" : "added to"} Favorites!`, {
+					position: "bottom-right",
+				});
+			}
+		} catch (error) {
+			toast.error("Failed to update favorites");
+			console.error("Failed to update favorites:", error.response?.data || error.message);
+		}
 	};
 
 	const handleAddToWatchlist = async () => {
@@ -123,18 +123,18 @@ const MovieDetails = () => {
 			action,
 		};
 
-        try {
-            const response = await axios.post("/api/user/toggleWatchlist", dataToSend);
-            if (response.data.success) {
-                setIsInWatchlist(!isInWatchlist);
-                toast.success(`Movie ${isInWatchlist ? "removed from" : "added to"} Watchlist!`, {
-                    position: "bottom-right"
-                });
-            }
-        } catch (error) {
-            toast.error("Failed to update watchlist");
-            console.error("Failed to update watchlist:", error.response?.data || error.message);
-        }
+		try {
+			const response = await axios.post("/api/user/toggleWatchlist", dataToSend);
+			if (response.data.success) {
+				setIsInWatchlist(!isInWatchlist);
+				toast.success(`Movie ${isInWatchlist ? "removed from" : "added to"} Watchlist!`, {
+					position: "bottom-right",
+				});
+			}
+		} catch (error) {
+			toast.error("Failed to update watchlist");
+			console.error("Failed to update watchlist:", error.response?.data || error.message);
+		}
 	};
 
 	const handleRating = async (e) => {
@@ -146,101 +146,101 @@ const MovieDetails = () => {
 		}
 
 		try {
-            const response = await axios.post("/api/user/toggleRating", {
-                userId: user.id,
-                movieId: movie.id,
-                rating: selectedRating,
-            });
+			const response = await axios.post("/api/user/toggleRating", {
+				userId: user.id,
+				movieId: movie.id,
+				rating: selectedRating,
+			});
 
-            if (response.data.success) {
-                setRating(selectedRating);
-                toast.success("Rating updated!", {
-                    position: "bottom-right"
-                });
-            }
-        } catch (error) {
-            toast.error("Failed to update rating");
-            console.error("Failed to update rating:", error.response?.data || error.message);
-        }
+			if (response.data.success) {
+				setRating(selectedRating);
+				toast.success("Rating updated!", {
+					position: "bottom-right",
+				});
+			}
+		} catch (error) {
+			toast.error("Failed to update rating");
+			console.error("Failed to update rating:", error.response?.data || error.message);
+		}
 	};
 
 	useEffect(() => {
 		const fetchReviews = async () => {
-		  if (isLoggedIn && user && movie) {
-			try {
-			  const response = await axios.get(`/api/user/getReviews`, {
-				params: {
-				  userId: user.id,
-				  movieId: movie.id,
-				},
-			  });
-			  setReviews(response.data.reviews);
-			} catch (error) {
-			  console.error("Error fetching reviews:", error.response?.data || error.message);
+			if (isLoggedIn && user && movie) {
+				try {
+					const response = await axios.get(`/api/user/getReviews`, {
+						params: {
+							userId: user.id,
+							movieId: movie.id,
+						},
+					});
+					setReviews(response.data.reviews);
+				} catch (error) {
+					console.error("Error fetching reviews:", error.response?.data || error.message);
+				}
 			}
-		  }
 		};
-	
+
 		fetchReviews();
-	  }, [user, movie, isLoggedIn]);
-	
-	  const handleReviewSubmit = async (e) => {
+	}, [user, movie, isLoggedIn]);
+
+	const handleReviewSubmit = async (e) => {
 		e.preventDefault();
 		if (!isLoggedIn) {
-		  setShowLoginPrompt(true);
-		  return;
+			setShowLoginPrompt(true);
+			return;
 		}
-	
+
 		try {
-		  const response = await axios.post("/api/user/submitReview", {
-			userId: user.id,
-			movieId: movie.id,
-			content: reviewContent,
-		  });
-	
-		  if (response.data.success) {
-			toast.success("Review submitted successfully!", {
-			  position: "bottom-right"
-			});
-			setReviewContent('');
-			// Refresh reviews
-			const updatedReviews = await axios.get(`/api/user/getReviews`, {
-			  params: {
+			const response = await axios.post("/api/user/submitReview", {
 				userId: user.id,
 				movieId: movie.id,
-			  },
+				content: reviewContent,
 			});
-			setReviews(updatedReviews.data.reviews);
-		  }
-		} catch (error) {
-		  toast.error("Failed to submit review");
-		  console.error("Failed to submit review:", error.response?.data || error.message);
-		}
-	  };
 
-	  const handleDeleteReview = async (reviewId) => {
-		if (!isLoggedIn || !user) {
-		  setShowLoginPrompt(true);
-		  return;
-		}
-	  
-		try {
-		  const response = await axios.delete('/api/user/deleteReview', {
-			data: { userId: user.id, reviewId }
-		  });
-	  
-		  if (response.data.success) {
-			toast.success("Review deleted successfully!", {
-			  position: "bottom-right"
-			});
-			// Update the reviews state to remove the deleted review
-			setReviews(reviews.filter(review => review._id !== reviewId));
-		  }
+			if (response.data.success) {
+				toast.success("Review submitted successfully!", {
+					position: "bottom-right",
+				});
+				setReviewContent("");
+				// Refresh reviews
+				const updatedReviews = await axios.get(`/api/user/getReviews`, {
+					params: {
+						userId: user.id,
+						movieId: movie.id,
+					},
+				});
+				setReviews(updatedReviews.data.reviews);
+			}
 		} catch (error) {
-		  toast.error("Failed to delete review");
-		  console.error("Failed to delete review:", error.response?.data || error.message);
+			toast.error("Failed to submit review");
+			console.error("Failed to submit review:", error.response?.data || error.message);
 		}
-	  };
+	};
+
+	const handleDeleteReview = async (reviewId) => {
+		if (!isLoggedIn || !user) {
+			setShowLoginPrompt(true);
+			return;
+		}
+
+		try {
+			const response = await axios.delete("/api/user/deleteReview", {
+				data: { userId: user.id, reviewId },
+			});
+
+			if (response.data.success) {
+				toast.success("Review deleted successfully!", {
+					position: "bottom-right",
+				});
+				// Update the reviews state to remove the deleted review
+				setReviews(reviews.filter((review) => review._id !== reviewId));
+			}
+		} catch (error) {
+			toast.error("Failed to delete review");
+			console.error("Failed to delete review:", error.response?.data || error.message);
+		}
+	};
 
 	if (error) {
 		return <p className="mt-16 text-red-500 text-center">{error}</p>;
@@ -454,50 +454,54 @@ const MovieDetails = () => {
 						<div className="mt-8">
 							<p className="main-color text-3xl font-semibold">Leave a Review</p>
 							<form onSubmit={handleReviewSubmit}>
-							<textarea
-								className="w-full p-2 mt-2 border rounded"
-								rows="4"
-								value={reviewContent}
-								onChange={(e) => setReviewContent(e.target.value)}
-								placeholder="Write your review here..."
-							></textarea>
-							<button
-								type="submit"
-								className="btn-submit mt-2 px-4 py-2  text-white rounded hover:bg-blue-600"
-							>
-								Submit Review
-							</button>
+								<textarea
+									className="w-full p-4 mt-2 border rounded"
+									rows="4"
+									value={reviewContent}
+									onChange={(e) => setReviewContent(e.target.value)}
+									placeholder="Write your review here..."></textarea>
+								<div className="flex justify-end mt-2">
+									<button
+										type="submit"
+										className="btn-submit mt-2 px-4 py-2  text-white rounded hover:bg-blue-600">
+										Submit Review
+									</button>
+								</div>
 							</form>
 						</div>
 
 						{/* Display Reviews */}
 						<div className="mt-8">
 							<h3 className="main-color text-2xl font-semibold">Reviews</h3>
-							{reviews.length > 0 ? (
-								reviews.map((review, index) => (
-									<div key={index} className="mt-4 p-4 border rounded flex justify-between items-start">
-									<div>
-										<p>{review.content}</p>
-										<p className="text-sm text-gray-500 mt-2">
-										{new Date(review.createdAt).toLocaleString()}
-										</p>
-									</div>
-									<button
-										onClick={() => handleDeleteReview(review._id)}
-										className="text-red-500 hover:text-red-700"
-										aria-label="Delete review"
-									>
-										<FaTrash />
-									</button>
-									</div>
-								))
+							{isLoggedIn ? (
+								reviews.length > 0 ? (
+									reviews.map((review, index) => (
+										<div
+											key={index}
+											className="mt-4 p-4 border rounded flex justify-between items-start">
+											<div>
+												<p className="main-color">{review.content}</p>
+												<p className="text-sm text-gray-500 mt-2">
+													{new Date(review.createdAt).toLocaleString()}
+												</p>
+											</div>
+											<button
+												onClick={() => handleDeleteReview(review._id)}
+												className="text-red-500 hover:text-red-700"
+												aria-label="Delete review">
+												<FaTrash />
+											</button>
+										</div>
+									))
 								) : (
-								<p className="mt-2">No reviews yet.</p>
-								)}
+									<p className="mt-2">No reviews yet.</p>
+								)
+							) : (
+								<p className="mt-2">Log in to see reviews.</p>
+							)}
 						</div>
 					</div>
 				</div>
-				<div></div>
 			</div>
 		</div>
 	);
