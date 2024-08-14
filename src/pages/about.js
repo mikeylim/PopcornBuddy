@@ -127,7 +127,7 @@ const AboutPage = () => {
 					<div className={`${styles.teamCard} bg-white p-4 rounded-lg shadow-md p-8`}>
 						<h3 className="main-color text-xl font-semibold">Gaganjot Singh</h3>
 						<p className="text-gray-600 mt-0.5 mb-1">Full Stack Web Developer</p>
-						<Link href="/" target="_blank" rel="noopener noreferrer">
+						<Link href="https://github.com/GJSI" target="_blank" rel="noopener noreferrer">
 							<Image
 								className={`${styles.socialCard} inline mr-2`}
 								src="/github-icon.svg"
