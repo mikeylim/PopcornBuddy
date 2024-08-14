@@ -7,19 +7,20 @@ import Pagination from "../components/Pagination";
 import styles from "../styles/MediaCard.module.css";
 
 const WatchlistPage = () => {
+	// Function to determine the number of movies per page based on screen size
 	const getMoviesPerPage = () => {
 		if (typeof window !== "undefined") {
 			if (window.matchMedia("(max-width: 768px)").matches) {
-				return 6;
+				return 6; // 6 movies per page for small screens (2 columns, 3 rows)
 			} else if (window.matchMedia("(max-width: 1024px)").matches) {
-				return 6;
+				return 6; // 6 movies per page for medium screens (2 columns, 3 rows)
 			} else if (window.matchMedia("(max-width: 1279px)").matches) {
-				return 5;
+				return 5; // 4 movies per page for medium screens (4 columns, 1 row)
 			} else {
-				return 5;
+				return 5; // 6 movies per page for large screens (5 columns, 1 row)
 			}
 		}
-		return 5;
+		return 5; // Default to 5 if window is not defined
 	};
 
 	const { user, isLoggedIn } = useAuth();
@@ -44,16 +45,12 @@ const WatchlistPage = () => {
 		const fetchWatchlist = async () => {
 			if (isLoggedIn && user) {
 				try {
-					const response = await axios.get(`/api/user/getWatchlist`, {
+					const response = await axios.get(`/api/user/getWatchList`, {
 						params: {
 							userId: user.id,
 						},
 					});
-					const fetchedWatchlist = response.data.watchlist.map((item) => ({
-						...item,
-						addedAt: new Date(), // Assuming you want to track when the movie was added
-					}));
-					setWatchlist(fetchedWatchlist);
+					setWatchlist(response.data.watchlist);
 				} catch (error) {
 					console.error(
 						"Error fetching watchlist:",
@@ -65,6 +62,10 @@ const WatchlistPage = () => {
 
 		fetchWatchlist();
 	}, [user, isLoggedIn]);
+
+	const indexOfLastMovie = currentPage * moviesPerPage;
+	const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
+	const currentMovies = watchlist.slice(indexOfFirstMovie, indexOfLastMovie);
 
 	useEffect(() => {
 		if (sortOption) {
@@ -105,7 +106,7 @@ const WatchlistPage = () => {
 		<div className="container mx-auto mt-16">
 			<h1 className="text-4xl font-bold text-center mb-10">Your Watchlist</h1>
 
-			<div className="mb-4 flex justify-end">
+			<div className="mb-4 flex justify-start" style={{ color: '#001F3F' }}>
 				<select
 					value={sortOption}
 					onChange={(e) => setSortOption(e.target.value)}
@@ -121,11 +122,9 @@ const WatchlistPage = () => {
 
 			<div
 				className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ${styles.gridContainer}`}>
-				{watchlist
-					.slice((currentPage - 1) * moviesPerPage, currentPage * moviesPerPage)
-					.map((movie) => (
-						<MediaCard key={movie.movieId} media={movie} />
-					))}
+				{currentMovies.map((movie) => (
+					<MediaCard key={movie.movieId} media={movie} />
+				))}
 			</div>
 
 			<Pagination

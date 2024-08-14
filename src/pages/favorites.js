@@ -105,7 +105,7 @@ const FavoritesPage = () => {
 		<div className="container mx-auto mt-16">
 			<h1 className="text-4xl font-bold text-center mb-10">Your Favorites</h1>
 
-			<div className="mb-4 flex justify-start">
+			<div className="mb-4 flex justify-start" style={{ color: '#001F3F' }}>
 				<select
 					value={sortOption}
 					onChange={(e) => setSortOption(e.target.value)}
