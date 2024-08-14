@@ -49,13 +49,10 @@ const WatchlistPage = () => {
 							userId: user.id,
 						},
 					});
-					const fetchedWatchlist = response.data.watchlist;
+					const fetchedWatchlist = response.data.watchlist || [];
 					setWatchlist(fetchedWatchlist);
 				} catch (error) {
-					console.error(
-						"Error fetching watchlist:",
-						error.response?.data || error.message
-					);
+					console.error("Error fetching watchlist:", error.response?.data || error.message);
 				}
 			}
 		};
@@ -64,7 +61,7 @@ const WatchlistPage = () => {
 	}, [user, isLoggedIn]);
 
 	useEffect(() => {
-		if (sortOption) {
+		if (sortOption && watchlist.length > 0) {
 			let sortedMovies = [...watchlist];
 			switch (sortOption) {
 				case "recent":
@@ -90,7 +87,7 @@ const WatchlistPage = () => {
 			}
 			setWatchlist(sortedMovies);
 		}
-	}, [sortOption, watchlist]);
+	}, [sortOption]);
 
 	const handlePageChange = (page) => setCurrentPage(page);
 
@@ -118,11 +115,13 @@ const WatchlistPage = () => {
 
 			<div
 				className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ${styles.gridContainer}`}>
-				{watchlist
-					.slice((currentPage - 1) * moviesPerPage, currentPage * moviesPerPage)
-					.map((movie) => (
-						<MediaCard key={movie.movieId} media={movie} />
-					))}
+				{watchlist.length > 0 ? (
+					watchlist
+						.slice((currentPage - 1) * moviesPerPage, currentPage * moviesPerPage)
+						.map((movie) => <MediaCard key={movie.movieId} media={movie} />)
+				) : (
+					<p className="text-center col-span-full">No movies in your watchlist.</p>
+				)}
 			</div>
 
 			<Pagination
