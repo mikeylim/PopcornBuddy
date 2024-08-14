@@ -50,7 +50,7 @@ const FavoritesPage = () => {
 						},
 					});
 					const fetchedFavorites = response.data.favorites;
-					setWatchlist(fetchedFavorites);
+					setFavorites(fetchedFavorites);
 				} catch (error) {
 					console.error(
 						"Error fetching favorites:",
