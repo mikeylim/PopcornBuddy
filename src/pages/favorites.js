@@ -49,11 +49,8 @@ const FavoritesPage = () => {
 							userId: user.id,
 						},
 					});
-					const fetchedFavorites = response.data.favorites.map((fav) => ({
-						...fav,
-						addedAt: new Date(), // Assuming you want to track when the movie was added
-					}));
-					setFavorites(fetchedFavorites);
+					const fetchedFavorites = response.data.favorites;
+					setWatchlist(fetchedFavorites);
 				} catch (error) {
 					console.error(
 						"Error fetching favorites:",

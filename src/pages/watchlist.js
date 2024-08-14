@@ -49,10 +49,7 @@ const WatchlistPage = () => {
 							userId: user.id,
 						},
 					});
-					const fetchedWatchlist = response.data.watchlist.map((item) => ({
-						...item,
-						addedAt: new Date(), // Assuming you want to track when the movie was added
-					}));
+					const fetchedWatchlist = response.data.watchlist;
 					setWatchlist(fetchedWatchlist);
 				} catch (error) {
 					console.error(
@@ -93,7 +90,7 @@ const WatchlistPage = () => {
 			}
 			setWatchlist(sortedMovies);
 		}
-	}, [sortOption]);
+	}, [sortOption, watchlist]);
 
 	const handlePageChange = (page) => setCurrentPage(page);
 
@@ -105,7 +102,7 @@ const WatchlistPage = () => {
 		<div className="container mx-auto mt-16">
 			<h1 className="text-4xl font-bold text-center mb-10">Your Watchlist</h1>
 
-			<div className="mb-4 flex justify-end">
+			<div className="mb-4 flex justify-start">
 				<select
 					value={sortOption}
 					onChange={(e) => setSortOption(e.target.value)}
