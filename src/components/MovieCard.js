@@ -15,12 +15,14 @@ const MovieCard = ({ movie, genres }) => {
 	const [isInWatchlist, setIsInWatchlist] = useState(false);
 	const { isLoggedIn, user } = useAuth(); // Use the custom AuthContext to check if user is logged in
 	const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+	const [posterUrl, setPosterUrl] = useState(
+		movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : noPoster
+	);
 
 	useEffect(() => {
 		const checkUserStatus = async () => {
 			if (isLoggedIn && user) {
 				try {
-					// Make a single API call to check all statuses
 					const response = await axios.get(`/api/user/checkUserStatus`, {
 						params: {
 							userId: user.id,
@@ -36,7 +38,6 @@ const MovieCard = ({ movie, genres }) => {
 					);
 				}
 			} else {
-				// Reset states when the user is not logged in
 				setIsFavorite(false);
 				setIsInWatchlist(false);
 			}
@@ -44,10 +45,6 @@ const MovieCard = ({ movie, genres }) => {
 
 		checkUserStatus();
 	}, [user, movie.id, isLoggedIn]);
-
-	const posterUrl = movie.poster_path
-		? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-		: noPoster;
 
 	const handleAddToFavorites = async (e) => {
 		e.preventDefault();
@@ -57,7 +54,7 @@ const MovieCard = ({ movie, genres }) => {
 		}
 		const action = isFavorite ? "removeFavorite" : "addFavorite";
 
-		const userId = user?.id; // Ensure userId is correctly retrieved from context
+		const userId = user?.id;
 
 		const dataToSend = {
 			userId,
@@ -122,6 +119,10 @@ const MovieCard = ({ movie, genres }) => {
 			.join("/");
 	};
 
+	const handleImageError = () => {
+		setPosterUrl(noPoster.src);
+	};
+
 	return (
 		<>
 			{showLoginPrompt && <LoginPrompt onClose={() => setShowLoginPrompt(false)} />}
@@ -136,6 +137,7 @@ const MovieCard = ({ movie, genres }) => {
 							height={750}
 							className="rounded-t"
 							priority
+							onError={handleImageError}
 						/>
 					</div>
 					<div className={`pt-4 pl-2 ${styles.content}`}>

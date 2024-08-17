@@ -15,6 +15,9 @@ const MediaCard = ({ media }) => {
 	const [isInWatchlist, setIsInWatchlist] = useState(false);
 	const { isLoggedIn, user } = useAuth();
 	const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+	const [posterUrl, setPosterUrl] = useState(
+		media.posterPath ? `https://image.tmdb.org/t/p/w500${media.posterPath}` : noPoster
+	);
 
 	useEffect(() => {
 		const checkUserStatus = async () => {
@@ -42,10 +45,6 @@ const MediaCard = ({ media }) => {
 
 		checkUserStatus();
 	}, [user, media.movieId, isLoggedIn]);
-
-	const posterUrl = media.posterPath
-		? `https://image.tmdb.org/t/p/w500${media.posterPath}`
-		: noPoster;
 
 	const handleAddToFavorites = async (e) => {
 		e.preventDefault();
@@ -106,6 +105,10 @@ const MediaCard = ({ media }) => {
 		}
 	};
 
+	const handleImageError = () => {
+		setPosterUrl(noPoster.src);
+	};
+
 	return (
 		<>
 			{showLoginPrompt && <LoginPrompt onClose={() => setShowLoginPrompt(false)} />}
@@ -120,6 +123,7 @@ const MediaCard = ({ media }) => {
 							height={750}
 							className="rounded-t"
 							priority
+							onError={handleImageError}
 						/>
 					</div>
 					<div className={`pt-4 pl-2 ${styles.content}`}>
