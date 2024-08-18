@@ -1,7 +1,7 @@
 
 # PopcornBuddy
 
-PopcornBuddy is a movie information web app that allows users to discover trending, popular, top-rated, and upcoming movies. Users can also manage their favorite movies and watchlist. This project is built using Next.js, Tailwind CSS, and the TMDB API.
+PopcornBuddy is a movie information web app that allows users to discover trending, popular, top-rated, and upcoming movies. Users can also manage their favorite movies and watchlist. This project is built using Next.js, Tailwind CSS, MongoDB and the TMDB API.
 
 ## Table of Contents
 
