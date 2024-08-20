@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { FaStar, FaList } from "react-icons/fa";
+import { FaHeart, FaList } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
 import noPoster from "../../public/no-poster.jpg";
@@ -141,15 +141,15 @@ const MediaCard = ({ media }) => {
 					<button
 						onClick={handleAddToFavorites}
 						aria-label={`Add ${media.title} to favorites`}
-						className={`mx-1 rounded-full ${
+						className={`mx-1 rounded-full hover:text-red-400 ${
 							isFavorite ? "text-red-500" : "text-gray-500"
 						}`}>
-						<FaStar size={28} />
+						<FaHeart size={28} />
 					</button>
 					<button
 						onClick={handleAddToWatchlist}
 						aria-label={`Add ${media.title} to watchlist`}
-						className={`mx-1 rounded-full ${
+						className={`mx-1 rounded-full hover:text-green-500 ${
 							isInWatchlist ? "text-green-600" : "text-gray-500"
 						}`}>
 						<FaList size={28} />

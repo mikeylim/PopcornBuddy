@@ -1,5 +1,5 @@
 // pages/watchlist.js
-import Head from 'next/head'
+import Head from "next/head";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
@@ -46,12 +46,13 @@ const WatchlistPage = () => {
 		const fetchWatchlist = async () => {
 			if (isLoggedIn && user) {
 				try {
-					const response = await axios.get(`/api/user/getWatchList`, {
+					const response = await axios.get(`/api/user/getWatchlist`, {
 						params: {
 							userId: user.id,
 						},
 					});
-					setWatchlist(response.data.watchlist);
+					const fetchedWatchlist = response.data.watchlist;
+					setWatchlist(fetchedWatchlist);
 				} catch (error) {
 					console.error(
 						"Error fetching watchlist:",
@@ -63,10 +64,6 @@ const WatchlistPage = () => {
 
 		fetchWatchlist();
 	}, [user, isLoggedIn]);
-
-	const indexOfLastMovie = currentPage * moviesPerPage;
-	const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-	const currentMovies = watchlist.slice(indexOfFirstMovie, indexOfLastMovie);
 
 	useEffect(() => {
 		if (sortOption) {
@@ -105,41 +102,43 @@ const WatchlistPage = () => {
 
 	return (
 		<>
-		<Head>
-        <title>PopcornBuddy - Watchlist</title>
-        <meta name="description" content="Keep your Watchlist updated with PopcornBuddy." />
-      </Head>
-		<div className="container mx-auto mt-16">
-			<h1 className="text-4xl font-bold text-center mb-10">Your Watchlist</h1>
+			<Head>
+				<title>PopcornBuddy - Watchlist</title>
+				<meta name="description" content="Keep your Watchlist updated with PopcornBuddy." />
+			</Head>
+			<div className="container mx-auto mt-16">
+				<h1 className="text-4xl font-bold text-center mb-10">Your Watchlist</h1>
 
-			<div className="mb-4 flex justify-start" style={{ color: '#001F3F' }}>
-				<select
-					value={sortOption}
-					onChange={(e) => setSortOption(e.target.value)}
-					className="p-2 border rounded">
-					<option value="recent">Sort by Recent</option>
-					<option value="oldest">Sort by Oldest</option>
-					<option value="alphabetA-Z">Sort by Alphabet (A-Z)</option>
-					<option value="alphabetZ-A">Sort by Alphabet (Z-A)</option>
-					<option value="recentlyAdded">Sort by Added Time (Recent)</option>
-					<option value="oldestAdded">Sort by Added Time (Oldest)</option>
-				</select>
+				<div className="mb-4 flex justify-start" style={{ color: "#001F3F" }}>
+					<select
+						value={sortOption}
+						onChange={(e) => setSortOption(e.target.value)}
+						className="p-2 border rounded">
+						<option value="recent">Sort by Recent</option>
+						<option value="oldest">Sort by Oldest</option>
+						<option value="alphabetA-Z">Sort by Alphabet (A-Z)</option>
+						<option value="alphabetZ-A">Sort by Alphabet (Z-A)</option>
+						<option value="recentlyAdded">Sort by Added Time (Recent)</option>
+						<option value="oldestAdded">Sort by Added Time (Oldest)</option>
+					</select>
+				</div>
+
+				<div
+					className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ${styles.gridContainer}`}>
+					{watchlist
+						.slice((currentPage - 1) * moviesPerPage, currentPage * moviesPerPage)
+						.map((movie) => (
+							<MediaCard key={movie.movieId} media={movie} />
+						))}
+				</div>
+
+				<Pagination
+					pageCount={Math.ceil(watchlist.length / moviesPerPage)}
+					onPageChange={handlePageChange}
+					currentPage={currentPage}
+				/>
 			</div>
-
-			<div
-				className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ${styles.gridContainer}`}>
-				{currentMovies.map((movie) => (
-					<MediaCard key={movie.movieId} media={movie} />
-				))}
-			</div>
-
-			<Pagination
-				pageCount={Math.ceil(watchlist.length / moviesPerPage)}
-				onPageChange={handlePageChange}
-				currentPage={currentPage}
-			/>
-		</div>
-	</>
+		</>
 	);
 };
 

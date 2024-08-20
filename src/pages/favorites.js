@@ -1,5 +1,5 @@
 // pages/favorites.js
-import Head from 'next/head';
+import Head from "next/head";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
@@ -8,19 +8,20 @@ import Pagination from "../components/Pagination";
 import styles from "../styles/MediaCard.module.css";
 
 const FavoritesPage = () => {
+	// Function to determine the number of movies per page based on screen size
 	const getMoviesPerPage = () => {
 		if (typeof window !== "undefined") {
 			if (window.matchMedia("(max-width: 768px)").matches) {
-				return 6;
+				return 6; // 6 movies per page for small screens (2 columns, 3 rows)
 			} else if (window.matchMedia("(max-width: 1024px)").matches) {
-				return 6;
+				return 6; // 6 movies per page for medium screens (2 columns, 3 rows)
 			} else if (window.matchMedia("(max-width: 1279px)").matches) {
-				return 4;
+				return 5; // 4 movies per page for medium screens (4 columns, 1 row)
 			} else {
-				return 5;
+				return 5; // 6 movies per page for large screens (5 columns, 1 row)
 			}
 		}
-		return 5;
+		return 5; // Default to 5 if window is not defined
 	};
 
 	const { user, isLoggedIn } = useAuth();
@@ -101,42 +102,45 @@ const FavoritesPage = () => {
 
 	return (
 		<>
-  <Head>
-        <title>PopcornBuddy - Favorites</title>
-        <meta name="description" content="Keep your favorite movies list with PopcornBuddy." />
-      </Head>
-		<div className="container mx-auto mt-16">
-			<h1 className="text-4xl font-bold text-center mb-10">Your Favorites</h1>
+			<Head>
+				<title>PopcornBuddy - Favorites</title>
+				<meta
+					name="description"
+					content="Keep your favorite movies list with PopcornBuddy."
+				/>
+			</Head>
+			<div className="container mx-auto mt-16">
+				<h1 className="text-4xl font-bold text-center mb-10">Your Favorites</h1>
 
-			<div className="mb-4 flex justify-start" style={{ color: '#001F3F' }}>
-				<select
-					value={sortOption}
-					onChange={(e) => setSortOption(e.target.value)}
-					className="p-2 border rounded">
-					<option value="recent">Sort by Recent</option>
-					<option value="oldest">Sort by Oldest</option>
-					<option value="alphabetA-Z">Sort by Alphabet (A-Z)</option>
-					<option value="alphabetZ-A">Sort by Alphabet (Z-A)</option>
-					<option value="recentlyAdded">Sort by Added Time (Recent)</option>
-					<option value="oldestAdded">Sort by Added Time (Oldest)</option>
-				</select>
+				<div className="mb-4 flex justify-start" style={{ color: "#001F3F" }}>
+					<select
+						value={sortOption}
+						onChange={(e) => setSortOption(e.target.value)}
+						className="p-2 border rounded">
+						<option value="recent">Sort by Recent</option>
+						<option value="oldest">Sort by Oldest</option>
+						<option value="alphabetA-Z">Sort by Alphabet (A-Z)</option>
+						<option value="alphabetZ-A">Sort by Alphabet (Z-A)</option>
+						<option value="recentlyAdded">Sort by Added Time (Recent)</option>
+						<option value="oldestAdded">Sort by Added Time (Oldest)</option>
+					</select>
+				</div>
+
+				<div
+					className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ${styles.gridContainer}`}>
+					{favorites
+						.slice((currentPage - 1) * moviesPerPage, currentPage * moviesPerPage)
+						.map((movie) => (
+							<MediaCard key={movie.movieId} media={movie} />
+						))}
+				</div>
+
+				<Pagination
+					pageCount={Math.ceil(favorites.length / moviesPerPage)}
+					onPageChange={handlePageChange}
+					currentPage={currentPage}
+				/>
 			</div>
-
-			<div
-				className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ${styles.gridContainer}`}>
-				{favorites
-					.slice((currentPage - 1) * moviesPerPage, currentPage * moviesPerPage)
-					.map((movie) => (
-						<MediaCard key={movie.movieId} media={movie} />
-					))}
-			</div>
-
-			<Pagination
-				pageCount={Math.ceil(favorites.length / moviesPerPage)}
-				onPageChange={handlePageChange}
-				currentPage={currentPage}
-			/>
-		</div>
 		</>
 	);
 };

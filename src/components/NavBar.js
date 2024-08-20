@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faSignInAlt,
 	faUserPlus,
-	faStar,
+	faHeart,
 	faList,
 	faInfoCircle,
 	faEnvelope,
@@ -168,7 +168,7 @@ const NavBar = () => {
 						<>
 							<Link href="/favorites" passHref>
 								<span className={styles.authLink}>
-									<FontAwesomeIcon icon={faStar} />
+									<FontAwesomeIcon icon={faHeart} />
 								</span>
 							</Link>
 							<Link href="/watchlist" passHref>

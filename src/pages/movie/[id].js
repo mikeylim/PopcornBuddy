@@ -1,10 +1,10 @@
 // pages/movie/[id].js
-import Head from 'next/head';
+import Head from "next/head";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { FaStar, FaList, FaTrash } from "react-icons/fa";
+import { FaHeart, FaList, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import styles from "../../styles/MovieDetails.module.css";
 import LoginPrompt from "../../components/LoginPrompt";
@@ -253,263 +253,276 @@ const MovieDetails = () => {
 
 	return (
 		<>
-  <Head>
-        <title>PopcornBuddy - Movie Details</title>
-        <meta name="description" content="Movie details, rating and reviews with PopcornBuddy." />
-      </Head>
-		<div className="container mx-auto p-4 mt-16">
-			{showLoginPrompt && <LoginPrompt onClose={() => setShowLoginPrompt(false)} />}
-			<div className="flex flex-col md:flex-row">
-				{/* Poster */}
-				<div className="md:w-1/3">
-					<Image
-						src={
-							movie.poster_path
-								? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-								: noPoster
-						}
-						alt={movie.title}
-						width={500}
-						height={750}
-						className="movieCard rounded shadow-lg"
-					/>
-				</div>
-				<div className={`${styles.movieInfoSection} main-color md:w-2/3 md:ml-8`}>
-					<div className="flex justify-start">
-						<h1 className="inline text-4xl font-bold">{movie.title}</h1>
-						<button
-							onClick={(e) => {
-								e.preventDefault();
-								handleAddToFavorites();
-							}}
-							className={`inline ml-10 mr-6 rounded-full ${
-								isFavorite ? "text-red-500" : "text-gray-500"
-							}`}>
-							<FaStar size={40} />
-						</button>
-						<button
-							onClick={(e) => {
-								e.preventDefault();
-								handleAddToWatchlist();
-							}}
-							className={`inline rounded-full ${
-								isInWatchlist ? "text-green-600" : "text-gray-500"
-							}`}>
-							<FaList size={40} />
-						</button>
+			<Head>
+				<title>PopcornBuddy - Movie Details</title>
+				<meta
+					name="description"
+					content="Movie details, rating and reviews with PopcornBuddy."
+				/>
+			</Head>
+			<div className="container mx-auto p-4 mt-16">
+				{showLoginPrompt && <LoginPrompt onClose={() => setShowLoginPrompt(false)} />}
+				<div className="flex flex-col md:flex-row">
+					{/* Poster */}
+					<div className="md:w-1/3">
+						<Image
+							src={
+								movie.poster_path
+									? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+									: noPoster
+							}
+							alt={movie.title}
+							width={500}
+							height={750}
+							className="movieCard rounded shadow-lg"
+						/>
+
+						{/* star rating */}
+						<div className="flex items-center justify-center mt-1">
+							<fieldset className={styles.rating}>
+								<input
+									type="radio"
+									id="star5"
+									name="rating"
+									value="5"
+									className={styles.starRatingInput}
+									checked={rating === 5}
+									onChange={handleRating}
+								/>
+								<label
+									className={`${styles.starRatingLabel} ${styles.full}`}
+									htmlFor="star5"
+									title="5 stars"></label>
+
+								<input
+									type="radio"
+									id="star4half"
+									name="rating"
+									value="4.5"
+									className={styles.starRatingInput}
+									checked={rating === 4.5}
+									onChange={handleRating}
+								/>
+								<label
+									className={`${styles.starRatingLabel} ${styles.half}`}
+									htmlFor="star4half"
+									title="4.5 stars"></label>
+
+								<input
+									type="radio"
+									id="star4"
+									name="rating"
+									value="4"
+									className={styles.starRatingInput}
+									checked={rating === 4}
+									onChange={handleRating}
+								/>
+								<label
+									className={`${styles.starRatingLabel} ${styles.full}`}
+									htmlFor="star4"
+									title="4 stars"></label>
+
+								<input
+									type="radio"
+									id="star3half"
+									name="rating"
+									value="3.5"
+									className={styles.starRatingInput}
+									checked={rating === 3.5}
+									onChange={handleRating}
+								/>
+								<label
+									className={`${styles.starRatingLabel} ${styles.half}`}
+									htmlFor="star3half"
+									title="3.5 stars"></label>
+
+								<input
+									type="radio"
+									id="star3"
+									name="rating"
+									value="3"
+									className={styles.starRatingInput}
+									checked={rating === 3}
+									onChange={handleRating}
+								/>
+								<label
+									className={`${styles.starRatingLabel} ${styles.full}`}
+									htmlFor="star3"
+									title="3 stars"></label>
+
+								<input
+									type="radio"
+									id="star2half"
+									name="rating"
+									value="2.5"
+									className={styles.starRatingInput}
+									checked={rating === 2.5}
+									onChange={handleRating}
+								/>
+								<label
+									className={`${styles.starRatingLabel} ${styles.half}`}
+									htmlFor="star2half"
+									title="2.5 stars"></label>
+
+								<input
+									type="radio"
+									id="star2"
+									name="rating"
+									value="2"
+									className={styles.starRatingInput}
+									checked={rating === 2}
+									onChange={handleRating}
+								/>
+								<label
+									className={`${styles.starRatingLabel} ${styles.full}`}
+									htmlFor="star2"
+									title="2 stars"></label>
+
+								<input
+									id="star1half"
+									name="rating"
+									type="radio"
+									value="1.5"
+									className={styles.starRatingInput}
+									checked={rating === 1.5}
+									onChange={handleRating}
+								/>
+								<label
+									className={`${styles.starRatingLabel} ${styles.half}`}
+									htmlFor="star1half"
+									title="1.5 stars"></label>
+
+								<input
+									type="radio"
+									id="star1"
+									name="rating"
+									value="1"
+									className={styles.starRatingInput}
+									checked={rating === 1}
+									onChange={handleRating}
+								/>
+								<label
+									className={`${styles.starRatingLabel} ${styles.full}`}
+									htmlFor="star1"
+									title="1 star"></label>
+
+								<input
+									type="radio"
+									id="starhalf"
+									name="rating"
+									value="0.5"
+									className={styles.starRatingInput}
+									checked={rating === 0.5}
+									onChange={handleRating}
+								/>
+								<label
+									className={`${styles.starRatingLabel} ${styles.half}`}
+									htmlFor="starhalf"
+									title="0.5 stars"></label>
+							</fieldset>
+						</div>
 					</div>
-					<p className="text-lg 700 mt-4 italic">{movie.tagline}</p>
-					<p className="mt-4 text-md">
-						{new Date(movie.release_date)
-							.toISOString()
-							.split("T")[0]
-							.replace(/-/g, "/")}{" "}
-						· {movie.genres.map((genre) => genre.name).join("/")} ·{" "}
-						{movie.production_countries.map((country) => country.name).join(", ")} ·{" "}
-						{Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m
-					</p>
-					<div className="main-color text-md my-12">
-						<p className="text-3xl font-bold mt-4">Overview</p>
-						<p className="mt-3 leading-loose">{movie.overview}</p>
-					</div>
-					<p className="main-color text-3xl font-semibold">Rate this movie</p>
-					<div className="flex items-center">
-						<fieldset className={styles.rating}>
-							<input
-								type="radio"
-								id="star5"
-								name="rating"
-								value="5"
-								className={styles.starRatingInput}
-								checked={rating === 5}
-								onChange={handleRating}
-							/>
-							<label
-								className={`${styles.starRatingLabel} ${styles.full}`}
-								htmlFor="star5"
-								title="5 stars"></label>
+					<div className={`${styles.movieInfoSection} main-color md:w-2/3 md:ml-8`}>
+						<div className="flex justify-start items-center">
+							<h1 className="inline text-4xl font-bold">{movie.title}</h1>
 
-							<input
-								type="radio"
-								id="star4half"
-								name="rating"
-								value="4.5"
-								className={styles.starRatingInput}
-								checked={rating === 4.5}
-								onChange={handleRating}
-							/>
-							<label
-								className={`${styles.starRatingLabel} ${styles.half}`}
-								htmlFor="star4half"
-								title="4.5 stars"></label>
+							<div className="flex items-center ml-10">
+								<button
+									onClick={(e) => {
+										e.preventDefault();
+										handleAddToFavorites();
+									}}
+									className={`inline mr-6 rounded-full hover:text-red-400 ${
+										isFavorite ? "text-red-500" : "text-gray-500"
+									}`}>
+									<FaHeart size={36} />
+								</button>
+								<button
+									onClick={(e) => {
+										e.preventDefault();
+										handleAddToWatchlist();
+									}}
+									className={`inline rounded-full hover:text-green-500 ${
+										isInWatchlist ? "text-green-600" : "text-gray-500"
+									}`}>
+									<FaList size={36} />
+								</button>
+							</div>
+						</div>
+						<p className="mt-3 text-md">
+							<p className="text-lg mb-3 italic">{movie.tagline}</p>
+							{new Date(movie.release_date)
+								.toISOString()
+								.split("T")[0]
+								.replace(/-/g, "/")}{" "}
+							· {movie.genres.map((genre) => genre.name).join("/")} ·{" "}
+							{movie.production_countries.map((country) => country.name).join(", ")} ·{" "}
+							{Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m
+						</p>
 
-							<input
-								type="radio"
-								id="star4"
-								name="rating"
-								value="4"
-								className={styles.starRatingInput}
-								checked={rating === 4}
-								onChange={handleRating}
-							/>
-							<label
-								className={`${styles.starRatingLabel} ${styles.full}`}
-								htmlFor="star4"
-								title="4 stars"></label>
-
-							<input
-								type="radio"
-								id="star3half"
-								name="rating"
-								value="3.5"
-								className={styles.starRatingInput}
-								checked={rating === 3.5}
-								onChange={handleRating}
-							/>
-							<label
-								className={`${styles.starRatingLabel} ${styles.half}`}
-								htmlFor="star3half"
-								title="3.5 stars"></label>
-
-							<input
-								type="radio"
-								id="star3"
-								name="rating"
-								value="3"
-								className={styles.starRatingInput}
-								checked={rating === 3}
-								onChange={handleRating}
-							/>
-							<label
-								className={`${styles.starRatingLabel} ${styles.full}`}
-								htmlFor="star3"
-								title="3 stars"></label>
-
-							<input
-								type="radio"
-								id="star2half"
-								name="rating"
-								value="2.5"
-								className={styles.starRatingInput}
-								checked={rating === 2.5}
-								onChange={handleRating}
-							/>
-							<label
-								className={`${styles.starRatingLabel} ${styles.half}`}
-								htmlFor="star2half"
-								title="2.5 stars"></label>
-
-							<input
-								type="radio"
-								id="star2"
-								name="rating"
-								value="2"
-								className={styles.starRatingInput}
-								checked={rating === 2}
-								onChange={handleRating}
-							/>
-							<label
-								className={`${styles.starRatingLabel} ${styles.full}`}
-								htmlFor="star2"
-								title="2 stars"></label>
-
-							<input
-								id="star1half"
-								name="rating"
-								type="radio"
-								value="1.5"
-								className={styles.starRatingInput}
-								checked={rating === 1.5}
-								onChange={handleRating}
-							/>
-							<label
-								className={`${styles.starRatingLabel} ${styles.half}`}
-								htmlFor="star1half"
-								title="1.5 stars"></label>
-
-							<input
-								type="radio"
-								id="star1"
-								name="rating"
-								value="1"
-								className={styles.starRatingInput}
-								checked={rating === 1}
-								onChange={handleRating}
-							/>
-							<label
-								className={`${styles.starRatingLabel} ${styles.full}`}
-								htmlFor="star1"
-								title="1 star"></label>
-
-							<input
-								type="radio"
-								id="starhalf"
-								name="rating"
-								value="0.5"
-								className={styles.starRatingInput}
-								checked={rating === 0.5}
-								onChange={handleRating}
-							/>
-							<label
-								className={`${styles.starRatingLabel} ${styles.half}`}
-								htmlFor="starhalf"
-								title="0.5 stars"></label>
-						</fieldset>
-					</div>
-					<div className="container mx-auto">
-						<div className="mt-8">
-							<p className="main-color text-3xl font-semibold">Leave a Review</p>
-							<form onSubmit={handleReviewSubmit}>
-								<textarea
-									className="w-full p-4 mt-2 border rounded"
-									rows="4"
-									value={reviewContent}
-									onChange={(e) => setReviewContent(e.target.value)}
-									placeholder="Write your review here..."></textarea>
-								<div className="flex justify-end mt-2">
-									<button
-										type="submit"
-										className="btn-submit mt-2 px-4 py-2  text-white rounded hover:bg-blue-600">
-										Submit Review
-									</button>
-								</div>
-							</form>
+						<div className="main-color text-md my-10">
+							<p className="text-3xl font-bold mt-4">Overview</p>
+							<p className="mt-3 leading-loose">{movie.overview}</p>
 						</div>
 
-						{/* Display Reviews */}
-						<div className="mt-8">
-							<h3 className="main-color text-2xl font-semibold">Reviews</h3>
-							{isLoggedIn ? (
-								reviews.length > 0 ? (
-									reviews.map((review, index) => (
-										<div
-											key={index}
-											className="mt-4 p-4 border rounded flex justify-between items-start">
-											<div>
-												<p className="main-color">{review.content}</p>
-												<p className="text-sm text-gray-500 mt-2">
-													{new Date(review.createdAt).toLocaleString()}
-												</p>
+						{/* <p className="main-color text-3xl font-semibold">Rate this movie</p> */}
+
+						<div className="container mx-auto">
+							<div className="mt-8">
+								<p className="main-color text-3xl font-semibold">Leave a Review</p>
+								<div className="relative">
+									<form onSubmit={handleReviewSubmit}>
+										<textarea
+											className="w-full p-4 mt-4 border rounded resize-none pr-20"
+											rows="4"
+											value={reviewContent}
+											onChange={(e) => setReviewContent(e.target.value)}
+											placeholder="Write your review here..."></textarea>
+										<button
+											type="submit"
+											className="absolute right-4 bottom-4 px-4 py-2 bg-[#1f2937] text-white rounded hover:bg-[#136cb2] md:right-4 md:bottom-4 md:left-auto md:top-auto">
+											Submit
+										</button>
+									</form>
+								</div>
+							</div>
+
+							{/* Display Reviews */}
+							<div className="mt-8">
+								<h3 className="main-color text-2xl font-semibold">Reviews</h3>
+								{isLoggedIn ? (
+									reviews.length > 0 ? (
+										reviews.map((review, index) => (
+											<div
+												key={index}
+												className="mt-4 p-4 border rounded flex justify-between items-start">
+												<div>
+													<p className="main-color">{review.content}</p>
+													<p className="text-sm text-gray-500 mt-2">
+														{new Date(
+															review.createdAt
+														).toLocaleString()}
+													</p>
+												</div>
+												<button
+													onClick={() => handleDeleteReview(review._id)}
+													className="text-red-500 hover:text-red-700"
+													aria-label="Delete review">
+													<FaTrash />
+												</button>
 											</div>
-											<button
-												onClick={() => handleDeleteReview(review._id)}
-												className="text-red-500 hover:text-red-700"
-												aria-label="Delete review">
-												<FaTrash />
-											</button>
-										</div>
-									))
+										))
+									) : (
+										<p className="mt-2">No reviews yet.</p>
+									)
 								) : (
-									<p className="mt-2">No reviews yet.</p>
-								)
-							) : (
-								<p className="mt-2">Log in to see reviews.</p>
-							)}
+									<p className="mt-2">Log in to see your reviews.</p>
+								)}
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 		</>
 	);
 };
