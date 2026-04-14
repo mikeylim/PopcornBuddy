@@ -16,7 +16,9 @@ const MovieCard = ({ movie, genres }) => {
 	const { isLoggedIn, user } = useAuth(); // Use the custom AuthContext to check if user is logged in
 	const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 	const [posterUrl, setPosterUrl] = useState(
-		movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : noPoster
+		movie.poster_path || movie.posterPath
+			? `https://image.tmdb.org/t/p/w500${movie.poster_path || movie.posterPath}`
+			: noPoster
 	);
 
 	useEffect(() => {
@@ -26,7 +28,7 @@ const MovieCard = ({ movie, genres }) => {
 					const response = await axios.get(`/api/user/checkUserStatus`, {
 						params: {
 							userId: user.id,
-							movieId: movie.id,
+							movieId: movie.id || movie.movieId,
 						},
 					});
 					setIsFavorite(response.data.isFavorite);
@@ -44,7 +46,7 @@ const MovieCard = ({ movie, genres }) => {
 		};
 
 		checkUserStatus();
-	}, [user, movie.id, isLoggedIn]);
+	}, [user, movie.id, movie.movieId, isLoggedIn]);
 
 	const handleAddToFavorites = async (e) => {
 		e.preventDefault();
@@ -58,10 +60,11 @@ const MovieCard = ({ movie, genres }) => {
 
 		const dataToSend = {
 			userId,
-			movieId: movie.id,
+			movieId: movie.id || movie.movieId,
 			title: movie.title,
-			posterPath: movie.poster_path || "",
-			releaseDate: movie.release_date || "",
+			posterPath: movie.poster_path || movie.posterPath || "",
+			releaseDate: movie.release_date || movie.releaseDate || "",
+            genre_ids: movie.genre_ids || [], // Include genre_ids in the data sent to the backend
 			action,
 		};
 
@@ -90,10 +93,11 @@ const MovieCard = ({ movie, genres }) => {
 
 		const dataToSend = {
 			userId: user?.id,
-			movieId: movie.id,
+			movieId: movie.id || movie.movieId,
 			title: movie.title,
-			posterPath: movie.poster_path || "",
-			releaseDate: movie.release_date || "",
+			posterPath: movie.poster_path || movie.posterPath || "",
+			releaseDate: movie.release_date || movie.releaseDate || "",
+            genre_ids: movie.genre_ids || [], // Include genre_ids in the data sent to the backend
 			action,
 		};
 
@@ -127,7 +131,7 @@ const MovieCard = ({ movie, genres }) => {
 		<>
 			{showLoginPrompt && <LoginPrompt onClose={() => setShowLoginPrompt(false)} />}
 			<div className={`bg-white p-4 rounded shadow-lg ${styles.card}`}>
-				<Link href={`/movie/${movie.id}`} passHref>
+				<Link href={`/movie/${movie.id || movie.movieId}`} passHref>
 					<div className={`relative ${styles.imageContainer}`}>
 						<Image
 							src={posterUrl}
@@ -146,13 +150,14 @@ const MovieCard = ({ movie, genres }) => {
 						</div>
 						<div className={styles.movieInfoContainer}>
 							<p className={`pt-2 ${styles.movieInfo}`}>
-								{new Date(movie.release_date).getFullYear()} {" · "}
-								{getGenreNames(movie.genre_ids)}
+								{new Date(movie.release_date || movie.releaseDate).getFullYear()}{" "}
+								{" · "}
+								{getGenreNames(movie.genre_ids || [])}
 							</p>
 						</div>
 					</div>
 				</Link>
-				<div className="flex pt-4 pl-1 justify-between items-center">
+				<div className="flex pt-4 pl-1 justify-between movies-center">
 					<button
 						onClick={handleAddToFavorites}
 						aria-label={`Add ${movie.title} to favorites`}

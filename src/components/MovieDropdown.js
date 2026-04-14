@@ -28,15 +28,10 @@ const MovieDropdown = ({ movies, onClose }) => {
 			ref={dropdownRef}
 			className="absolute bg-white border border-gray-300 rounded-lg shadow-md w-full max-h-96 overflow-y-auto z-10 mt-2">
 			{movies.map((movie) => (
-				<Link
-					href={`/movie/${movie.id}`}
-					key={movie.id}
-					passHref
-					legacyBehavior>
+				<Link href={`/movie/${movie.id}`} key={movie.id} passHref legacyBehavior>
 					<button
 						className="flex items-center p-2 border-b border-gray-200 hover:bg-gray-100 w-full text-left"
-						onClick={onClose}
-					>
+						onClick={onClose}>
 						<Image
 							src={
 								movie.poster_path
@@ -49,9 +44,11 @@ const MovieDropdown = ({ movies, onClose }) => {
 							className="rounded"
 						/>
 						<div className="ml-4">
-							<p className="text-lg font-semibold">{movie.title}</p>
+							<p className="text-lg font-semibold text-black">{movie.title}</p>
 							<p className="text-gray-500">
-								{movie.release_date ? new Date(movie.release_date).getFullYear() : "N/A"}
+								{movie.release_date
+									? new Date(movie.release_date).getFullYear()
+									: "N/A"}
 							</p>
 						</div>
 					</button>
