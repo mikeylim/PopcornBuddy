@@ -3,11 +3,11 @@ import connectDB from "@/utils/dbConnect";
 import User from "@/utils/userModel";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import cookie from "cookie";
+import { ACCESS_TOKEN_MAX_AGE, REFRESH_TOKEN_MAX_AGE, getAuthCookies } from "@/utils/auth";
 
 connectDB();
 
-export default async (req, res) => {
+const handler = async (req, res) => {
 	const { method } = req;
 
 	if (method !== "POST") {
@@ -40,22 +40,7 @@ export default async (req, res) => {
 		});
 
 		// Set the tokens in cookies
-		res.setHeader("Set-Cookie", [
-			cookie.serialize("token", token, {
-				httpOnly: true,
-				secure: process.env.NODE_ENV !== "development",
-				maxAge: 1200, // 30 minutes
-				sameSite: "strict",
-				path: "/",
-			}),
-			cookie.serialize("refreshToken", refreshToken, {
-				httpOnly: true,
-				secure: process.env.NODE_ENV !== "development",
-				maxAge: 7 * 24 * 60 * 60, // 7 days
-				sameSite: "strict",
-				path: "/",
-			}),
-		]);
+		res.setHeader("Set-Cookie", getAuthCookies(token, refreshToken));
 
 		res.status(200).json({
 			success: true,
@@ -65,10 +50,13 @@ export default async (req, res) => {
 				firstName: user.firstName,
 				lastName: user.lastName,
 			},
-			token, // Return the token to be stored
+			expiresIn: ACCESS_TOKEN_MAX_AGE,
+			refreshExpiresIn: REFRESH_TOKEN_MAX_AGE,
 		});
 	} catch (error) {
 		console.error("Login error:", error);
 		res.status(500).json({ success: false, error: "An unexpected error occurred" });
 	}
 };
+
+export default handler;

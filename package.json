@@ -1,12 +1,12 @@
 {
-	"name": "my-movie-app",
+	"name": "popcornbuddy",
 	"version": "0.1.0",
 	"private": true,
+	"description": "PopcornBuddy is a Next.js movie discovery app with authentication, favorites, watchlists, ratings, and reviews.",
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"server": "node server.js",
 		"lint": "next lint"
 	},
 	"dependencies": {

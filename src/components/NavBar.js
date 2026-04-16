@@ -52,7 +52,8 @@ const NavBar = () => {
 				setShowLogoutConfirm(false);
 			}
 			if (event.key === "Enter" && showLogoutConfirm) {
-				handleLogout();
+				logout();
+				setShowLogoutConfirm(false);
 			}
 		};
 
@@ -65,7 +66,7 @@ const NavBar = () => {
 		return () => {
 			document.removeEventListener("keydown", handleKeyDown);
 		};
-	}, [showLogoutConfirm]);
+	}, [showLogoutConfirm, logout]);
 
 	useEffect(() => {
 		if (!isLoggedIn) {

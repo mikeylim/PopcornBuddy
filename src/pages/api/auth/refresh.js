@@ -1,15 +1,15 @@
 // pages/api/auth/refresh.js
 import jwt from "jsonwebtoken";
-import cookie from "cookie";
+import { getAuthCookies, getRequestCookies } from "@/utils/auth";
 
-export default async (req, res) => {
+const handler = async (req, res) => {
 	if (req.method !== "POST") {
 		res.setHeader("Allow", ["POST"]);
 		return res.status(405).end(`Method ${req.method} Not Allowed`);
 	}
 
 	try {
-		const cookies = cookie.parse(req.headers.cookie || "");
+		const cookies = getRequestCookies(req);
 		const refreshToken = cookies.refreshToken;
 
 		if (!refreshToken) {
@@ -28,16 +28,7 @@ export default async (req, res) => {
 			});
 
 			// Send the new access token
-			res.setHeader(
-				"Set-Cookie",
-				cookie.serialize("token", newToken, {
-					httpOnly: true,
-					secure: process.env.NODE_ENV !== "development",
-					maxAge: 1200, // 30 minutes
-					sameSite: "strict",
-					path: "/",
-				})
-			);
+			res.setHeader("Set-Cookie", getAuthCookies(newToken));
 
 			res.status(200).json({ success: true });
 		});
@@ -46,3 +37,5 @@ export default async (req, res) => {
 		res.status(500).json({ success: false, error: "An unexpected error occurred" });
 	}
 };
+
+export default handler;

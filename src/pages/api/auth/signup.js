@@ -1,13 +1,12 @@
 // pages/api/auth/signup.js
 import connectDB from "@/utils/dbConnect";
 import User from "@/utils/userModel";
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import cookie from "cookie";
+import { getAuthCookies } from "@/utils/auth";
 
 connectDB();
 
-export default async (req, res) => {
+const handler = async (req, res) => {
 	const { method } = req;
 
 	if (method !== "POST") {
@@ -24,28 +23,19 @@ export default async (req, res) => {
 			return res.status(400).json({ success: false, error: "User already exists" });
 		}
 
-		const hashedPassword = await bcrypt.hashSync(password, 10);
-		console.log("Hashed password:", hashedPassword);
-
 		const user = await User.create({
 			firstName,
 			lastName,
 			email: email.toLowerCase(),
-			password: hashedPassword,
+			password,
 		});
 
-		const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "10m" });
+		const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "30m" });
+		const refreshToken = jwt.sign({ userId: user._id }, process.env.JWT_REFRESH_SECRET, {
+			expiresIn: "7d",
+		});
 
-		res.setHeader(
-			"Set-Cookie",
-			cookie.serialize("token", token, {
-				httpOnly: true,
-				secure: process.env.NODE_ENV !== "development",
-				maxAge: 600,
-				sameSite: "strict",
-				path: "/",
-			})
-		);
+		res.setHeader("Set-Cookie", getAuthCookies(token, refreshToken));
 
 		res.status(201).json({
 			success: true,
@@ -61,3 +51,5 @@ export default async (req, res) => {
 		res.status(500).json({ success: false, error: "An unexpected error occurred" });
 	}
 };
+
+export default handler;

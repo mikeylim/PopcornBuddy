@@ -49,7 +49,6 @@ const MovieDetails = () => {
 				try {
 					const response = await axios.get(`/api/user/checkUserStatus`, {
 						params: {
-							userId: user.id,
 							movieId: movie.id,
 						},
 					});
@@ -82,10 +81,7 @@ const MovieDetails = () => {
 		}
 		const action = isFavorite ? "removeFavorite" : "addFavorite";
 
-		const userId = user?.id; // Ensure userId is correctly retrieved from context
-
 		const dataToSend = {
-			userId,
 			movieId: movie.id,
 			title: movie.title,
 			posterPath: movie.poster_path || "",
@@ -116,7 +112,6 @@ const MovieDetails = () => {
 		const action = isInWatchlist ? "removeWatchlist" : "addWatchlist";
 
 		const dataToSend = {
-			userId: user?.id,
 			movieId: movie.id,
 			title: movie.title,
 			posterPath: movie.poster_path || "",
@@ -148,7 +143,6 @@ const MovieDetails = () => {
 
 		try {
 			const response = await axios.post("/api/user/toggleRating", {
-				userId: user.id,
 				movieId: movie.id,
 				rating: selectedRating,
 			});
@@ -171,7 +165,6 @@ const MovieDetails = () => {
 				try {
 					const response = await axios.get(`/api/user/getReviews`, {
 						params: {
-							userId: user.id,
 							movieId: movie.id,
 						},
 					});
@@ -194,7 +187,6 @@ const MovieDetails = () => {
 
 		try {
 			const response = await axios.post("/api/user/submitReview", {
-				userId: user.id,
 				movieId: movie.id,
 				content: reviewContent,
 			});
@@ -207,7 +199,6 @@ const MovieDetails = () => {
 				// Refresh reviews
 				const updatedReviews = await axios.get(`/api/user/getReviews`, {
 					params: {
-						userId: user.id,
 						movieId: movie.id,
 					},
 				});
@@ -227,7 +218,7 @@ const MovieDetails = () => {
 
 		try {
 			const response = await axios.delete("/api/user/deleteReview", {
-				data: { userId: user.id, reviewId },
+				data: { reviewId },
 			});
 
 			if (response.data.success) {

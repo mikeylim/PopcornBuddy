@@ -26,8 +26,7 @@ const Login = () => {
 		try {
 			const response = await axios.post("/api/auth/login", formData);
 			if (response.data.success) {
-				// Pass the token and user data to the login function
-				login(response.data.token, response.data.data);
+				login(response.data.data);
 				router.push("/"); // Redirect to the homepage or another protected route
 			}
 		} catch (err) {

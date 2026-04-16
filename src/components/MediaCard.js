@@ -25,7 +25,6 @@ const MediaCard = ({ media }) => {
 				try {
 					const response = await axios.get(`/api/user/checkUserStatus`, {
 						params: {
-							userId: user.id,
 							movieId: media.movieId,
 						},
 					});
@@ -56,7 +55,6 @@ const MediaCard = ({ media }) => {
 
 		try {
 			const response = await axios.post("/api/user/toggleFavorites", {
-				userId: user.id,
 				movieId: media.movieId,
 				title: media.title,
 				posterPath: media.posterPath || "",
@@ -86,7 +84,6 @@ const MediaCard = ({ media }) => {
 
 		try {
 			const response = await axios.post("/api/user/toggleWatchlist", {
-				userId: user.id,
 				movieId: media.movieId,
 				title: media.title,
 				posterPath: media.posterPath || "",

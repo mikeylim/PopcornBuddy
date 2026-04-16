@@ -1,18 +1,19 @@
 //pages/api/user/deleteReview.js
 import connectDB from '../../../utils/dbConnect';
 import User from '../../../utils/userModel';
+import authMiddleware from "../../../utils/authMiddleware";
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== 'DELETE') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
   await connectDB();
 
-  const { userId, reviewId } = req.body;
+  const { reviewId } = req.body;
 
   try {
-    const user = await User.findById(userId);
+    const user = await User.findById(req.user.userId);
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -37,3 +38,5 @@ export default async function handler(req, res) {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 }
+
+export default authMiddleware(handler);

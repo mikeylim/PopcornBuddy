@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useAuth } from "../context/AuthContext";
 
 const Signup = () => {
 	const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ const Signup = () => {
 	});
 	const [error, setError] = useState("");
 	const router = useRouter();
+	const { login } = useAuth();
 
 	const { firstName, lastName, email, password } = formData;
 
@@ -26,9 +28,8 @@ const Signup = () => {
 		setError("");
 		try {
 			const res = await axios.post("/api/auth/signup", formData);
-			console.log(res.data);
-			// Handle successful signup
-			router.push("/login");
+			login(res.data.data);
+			router.push("/");
 		} catch (err) {
 			console.error("Signup error:", err.response?.data);
 			setError(err.response?.data?.error || "An unexpected error occurred");

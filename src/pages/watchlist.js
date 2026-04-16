@@ -47,9 +47,6 @@ const WatchlistPage = () => {
 			if (isLoggedIn && user) {
 				try {
 					const response = await axios.get(`/api/user/getWatchlist`, {
-						params: {
-							userId: user.id,
-						},
 					});
 					const fetchedWatchlist = response.data.watchlist;
 					setWatchlist(fetchedWatchlist);
@@ -65,34 +62,24 @@ const WatchlistPage = () => {
 		fetchWatchlist();
 	}, [user, isLoggedIn]);
 
-	useEffect(() => {
-		if (sortOption) {
-			let sortedMovies = [...watchlist];
-			switch (sortOption) {
-				case "recent":
-					sortedMovies.sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate));
-					break;
-				case "oldest":
-					sortedMovies.sort((a, b) => new Date(a.releaseDate) - new Date(b.releaseDate));
-					break;
-				case "alphabetA-Z":
-					sortedMovies.sort((a, b) => a.title.localeCompare(b.title));
-					break;
-				case "alphabetZ-A":
-					sortedMovies.sort((a, b) => b.title.localeCompare(a.title));
-					break;
-				case "recentlyAdded":
-					sortedMovies.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-					break;
-				case "oldestAdded":
-					sortedMovies.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-					break;
-				default:
-					break;
-			}
-			setWatchlist(sortedMovies);
+	const sortedWatchlist = [...watchlist].sort((a, b) => {
+		switch (sortOption) {
+			case "recent":
+				return new Date(b.releaseDate) - new Date(a.releaseDate);
+			case "oldest":
+				return new Date(a.releaseDate) - new Date(b.releaseDate);
+			case "alphabetA-Z":
+				return a.title.localeCompare(b.title);
+			case "alphabetZ-A":
+				return b.title.localeCompare(a.title);
+			case "recentlyAdded":
+				return new Date(b.createdAt) - new Date(a.createdAt);
+			case "oldestAdded":
+				return new Date(a.createdAt) - new Date(b.createdAt);
+			default:
+				return 0;
 		}
-	}, [sortOption]);
+	});
 
 	const handlePageChange = (page) => setCurrentPage(page);
 
@@ -125,7 +112,7 @@ const WatchlistPage = () => {
 
 				<div
 					className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ${styles.gridContainer}`}>
-					{watchlist
+					{sortedWatchlist
 						.slice((currentPage - 1) * moviesPerPage, currentPage * moviesPerPage)
 						.map((movie) => (
 							<MediaCard key={movie.movieId} media={movie} />
@@ -133,7 +120,7 @@ const WatchlistPage = () => {
 				</div>
 
 				<Pagination
-					pageCount={Math.ceil(watchlist.length / moviesPerPage)}
+					pageCount={Math.ceil(sortedWatchlist.length / moviesPerPage)}
 					onPageChange={handlePageChange}
 					currentPage={currentPage}
 				/>

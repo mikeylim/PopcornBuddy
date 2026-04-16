@@ -27,7 +27,6 @@ const MovieCard = ({ movie, genres }) => {
 				try {
 					const response = await axios.get(`/api/user/checkUserStatus`, {
 						params: {
-							userId: user.id,
 							movieId: movie.id || movie.movieId,
 						},
 					});
@@ -56,10 +55,7 @@ const MovieCard = ({ movie, genres }) => {
 		}
 		const action = isFavorite ? "removeFavorite" : "addFavorite";
 
-		const userId = user?.id;
-
 		const dataToSend = {
-			userId,
 			movieId: movie.id || movie.movieId,
 			title: movie.title,
 			posterPath: movie.poster_path || movie.posterPath || "",
@@ -92,7 +88,6 @@ const MovieCard = ({ movie, genres }) => {
 		const action = isInWatchlist ? "removeWatchlist" : "addWatchlist";
 
 		const dataToSend = {
-			userId: user?.id,
 			movieId: movie.id || movie.movieId,
 			title: movie.title,
 			posterPath: movie.poster_path || movie.posterPath || "",

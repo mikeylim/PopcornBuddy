@@ -2,53 +2,61 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import Router from "next/router";
-import Cookies from "js-cookie";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
-	const [user, setUser] = useState(null); // Store user details
+	const [user, setUser] = useState(null);
 	const [sessionExpired, setSessionExpired] = useState(false);
 
 	useEffect(() => {
-		const token = Cookies.get("token");
-		if (token) {
-			setIsLoggedIn(true);
-            setUser({ email: user.email, firstName: user.firstName }); // fetch user data 
-		}
+		const loadSession = async () => {
+			try {
+				const response = await axios.get("/api/auth/me");
+				setIsLoggedIn(true);
+				setUser(response.data.data);
+			} catch (error) {
+				setIsLoggedIn(false);
+				setUser(null);
+			}
+		};
+
+		loadSession();
 	}, []);
 
-	const login = (token, user) => {
-		Cookies.set("token", token, { expires: 30 / 1440 }); // 30 minutes
+	const login = (nextUser) => {
 		setIsLoggedIn(true);
-		setUser(user); // Set the user details
+		setUser(nextUser);
 		setSessionExpired(false);
 	};
 
-	const logout = () => {
-		Cookies.remove("token");
-		Cookies.remove("refreshToken");
-		setIsLoggedIn(false);
-		setUser(null); // Clear user details
-		Router.push("/");
-	};
-
-	const refreshAuthToken = async () => {
+	const logout = async () => {
 		try {
-			const response = await axios.post("/api/auth/refresh");
-			if (response.status === 200) {
-				// Refresh token was successful; do nothing further
-			}
+			await axios.post("/api/auth/logout");
 		} catch (error) {
-			console.error("Error refreshing token:", error);
-			logout();
+			console.error("Logout error:", error);
 		}
+
+		setIsLoggedIn(false);
+		setUser(null);
+		Router.push("/");
 	};
 
 	useEffect(() => {
 		if (isLoggedIn) {
-			const interval = setInterval(refreshAuthToken, 25 * 60 * 1000); // Refresh every 25 minutes for 30-minute token
+			const interval = setInterval(async () => {
+				try {
+					await axios.post("/api/auth/refresh");
+				} catch (error) {
+					console.error("Error refreshing token:", error);
+					setSessionExpired(true);
+					setIsLoggedIn(false);
+					setUser(null);
+					Router.push("/login");
+				}
+			}, 25 * 60 * 1000);
+
 			return () => clearInterval(interval);
 		}
 	}, [isLoggedIn]);

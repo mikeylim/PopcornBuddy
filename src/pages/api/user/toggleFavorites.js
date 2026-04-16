@@ -1,18 +1,24 @@
 // pages/api/user/toggleFavorites.js
 import User from "../../../utils/userModel";
 import dbConnect from "../../../utils/dbConnect";
+import authMiddleware from "../../../utils/authMiddleware";
 
-export default async function handler(req, res) {
+async function handler(req, res) {
+	if (req.method !== "POST") {
+		res.setHeader("Allow", ["POST"]);
+		return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
+	}
+
 	await dbConnect();
 
-	const { userId, movieId, title, posterPath, releaseDate, genres, action } = req.body;
+	const { movieId, title, posterPath, releaseDate, genre_ids, action } = req.body;
 
-	if (!userId || !movieId || !action) {
+	if (!movieId || !action) {
 		return res.status(400).json({ error: "Invalid data" });
 	}
 
 	try {
-		const user = await User.findById(userId);
+		const user = await User.findById(req.user.userId);
 		if (!user) {
 			return res.status(404).json({ error: "User not found" });
 		}
@@ -28,7 +34,7 @@ export default async function handler(req, res) {
 				title,
 				posterPath,
 				releaseDate,
-				genre_ids: genres,
+				genre_ids,
 			});
 		} else if (action === "removeFavorite") {
 			user.favorites = user.favorites.filter((fav) => fav.movieId !== numericMovieId);
@@ -42,3 +48,5 @@ export default async function handler(req, res) {
 		res.status(500).json({ error: "Internal Server Error" });
 	}
 }
+
+export default authMiddleware(handler);
