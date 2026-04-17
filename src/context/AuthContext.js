@@ -2,23 +2,46 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import Router from "next/router";
+import { toast } from "react-toastify";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [user, setUser] = useState(null);
-	const [sessionExpired, setSessionExpired] = useState(false);
+	const [authResolved, setAuthResolved] = useState(false);
+
+	const clearAuthState = () => {
+		setIsLoggedIn(false);
+		setUser(null);
+	};
+
+	const fetchCurrentUser = async () => {
+		const response = await axios.get("/api/auth/me");
+		setIsLoggedIn(true);
+		setUser(response.data.data);
+		return response.data.data;
+	};
 
 	useEffect(() => {
 		const loadSession = async () => {
 			try {
-				const response = await axios.get("/api/auth/me");
-				setIsLoggedIn(true);
-				setUser(response.data.data);
+				await fetchCurrentUser();
 			} catch (error) {
-				setIsLoggedIn(false);
-				setUser(null);
+				const status = error.response?.status;
+
+				if (status === 401 || status === 403) {
+					try {
+						await axios.post("/api/auth/refresh");
+						await fetchCurrentUser();
+					} catch (refreshError) {
+						clearAuthState();
+					}
+				} else {
+					clearAuthState();
+				}
+			} finally {
+				setAuthResolved(true);
 			}
 		};
 
@@ -28,7 +51,6 @@ export const AuthProvider = ({ children }) => {
 	const login = (nextUser) => {
 		setIsLoggedIn(true);
 		setUser(nextUser);
-		setSessionExpired(false);
 	};
 
 	const logout = async () => {
@@ -38,32 +60,41 @@ export const AuthProvider = ({ children }) => {
 			console.error("Logout error:", error);
 		}
 
-		setIsLoggedIn(false);
-		setUser(null);
+		clearAuthState();
 		Router.push("/");
 	};
 
 	useEffect(() => {
-		if (isLoggedIn) {
+		if (isLoggedIn && authResolved) {
+			const expireSession = async () => {
+				try {
+					await axios.post("/api/auth/logout");
+				} catch (error) {
+					console.error("Logout error after session expiry:", error);
+				}
+
+				clearAuthState();
+				toast.error("Your session expired. Please log in again.", {
+					position: "top-right",
+				});
+				Router.push("/login");
+			};
+
 			const interval = setInterval(async () => {
 				try {
 					await axios.post("/api/auth/refresh");
 				} catch (error) {
 					console.error("Error refreshing token:", error);
-					setSessionExpired(true);
-					setIsLoggedIn(false);
-					setUser(null);
-					Router.push("/login");
+					await expireSession();
 				}
 			}, 25 * 60 * 1000);
 
 			return () => clearInterval(interval);
 		}
-	}, [isLoggedIn]);
+	}, [authResolved, isLoggedIn]);
 
 	return (
-		<AuthContext.Provider
-			value={{ isLoggedIn, user, login, logout, sessionExpired, setSessionExpired }}>
+		<AuthContext.Provider value={{ isLoggedIn, user, login, logout, authResolved }}>
 			{children}
 		</AuthContext.Provider>
 	);

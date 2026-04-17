@@ -1,10 +1,49 @@
-import cookie from "cookie";
 import jwt from "jsonwebtoken";
 
 export const ACCESS_TOKEN_MAX_AGE = 30 * 60;
 export const REFRESH_TOKEN_MAX_AGE = 7 * 24 * 60 * 60;
 
 const isProduction = process.env.NODE_ENV === "production";
+
+const serializeCookie = (name, value, options = {}) => {
+	const segments = [`${name}=${encodeURIComponent(value)}`];
+
+	if (typeof options.maxAge === "number") {
+		segments.push(`Max-Age=${options.maxAge}`);
+	}
+	if (options.path) {
+		segments.push(`Path=${options.path}`);
+	}
+	if (options.httpOnly) {
+		segments.push("HttpOnly");
+	}
+	if (options.secure) {
+		segments.push("Secure");
+	}
+	if (options.sameSite) {
+		segments.push(`SameSite=${options.sameSite}`);
+	}
+
+	return segments.join("; ");
+};
+
+const parseCookieHeader = (header = "") =>
+	header.split(/;\s*/).reduce((cookies, part) => {
+		if (!part) {
+			return cookies;
+		}
+
+		const separatorIndex = part.indexOf("=");
+		if (separatorIndex === -1) {
+			return cookies;
+		}
+
+		const key = part.slice(0, separatorIndex).trim();
+		const value = part.slice(separatorIndex + 1).trim();
+
+		cookies[key] = decodeURIComponent(value);
+		return cookies;
+	}, {});
 
 const getCookieOptions = (maxAge) => ({
 	httpOnly: true,
@@ -15,13 +54,11 @@ const getCookieOptions = (maxAge) => ({
 });
 
 export const getAuthCookies = (token, refreshToken) => {
-	const cookies = [
-		cookie.serialize("token", token, getCookieOptions(ACCESS_TOKEN_MAX_AGE)),
-	];
+	const cookies = [serializeCookie("token", token, getCookieOptions(ACCESS_TOKEN_MAX_AGE))];
 
 	if (refreshToken) {
 		cookies.push(
-			cookie.serialize("refreshToken", refreshToken, getCookieOptions(REFRESH_TOKEN_MAX_AGE))
+			serializeCookie("refreshToken", refreshToken, getCookieOptions(REFRESH_TOKEN_MAX_AGE))
 		);
 	}
 
@@ -29,12 +66,12 @@ export const getAuthCookies = (token, refreshToken) => {
 };
 
 export const getClearedAuthCookies = () => [
-	cookie.serialize("token", "", getCookieOptions(0)),
-	cookie.serialize("refreshToken", "", getCookieOptions(0)),
+	serializeCookie("token", "", getCookieOptions(0)),
+	serializeCookie("refreshToken", "", getCookieOptions(0)),
 ];
 
 export const getRequestCookies = (req) =>
-	req.cookies || cookie.parse(req.headers.cookie || "");
+	req.cookies || parseCookieHeader(req.headers.cookie || "");
 
 export const getAuthenticatedUserId = (req) => {
 	const { token } = getRequestCookies(req);
