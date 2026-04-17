@@ -1,18 +1,18 @@
 // pages/api/user/getWatchlist.js
 import User from "../../../utils/userModel";
 import dbConnect from "../../../utils/dbConnect";
+import authMiddleware from "../../../utils/authMiddleware";
 
-export default async function handler(req, res) {
-	await dbConnect();
-
-	const { userId } = req.query;
-
-	if (!userId) {
-		return res.status(400).json({ error: "Invalid data" });
+async function handler(req, res) {
+	if (req.method !== "GET") {
+		res.setHeader("Allow", ["GET"]);
+		return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
 	}
 
+	await dbConnect();
+
 	try {
-		const user = await User.findById(userId);
+		const user = await User.findById(req.user.userId);
 		if (!user) {
 			return res.status(404).json({ error: "User not found" });
 		}
@@ -22,3 +22,5 @@ export default async function handler(req, res) {
 		res.status(500).json({ error: "Internal Server Error" });
 	}
 }
+
+export default authMiddleware(handler);
